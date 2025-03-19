@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "KingSejongInstitute";
+  src: url("/assets/fonts/KingSejongInstitute-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KingSejongInstitute";
+  src: url("/assets/fonts/KingSejongInstitute-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@theme {
+  --color-back: #242120;
+  --color-primary: #FE633C;
+  --color-primaryHover: #CE401D;
+  --color-secondary: #36302D;
+  --color-close: #514946;
+  --color-strong: #842020;
+  --color-text: #FFFFFF;
+  --color-textHover: #C1C1C1;
+  --color-disabled: #808080;
+  --font-sejong: "KingSejongInstitute", sans-serif;
+}
+
+body {
+  background: var(--color-back);
+  font-family: var(--font-sejong);
+  color: var(--color-text);
+  font-size: 20px;
+} 
+
+button {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+
+button:focus,
+button:active,
+textarea:focus,
+textarea:active,
+input:focus,
+input:active {
+  box-shadow: none;
+  outline: none;
+}
+
+ul,
+ol,
+li {
+  list-style-type: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::selection {
+  background: #FFBA30;
+  color: #000;
+}
