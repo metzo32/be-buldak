@@ -13,8 +13,8 @@ export default function SearchCard({
   description,
 }: CardProps) {
   return (
-    <div className="bg-secondary flex w-full shadow-2xl h-300px">
-      <div className="w-[300px] h-[180px] lg:w-[600px] lg:h-[300px] relative">
+    <div className="bg-secondary flex flex-col md:flex-row w-full shadow-2xl h-300px">
+      <div className="w-full h-[180px] lg:w-[600px] lg:h-[300px] relative">
         <Image
           src={image}
           alt={altMessage}
@@ -39,7 +39,7 @@ export default function SearchCard({
           </span>
           <Star star={starRate} />
         </div>
-        <p>{description}</p>
+        <p className="mt-10">{description}</p>
       </div>
     </div>
   );

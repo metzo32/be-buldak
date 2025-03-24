@@ -21,7 +21,7 @@ export default function StarRating() {
 
   return (
     <div
-      className="h-[100px] px-10 border-b-3 border-primary flex items-center justify-center gap-1"
+      className="h-[70px] md:h-[100px] px-10 border-b-3 border-primary flex items-center justify-center gap-1"
       onMouseLeave={handleMouseLeave}
     >
       {[1, 2, 3, 4, 5].map((star) => {

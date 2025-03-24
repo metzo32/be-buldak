@@ -5,6 +5,7 @@ import Section from "@/components/Section";
 import SavedCard from "@/components/SavedCard";
 import { buldakdData } from "../../../public/assets/fakeData/fakeData";
 import { ButtonPlain } from "@/components/Buttons";
+import ViewAllButton from "@/components/ViewAllButton";
 
 export default function UserPage() {
   return (
@@ -31,10 +32,11 @@ export default function UserPage() {
           <ButtonPlain text="탈퇴하기" />
           <ButtonPlain text="로그아웃" />
         </div>
-        <h6>내가 작성한 레시피</h6>
       </Section>
-      <Section title={"저장한 레시피"} isTrans={true}>
-        <div className="grid grid-cols-5 gap-12">
+
+      <Section title={"저장한 레시피"} isTrans option optionElement={<ViewAllButton/>}>
+        {/* <div className="grid grid-cols-5 gap-12"> */}
+        <div className="flex gap-5 md:gap-10 overflow-x-scroll">
           {buldakdData.map((item) => (
             <SavedCard
               key={item.id}
@@ -49,9 +51,25 @@ export default function UserPage() {
         </div>
       </Section>
 
-      <Section title={"이미 먹어본 레시피"} isTrans={true}>
-        <div className="grid grid-cols-5 gap-12">
+      <Section title={"이미 먹어본 레시피"} isTrans>
+        <div className="flex gap-5 md:gap-10 overflow-x-scroll">
           {buldakdData.map((item) => (
+            <SavedCard
+              key={item.id}
+              spiceRate={item.spiceRate}
+              title={item.title}
+              starRate={item.starRate}
+              image={item.image}
+              altMessage={item.title}
+              description={item.description || ""}
+            />
+          ))}
+        </div>
+      </Section>
+
+      <Section title={"내가 작성한 레시피"} isTrans>
+        <div className="flex gap-5 md:gap-10 overflow-x-scroll">
+          {buldakdData.slice(3, 7).map((item) => (
             <SavedCard
               key={item.id}
               spiceRate={item.spiceRate}

@@ -1,11 +1,12 @@
-import FilterOptions from "./FilterOptions";
+import type { ReactNode } from "react";
 
 interface SectionProps {
   title: string;
   children: React.ReactNode;
   isTrans?: boolean;
   hasSub?: boolean;
-  hasFilter?: boolean;
+  option?: boolean;
+  optionElement?: ReactNode;
 }
 
 export default function Section({
@@ -13,7 +14,8 @@ export default function Section({
   children,
   isTrans,
   hasSub,
-  hasFilter,
+  option,
+  optionElement,
 }: SectionProps) {
   return (
     <section
@@ -21,10 +23,10 @@ export default function Section({
         isTrans ? "bg-transparent shadow-none" : "bg-secondary shadow-2xl"
       }`}
     >
-      <div className={`flex gap-5 ${hasFilter ? "justify-between items-end": "items-center"}`}>
+      <div className={`flex gap-5 ${option ? "justify-between items-end": "items-center"}`}>
         <h2 className="text-xl lg:text-3xl 2xl:text-4xl">{title}</h2>
-        {hasSub ? <h3 className="text-disabled">n인분 기준</h3> : null}
-        {hasFilter ? <FilterOptions /> : null}
+        {hasSub && <h3 className="text-disabled">n인분 기준</h3>}
+        {option && optionElement}
       </div>
       {children}
     </section>

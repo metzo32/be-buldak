@@ -1,12 +1,11 @@
 import SearchCard from "@/components/SearchCard";
 import { buldakdData } from "../../../public/assets/fakeData/fakeData";
 import Section from "@/components/Section";
+import FilterOptions from "@/components/FilterOptions";
 
 export default function SearchPage() {
   return (
-
-    <Section title="둘러보기" isTrans hasFilter>
-
+    <Section title="둘러보기" isTrans option optionElement={<FilterOptions />}>
       {buldakdData.map((item) => (
         <SearchCard
           key={item.id}
@@ -18,7 +17,6 @@ export default function SearchPage() {
           description={item.description || ""}
         />
       ))}
-      </Section>
-
+    </Section>
   );
 }

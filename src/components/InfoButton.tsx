@@ -17,7 +17,7 @@ export default function InfoButton() {
         <BsQuestionCircle />
       </button>
       {isClicked ? (
-        <div className="w-[350px] px-10 py-8 rounded-2xl bg-gray-500 flex flex-col gap-10 absolute top-0 right-0 z-2 translate-x-100 -translate-y-48">
+        <div className="w-[300px] px-10 py-8 bg-disabled flex flex-col gap-5 absolute top-0 right-0 z-2 translate-x-100 -translate-y-48">
           <ul>
             <li>0 ~ 5점 : 맵린이</li>
             <li>6 ~ 12점 : 맵송이</li>

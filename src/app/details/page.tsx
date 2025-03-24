@@ -1,4 +1,3 @@
-import { ButtonStrong } from "@/components/Buttons";
 import Image from "next/image";
 import Section from "@/components/Section";
 import Comments from "@/components/Comments";
@@ -7,8 +6,9 @@ import TitleComp from "@/components/TitleComp";
 import SaveButton from "@/components/icons.component/SaveButton";
 import StarRate from "@/components/icons.component/StarRate";
 import SpiceRate from "@/components/icons.component/SpiceRate";
+import TriedButton from "@/components/TriedButton";
 
-export default function page() {
+export default function DetailPage() {
   const ingredients = [
     "불닭볶음면 1봉",
     "슬라이스 치즈 1장",
@@ -27,12 +27,12 @@ export default function page() {
         alt={"레시피 이름"}
         option={
           <>
-            <div className="flex gap-10 text-2xl">
-              <SpiceRate spiceRate={3} large />
+            <div className="flex gap-3 md:gap-10">
+              <SpiceRate spiceRate={5} large />
               <StarRate star="4.5" large />
             </div>
             <div className="flex gap-10 lg:gap-20 relative z-1">
-              <ButtonStrong text="먹어봤어요" />
+              <TriedButton />
               <SaveButton />
             </div>
           </>

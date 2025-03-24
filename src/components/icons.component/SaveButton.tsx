@@ -13,7 +13,7 @@ export default function SaveButton() {
   return (
     <button
       onClick={handleClick}
-      className="text-3xl text-primary hover:text-primaryHover"
+      className="text-xl md:text-3xl text-primary hover:text-primaryHover"
     >
       {isSaved ? <FaBookmark /> : <FaRegBookmark />}
     </button>

@@ -28,6 +28,7 @@ export default function Recommend() {
             spiceRate={item.spiceRate}
             title={item.title}
             starRate={item.starRate}
+            details={item.description}
             image={item.image}
             altMessage={item.title}
             description={item.description || ""}
