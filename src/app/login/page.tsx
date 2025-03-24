@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ButtonStrong, ButtonPlain } from "@/components/Buttons";
 import Blur from "@/components/Blur";
+import { AiOutlineFire } from "react-icons/ai"; //전
+import { AiFillFire } from "react-icons/ai"; //후
 
 export default function LoginPage() {
   const [form, setForm] = useState({ id: "", password: "" });
+  const [remember, setRemember] = useState<boolean>(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("savedUserId");
+    if (savedId) {
+      setForm((prev) => ({ ...prev, id: savedId }));
+      setRemember(true);
+    }
+    console.log("로컬 아이디:", savedId);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,6 +28,12 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("로그인 정보:", form);
+
+    if (remember) {
+      localStorage.setItem("savedUserId", form.id);
+    } else {
+      localStorage.removeItem("savedUserId");
+    }
   };
 
   const handleRoute = () => {
@@ -48,8 +66,18 @@ export default function LoginPage() {
             placeholder="비밀번호"
             required
           />
-          <div className="flex gap-12 items-center justify-center">
-            <p>내 정보 기억하기</p>
+          <div className="flex gap-5 items-center justify-center">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              checked={remember}
+              onChange={() => setRemember(!remember)}
+              className="hidden"
+            />
+            <span className="text-2xl text-primary">{remember ? <AiFillFire /> : <AiOutlineFire />}</span>
+            <label htmlFor="rememberMe" className="cursor-pointer select-none">
+              내 정보 기억하기
+            </label>
           </div>
         </div>
 
@@ -57,7 +85,7 @@ export default function LoginPage() {
           <div className="w-[150px] flex flex-col items-stretch">
             <ButtonStrong type="submit" text="로그인" />
           </div>
-          <ButtonPlain type="button" onClick={handleRoute} text="가입하기" />
+          <ButtonPlain type="button" onClick={handleRoute} text="가입하기" isSmall/>
         </div>
       </form>
       <Blur />

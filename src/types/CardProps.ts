@@ -1,7 +1,7 @@
 export interface CardProps {
-    spiceRate: number | string;
+    spiceRate: number;
     title: string;
-    starRate: number | string;
+    starRate: string;
     image: string;
     altMessage: string;
     description: string;

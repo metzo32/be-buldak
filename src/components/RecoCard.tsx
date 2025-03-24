@@ -1,6 +1,8 @@
 import Image from "next/image";
-import SaveButton from "./SaveButton";
+import SaveButton from "./icons.component/SaveButton";
 import type { CardProps } from "@/types/CardProps";
+import SpiceRate from "./icons.component/SpiceRate";
+import StarRate from "./icons.component/StarRate";
 
 export default function RecoCard({
   spiceRate,
@@ -10,13 +12,16 @@ export default function RecoCard({
   altMessage,
 }: CardProps) {
   return (
-    <div className="bg-back flex flex-col gap-3 p-5 w-[360px] shadow-2xl">
-      <div className="flex justify-between items-center">
-        <h5>{spiceRate}</h5>
-        <SaveButton />
+    <div className="cursor-pointer bg-back flex flex-col justify-between gap-3 p-5 w-[280px] lg:w-[300px] shadow-2xl">
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-between items-center">
+          <SpiceRate spiceRate={spiceRate} />
+          <SaveButton />
+        </div>
+        <h4 className="text-lg lg:text-2xl break-keep">{title}</h4>
+          <StarRate star={starRate}/>
       </div>
-      <h4 className="text-2xl">{title}</h4>
-      <h6>{starRate}</h6>
+
       <Image
         src={image}
         alt={altMessage}

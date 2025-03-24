@@ -2,66 +2,137 @@ interface BuldakdDataProps {
   id: number;
   title: string;
   spiceRate: number;
-  starRate: number | string;
+  starRate: string;
   image: string;
-  altMessage: string;
   description?: string;
+  person: number;
+  ingredient: string[];
+  step: string[];
+  link: string;
+  sides: string[];
 }
 
 export const buldakdData: Array<BuldakdDataProps> = [
   {
     id: 1,
-    title: "불닭레시피01",
-    spiceRate: 3,
+    title: "오리지널 불닭볶음면",
+    spiceRate: 2,
     starRate: "2.4",
-    image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    image: "/assets/images/buldak01.png",
+    description: "튜닝의 끝은 순정. 진짜 오리지널 레시피",
+    person: 1,
+    ingredient: ["불닭볶음면 1봉"],
+    step: [
+      "물 500ml를 끓이고 면을 넣는다.",
+      "5분 뒤 면이 익으면 물을 반 컵 가량 남기고 버려준다.",
+      "액상스프를 넣고 비벼가며 약 1분 간 졸인다.",
+      "후레이크를 뿌려 마무리한다.",
+    ],
+    link: "https://www.youtube.com/shorts/XLGf08ZsbBY",
+    sides: ["삼각김밥", "반숙란", "참기름"],
   },
   {
     id: 2,
-    title: "불닭레시피02",
-    spiceRate: 2,
+    title: "불닭콘치즈",
+    spiceRate: 1,
     starRate: "4.8",
-    image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    image: "/assets/images/buldak02.png",
+    description: "맵찔이도 문제없다! 불닭 개발자피셜 최고의 조합",
+    person: 1,
+    ingredient: [
+      "불닭볶음면 1봉",
+      "스위트콘 1/2컵",
+      "모짜렐라 치즈 1/2컵",
+      "마요네즈 2큰술",
+      "설탕 1큰술",
+    ],
+    step: [
+      "옥수수에 설탕, 마요네즈, 모짜렐라 치즈를 넣고 잘 섞어준다.",
+      "냄비에 물 500ml를 넣고, 물이 끓으면 라면을 넣어 5분간 삶아준다.",
+      "물을 반컵 정도만 남기고 버린 뒤, 액상스프를 넣고 졸인다.",
+      "잘 졸인 면을 접시에 담고, 만들어둔 옥수수를 얹은 뒤 전자렌지에 1분 30초간 돌린다.",
+      "후레이크를 뿌리고, 잘 비벼먹는다.",
+    ],
+
+    link: "https://www.youtube.com/watch?v=OmllOjzOxyM",
+    sides: ["단무지", "소시지", "삼각김밥"],
   },
   {
     id: 3,
-    title: "불닭레시피03",
-    spiceRate: 5,
-    starRate: "2",
-    image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    title: "불계치",
+    spiceRate: 2,
+    starRate: "2.0",
+    image: "/assets/images/buldak03.png",
+    description: "라면에 단백질 추가했으니 살 안찌는거 맞죠?",
+    person: 1,
+    ingredient: ["불닭볶음면 1봉", "달걀 1개", "슬라이스치즈 1장"],
+    step: ["물 500ml를 끓인다."],
+    link: "",
+    sides: ["참기름", "삼각김밥", "우유"],
   },
   {
     id: 4,
-    title: "불닭레시피04",
+    title: "편의점 근본 불닭",
     spiceRate: 5,
-    starRate: "4",
-    image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    starRate: "4.0",
+    image: "/assets/images/buldak04.png",
+    person: 1,
+    description: "그렇다. 모두가 아는 그 맛. 그래서 더 당기는 맛.",
+    ingredient: ["불닭볶음면 큰컵", "스트링 치즈", "삼각김밥"],
+    step: [
+      "컵에 면을 남기고 뜨거운 물을 표시선까지 부어준다.",
+      "4분 후, 물을 조금만 남기고 뚜껑의 구멍을 통해 버려준다.",
+      "액상스프를 넣고 비빈 뒤, 스트링치즈를 찢어 올린다.",
+      "전제레인지에 1분 30초간 돌리고, 후레이크를 뿌려준다.",
+      "면을 어느정도 먹은 뒤, 삼각김밥을 남은 소스에 비벼준다.",
+    ],
+    link: "https://www.youtube.com/shorts/j9WsJTGBdr0",
+    sides: ["반숙란", "핫바", "소시지"],
   },
   {
     id: 5,
-    title: "불닭레시피05",
+    title: "성시경 트러플 불닭게티",
     spiceRate: 3,
-    starRate: "1.5",
-    image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    starRate: "5",
+    image: "/assets/images/buldak05.png",
+    description: "맛잘알 성시경이 말아주는 끝판왕 불닭 레시피",
+    person: 2,
+    ingredient: [
+      "불닭볶음면 1봉",
+      "짜파게티 1봉",
+      "삼겹살 200g",
+      "양파 1개",
+      "달걀 2개",
+      "트러플 오일",
+      "식용유",
+      "간장",
+      "소금",
+      "후추",
+    ],
+    step: [
+      "노른자가 익지 않을 정도로 달걀후라이를 2개 만든다.",
+      "양파를 깍둑썰고, 얇게 썬 삼겹살과 함께 볶고, 소금과 후추로 간한다.",
+      "삼겹살이 거의 익으면 간장을 추가한다.",
+      "끓는 물에 면을 4분간 삶는다.",
+      "구운 삼겹살에 불닭볶음면과 짜파게티 스프를 모두 넣고, 면수 반 국자를 넣어 볶는다.",
+      "끓은 면에 물을 버리고, 소스에 면을 넣어 잘 섞어준다.",
+      "접시에 옮겨담고 달걀후라이와 트러플오일을 뿌려준다.",
+    ],
+    link: "https://www.youtube.com/watch?v=zA4NrSo79eY",
+    sides: ["단무지", "김치", "삼각김밥"],
   },
   {
     id: 6,
-    title: "불닭레시피06",
+    title: "불닭리조또",
     spiceRate: 1,
     starRate: "1.5",
     image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    description: "한국인은 밥심.",
+    person: 1,
+    ingredient: ["불닭볶음면 1봉", "밥 1공기", "베이컨 4줄", "양파 1/4개", "모짜렐라 치즈 1/2컵"],
+    step: [],
+    link: "https://www.youtube.com/watch?v=RvSPGo06PrU",
+    sides: [],
   },
   {
     id: 7,
@@ -69,8 +140,12 @@ export const buldakdData: Array<BuldakdDataProps> = [
     spiceRate: 3,
     starRate: "1.5",
     image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    description: "레시피에 대한 간략한 설명",
+    person: 1,
+    ingredient: [],
+    step: [],
+    link: "",
+    sides: [],
   },
   {
     id: 8,
@@ -78,8 +153,12 @@ export const buldakdData: Array<BuldakdDataProps> = [
     spiceRate: 3,
     starRate: "1.5",
     image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    description: "레시피에 대한 간략한 설명",
+    person: 1,
+    ingredient: [],
+    step: [],
+    link: "",
+    sides: [],
   },
   {
     id: 9,
@@ -87,8 +166,12 @@ export const buldakdData: Array<BuldakdDataProps> = [
     spiceRate: 3,
     starRate: "1.5",
     image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    description: "레시피에 대한 간략한 설명",
+    person: 1,
+    ingredient: [],
+    step: [],
+    link: "",
+    sides: [],
   },
   {
     id: 10,
@@ -96,8 +179,12 @@ export const buldakdData: Array<BuldakdDataProps> = [
     spiceRate: 3,
     starRate: "1.5",
     image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    description: "레시피에 대한 간략한 설명",
+    person: 1,
+    ingredient: [],
+    step: [],
+    link: "",
+    sides: [],
   },
   {
     id: 11,
@@ -105,7 +192,11 @@ export const buldakdData: Array<BuldakdDataProps> = [
     spiceRate: 3,
     starRate: "1.5",
     image: "/assets/images/image_detail.png",
-    altMessage: "alt message",
-    description: "레시피에 대한 간략한 설명"
+    description: "레시피에 대한 간략한 설명",
+    person: 1,
+    ingredient: [],
+    step: [],
+    link: "",
+    sides: [],
   },
 ];

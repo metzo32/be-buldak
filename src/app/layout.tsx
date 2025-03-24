@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BackgroundPattern from "./BackgroundPattern";
 
 export const metadata: Metadata = {
   title: "불닭이되",
@@ -18,7 +19,8 @@ export default function RootLayout({
       <body>
         <Header />
         {children}
-        <Footer/>
+        <Footer />
+        <BackgroundPattern />
       </body>
     </html>
   );

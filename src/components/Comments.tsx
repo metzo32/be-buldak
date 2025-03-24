@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Section from "./Section";
 import { ButtonPlain, ButtonStrong } from "./Buttons";
+import StarRating from "./StarRating";
 
 export default function Comments() {
   const [text, setText] = useState("");
@@ -12,7 +13,7 @@ export default function Comments() {
     <Section title="댓글과 별점">
       <div className="w-full border-3 border-primary rounded-3xl ">
         <div className="h-[100px] px-10 border-b-3 border-primary flex items-center justify-center">
-          <button className="text-4xl">★ ★ ★ ★ ★</button>
+          <StarRating />
         </div>
         <textarea
           name="opinion"
@@ -32,7 +33,7 @@ export default function Comments() {
         </div>
       </div>
 
-      {/* 댓글 5개씩 보여주기 */}
+      {/* 댓글 5개씩 보여주기 추가할것*/}
       <div className="pb-5 flex flex-col gap-5 border-b-3 border-disabled">
         <div className="flex items-center gap-5">
           <h6 className="text-2xl text-primary">닉네임</h6>

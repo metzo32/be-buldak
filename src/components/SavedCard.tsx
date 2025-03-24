@@ -1,5 +1,7 @@
 import Image from "next/image";
 import type { CardProps } from "@/types/CardProps";
+import SpiceRate from "./icons.component/SpiceRate";
+import StarRate from "./icons.component/StarRate";
 
 export default function SavedCard({
   spiceRate,
@@ -14,10 +16,10 @@ export default function SavedCard({
         <Image src="/assets/icons/Delete.svg" alt="X" width={20} height={20} />
       </button>
       <div className="flex justify-between items-center">
-        <h5>{spiceRate}</h5>
+        <SpiceRate spiceRate={spiceRate} />
       </div>
       <h4 className="text-2xl">{title}</h4>
-      <h6>{starRate}</h6>
+      <StarRate star={starRate} />
       <Image
         src={image}
         alt={altMessage}
