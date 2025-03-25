@@ -10,7 +10,8 @@ export default function RegisterPage() {
     id: string;
     password: string;
     passwordConfirm: string;
-  }>({ id: "", password: "", passwordConfirm: "" });
+    emailCode: string;
+  }>({ id: "", password: "", passwordConfirm: "", emailCode: "" });
 
   const router = useRouter();
 
@@ -70,6 +71,19 @@ export default function RegisterPage() {
             placeholder="비밀번호 확인"
             required
           />
+
+          <div className="flex gap-5">
+            <input
+              className="w-60 px-4 py-2 border-3 border-primary rounded-2xl"
+              type="email"
+              name="emailConfirm"
+              value={form.emailCode}
+              onChange={handleChange}
+              placeholder="이메일 인증"
+              required
+            />
+            <button type="button">인증하기</button>
+          </div>
         </div>
 
         <div className="flex flex-col gap-6 items-center">

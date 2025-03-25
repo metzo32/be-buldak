@@ -31,10 +31,10 @@ export function ButtonPlain({
     <button
       type={type}
       onClick={onClick}
-      className={`px-2 py-1 lg:py-2 lg:px-5 shrink-0 flex justify-center items-center hover:text-textHover ${
-        fixedSize ? "w-[30px]" : ""
+      className={`shrink-0 flex justify-center items-center hover:text-textHover ${
+        fixedSize ? "w-[30px]" : "w-auto"
       }
-      ${isSmall ? "text-xl text-disabled" : ""}`}
+      ${isSmall ? "text-base md:text-xl text-disabled px-0 py-1 lg:py-2" : "px-2 py-1 lg:py-2 lg:px-5"}`}
     >
       {text}
     </button>

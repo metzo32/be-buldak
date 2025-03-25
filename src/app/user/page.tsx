@@ -36,7 +36,7 @@ export default function UserPage() {
 
       <Section title={"저장한 레시피"} isTrans option optionElement={<ViewAllButton/>}>
         {/* <div className="grid grid-cols-5 gap-12"> */}
-        <div className="flex gap-5 md:gap-10 overflow-x-scroll">
+        <div className="flex gap-5 md:gap-10 overflow-x-scroll scroll-hide">
           {buldakdData.map((item) => (
             <SavedCard
               key={item.id}
@@ -51,7 +51,7 @@ export default function UserPage() {
         </div>
       </Section>
 
-      <Section title={"이미 먹어본 레시피"} isTrans>
+      <Section title={"이미 먹어본 레시피"} isTrans hasSub subText="내 점수: 5">
         <div className="flex gap-5 md:gap-10 overflow-x-scroll">
           {buldakdData.map((item) => (
             <SavedCard

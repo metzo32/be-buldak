@@ -74,18 +74,26 @@ export default function LoginPage() {
               onChange={() => setRemember(!remember)}
               className="hidden"
             />
-            <span className="text-2xl text-primary">{remember ? <AiFillFire /> : <AiOutlineFire />}</span>
+            <span className="text-2xl text-primary">
+              {remember ? <AiFillFire /> : <AiOutlineFire />}
+            </span>
             <label htmlFor="rememberMe" className="cursor-pointer select-none">
               내 정보 기억하기
             </label>
           </div>
+          <ButtonPlain type="button" text="비밀번호를 잊어버렸어요" isSmall />
         </div>
 
         <div className="flex flex-col gap-6 items-center">
           <div className="w-[150px] flex flex-col items-stretch">
             <ButtonStrong type="submit" text="로그인" />
           </div>
-          <ButtonPlain type="button" onClick={handleRoute} text="가입하기" isSmall/>
+          <ButtonPlain
+            type="button"
+            onClick={handleRoute}
+            text="가입하기"
+            isSmall
+          />
         </div>
       </form>
       <Blur />

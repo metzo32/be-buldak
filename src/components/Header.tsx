@@ -10,7 +10,7 @@ export default function Header() {
 
   return (
     <header>
-      <div className="header-box">
+      <div className="header-box flex items-start">
         <HomeButton />
       </div>
 

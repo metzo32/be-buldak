@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUp, ArrowDown } from "./icons.component/Arrows";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 export default function FilterOptions() {
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -16,7 +16,7 @@ export default function FilterOptions() {
     <div className="select-none relative flex justify-end">
       <div className="flex gap-1 items-center cursor-pointer" onClick={handleListOpen}>
         <p className="hover:text-textHover">{selected}</p>
-        {isListOpen ? <ArrowUp /> : <ArrowDown />}
+        {isListOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </div>
 
       {isListOpen && (

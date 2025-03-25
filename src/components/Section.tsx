@@ -5,6 +5,7 @@ interface SectionProps {
   children: React.ReactNode;
   isTrans?: boolean;
   hasSub?: boolean;
+  subText?: string;
   option?: boolean;
   optionElement?: ReactNode;
 }
@@ -14,6 +15,7 @@ export default function Section({
   children,
   isTrans,
   hasSub,
+  subText,
   option,
   optionElement,
 }: SectionProps) {
@@ -25,7 +27,7 @@ export default function Section({
     >
       <div className={`flex gap-5 ${option ? "justify-between items-end": "items-center"}`}>
         <h2 className="text-xl lg:text-3xl 2xl:text-4xl">{title}</h2>
-        {hasSub && <h3 className="text-disabled">n인분 기준</h3>}
+        {hasSub && <h3 className="text-disabled">{subText}</h3>}
         {option && optionElement}
       </div>
       {children}

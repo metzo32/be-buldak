@@ -22,7 +22,7 @@ export default function SearchCard({
           className="bg-strong object-cover"
         />
       </div>
-      <div className="w-full p-5 lg:p-10 flex flex-col justify-between">
+      <div className="w-full p-5 lg:p-10 flex flex-col justify-between gap-2 lg:gap-5">
         <div className="flex flex-col gap-2 lg:gap-5">
           <div className="flex justify-between items-center">
             <div className="flex gap-3 items-center">
@@ -39,7 +39,7 @@ export default function SearchCard({
           </span>
           <Star star={starRate} />
         </div>
-        <p className="mt-10">{description}</p>
+        <p className="2xl:mt-10">{description}</p>
       </div>
     </div>
   );

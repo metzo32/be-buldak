@@ -7,6 +7,8 @@ import SaveButton from "@/components/icons.component/SaveButton";
 import StarRate from "@/components/icons.component/StarRate";
 import SpiceRate from "@/components/icons.component/SpiceRate";
 import TriedButton from "@/components/TriedButton";
+import { fakeRecipe } from "../../../public/assets/fakeData/fakeRecipe";
+import Youtube from "@/components/Youtube";
 
 export default function DetailPage() {
   const ingredients = [
@@ -38,7 +40,7 @@ export default function DetailPage() {
           </>
         }
       />
-      <Section title="재료" hasSub>
+      <Section title="재료" hasSub subText="n인분 기준">
         <div className="w-full flex flex-col md:grid md:grid-cols-4 gap-3 md:gap-10">
           {ingredients.map((item, index) => (
             <p
@@ -67,23 +69,13 @@ export default function DetailPage() {
         </div>
       </span>
       <Section title="만드는 법">
-        <div className="flex flex-col gap-10">
-          <div className="flex gap-5 items-end">
-            <span className="recipie-process">1.</span>
-            <p>만드는 과정</p>
-          </div>
-          <div className="flex gap-5 items-end">
-            <span className="recipie-process">2.</span>
-            <p>만드는 과정</p>
-          </div>
-          <div className="flex gap-5 items-end">
-            <span className="recipie-process">3.</span>
-            <p>만드는 과정</p>
-          </div>
-          <div className="flex gap-5 items-end">
-            <span className="recipie-process">4.</span>
-            <p>만드는 과정</p>
-          </div>
+        <div className="flex flex-col gap-5 md:gap-10">
+          {fakeRecipe.map((item, index) => (
+            <div key={index} className="flex gap-5 items-start">
+              <span className="recipie-process">{index + 1}.</span>
+              <p className="py-2">{item}</p>
+            </div>
+          ))}
         </div>
       </Section>
       <Section title="추천 조합">
@@ -94,7 +86,7 @@ export default function DetailPage() {
         </div>
       </Section>
       <Comments />
-      유튜브링크
+      <Youtube />
       <Recommend />
     </>
   );

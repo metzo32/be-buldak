@@ -13,8 +13,8 @@ export default function LoginButton() {
   //로그인 상태일때는 텍스트 "로그아웃"으로 바꾸기.
   return (
     <>
-      {/* <ButtonStrong onClick={handleRouteLogin} text="로그인" /> */}
-      <ButtonStrong text="로그아웃" disabled/>
+      <ButtonStrong onClick={handleRouteLogin} text="로그인" />
+      {/* <ButtonStrong text="로그아웃" disabled/> */}
     </>
   );
 }

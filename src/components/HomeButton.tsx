@@ -10,13 +10,12 @@ export default function HomeButton() {
   
   return (
     <>
-      <button onClick={handleHome}>
+      <button onClick={handleHome} className="block md:hidden">
         <Image
           src="/assets/icons/fire.svg"
           alt="홈"
           width={25}
           height={25}
-          className="block md:hidden "
         />
       </button>
       <button

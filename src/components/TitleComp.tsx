@@ -18,7 +18,7 @@ export default function TitleComp({
   option
 }: TitleCompProps) {
   return (
-    <section className=" w-full px-10 md:px-40 md:py-20 2xl:px-80 2xl:py-40 mb-24 relative z-1 flex justify-center 2xl:justify-between items-center gap-2">
+    <section className="w-full px-10 md:px-40 md:py-20 2xl:px-80 2xl:py-45 mb-24 relative z-1 flex justify-center 2xl:justify-between items-center gap-2">
       <div className="w-1/2 flex flex-col gap-3 md:gap-8 lg:gap-12">
         <h1 className="text-3xl md:text-6xl 2xl:text-7xl font-bold">{title}</h1>
         <h2 className="md:text-2xl 2xl:text-4xl text-primary break-keep">
