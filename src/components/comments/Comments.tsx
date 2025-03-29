@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { ButtonPlain, ButtonStrong } from "./Buttons";
-import StarRating from "./StarRating";
-import { fakeComment } from "../../public/assets/fakeData/fakeComment";
-import StarRate from "./icons.component/StarRate";
+import { useState, useEffect } from "react";
+import { ButtonPlain, ButtonStrong } from "../Buttons";
+import StarRating from "../StarRating";
+import { fakeComment } from "../../../public/assets/fakeData/fakeComment";
+import StarIcon from "../icons.component/StarIcon";
+import useModal from "../../../public/hooks/useModal";
+import Modal from "../Modal";
 
 export default function Comments() {
-  const [text, setText] = useState("");
+  const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =
+    useModal();
+  const [comment, setComment] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
   const maxLength = 200; // 최대 글자 수
@@ -36,27 +40,55 @@ export default function Comments() {
   };
 
   const handleReset = () => {
-    setText("");
+    if (!comment) {
+      return;
+    } else {
+      openModal();
+      if (isConfirmed) {
+        setComment("");
+      } else {
+        return;
+      }
+    }
   };
+
+  const handleRatingChange = (value: number) => {
+    console.log("별점:", value);
+  };
+
+  useEffect(() => {
+    if (isConfirmed) {
+      setComment("");
+    }
+  }, [isConfirmed]);
 
   return (
     <section className="comment-section">
       <div className="w-full border-3 border-primary rounded-2xl md:rounded-3xl ">
-        <StarRating />
+        <StarRating userRate={handleRatingChange} />
         <textarea
           name="opinion"
           maxLength={maxLength}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
           className="w-full p-5 md:p-10 resize-none"
           placeholder="여기에 댓글을 써주세요 (200자 이내)"
         />
 
         <p className="text-right mr-10 text-sm text-gray-500 mt-2">
-          {text.length} / {maxLength} 글자
+          {comment.length} / {maxLength} 글자
         </p>
         <div className="p-5 md:p-10 flex justify-end gap-3 md:gap-10">
           <ButtonPlain text="취소" onClick={handleReset} />
+          <Modal
+            isModalOpen={isModalOpen}
+            title01="잠깐!"
+            title02="모두 지울까요?"
+            btnPlainText="아니요"
+            btnStrongText="지울래요"
+            onClose={closeModal}
+            onConfirm={confirmModal}
+          />
           <ButtonStrong type="submit" text="등록하기" />
         </div>
       </div>
@@ -68,14 +100,21 @@ export default function Comments() {
               key={index}
               className="pb-3 md:pb-5 flex flex-col gap-3 md:gap-5 border-b-3 border-disabled"
             >
-              <div className="flex items-center gap-5">
-                <h6 className="text-lg md:text-2xl text-primary">
-                  {item.nickname}
-                </h6>
-                <StarRate star={"4.0"} />
-                <p className="text-textHover text-sm md:text-xl">{item.date}</p>
-                <ButtonPlain text="수정" isSmall />
-                <ButtonPlain text="삭제" isSmall />
+              <div className="">
+                <div className="flex items-center gap-5">
+                  <h6 className="text-lg md:text-2xl text-primary">
+                    {item.nickname}
+                  </h6>
+                  <StarIcon star={"4.0"} />
+                </div>
+                <div className="flex items-center gap-5">
+                  <p className="text-textHover text-sm md:text-xl">
+                    {item.date}
+                  </p>
+                  <ButtonPlain text="수정" isSmall />
+                  {/* 삭제 확인 모달 추가 */}
+                  <ButtonPlain text="삭제" isSmall />
+                </div>
               </div>
               <p className="text-sm md:text-xl">{item.comment}</p>
             </div>

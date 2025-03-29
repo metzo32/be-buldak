@@ -5,7 +5,7 @@ interface StarProps {
   large?: boolean;
 }
 
-export default function StarRate({ star, large }: StarProps) {
+export default function StarIcon({ star, large }: StarProps) {
   return (
     <span className={`flex items-center ${large ? "gap-1 md:gap-2" : "gap-1"}`}>
       <div

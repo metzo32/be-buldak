@@ -2,7 +2,7 @@ import Image from "next/image";
 import SaveButton from "./icons.component/SaveButton";
 import type { CardProps } from "@/types/CardProps";
 import SpiceRate from "./icons.component/SpiceRate";
-import StarRate from "./icons.component/StarRate";
+import StarIcon from "./icons.component/StarIcon";
 
 export default function RecoCard({
   spiceRate,
@@ -20,7 +20,7 @@ export default function RecoCard({
           <SaveButton />
         </div>
         <h4 className="text-lg lg:text-2xl break-keep">{title}</h4>
-        <StarRate star={starRate} />
+        <StarIcon star={starRate} />
       </div>
       <p className="text-sm md:text-base text-disabled">{details}</p>
 

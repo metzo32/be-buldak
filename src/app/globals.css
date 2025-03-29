@@ -16,6 +16,7 @@
 
 @theme {
   --color-back: #242120;
+  --color-overlay: rgb(0 0 0 / 0.7);
   --color-primary: #fe633c;
   --color-primaryHover: #ce401d;
   --color-secondary: #36302d;

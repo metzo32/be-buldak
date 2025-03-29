@@ -1,11 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { StarCommentFull, StarCommentHalf, StarCommentOutline } from "./icons.component/StarComment";
+import {
+  StarCommentFull,
+  StarCommentHalf,
+  StarCommentOutline,
+} from "./icons.component/StarComment";
 
-export default function StarRating() {
+interface StarRatingProps {
+  userRate: (rating: number) => void; 
+}
+
+export default function StarRating({ userRate }: StarRatingProps) {
   const [rating, setRating] = useState<number>(0);
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null); 
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   const handleMouseEnter = (index: number) => {
     setHoverIndex(index);
@@ -17,6 +25,7 @@ export default function StarRating() {
 
   const handleClick = (index: number) => {
     setRating(index);
+    userRate(index);
   };
 
   return (
@@ -33,7 +42,12 @@ export default function StarRating() {
           StarIcon = StarCommentFull;
         } else if (!rating && isHovered) {
           StarIcon = StarCommentHalf;
-        } else if (rating && hoverIndex !== null && star > rating && star <= hoverIndex) {
+        } else if (
+          rating &&
+          hoverIndex !== null &&
+          star > rating &&
+          star <= hoverIndex
+        ) {
           StarIcon = StarCommentHalf;
         } else {
           StarIcon = StarCommentOutline;

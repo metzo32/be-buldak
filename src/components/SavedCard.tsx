@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { CardProps } from "@/types/CardProps";
 import SpiceRate from "./icons.component/SpiceRate";
-import StarRate from "./icons.component/StarRate";
+import StarIcon from "./icons.component/StarIcon";
 import SaveButton from "./icons.component/SaveButton";
 
 export default function SavedCard({
@@ -22,7 +22,7 @@ export default function SavedCard({
           <SaveButton />
         </div>
         <h4 className="text-lg md:text-2xl">{title}</h4>
-        <StarRate star={starRate} />
+        <StarIcon star={starRate} />
       </div>
       <div className="relative w-[170px] h-[120px] md:w-[240px] md:h-[200px]">
         <Image src={image} alt={altMessage} fill className="bg-strong object-cover" />

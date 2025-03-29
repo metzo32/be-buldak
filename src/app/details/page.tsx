@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Section from "@/components/Section";
-import Comments from "@/components/Comments";
+import Comments from "@/components/comments/Comments";
 import Recommend from "@/components/Recommend";
 import TitleComp from "@/components/TitleComp";
 import SaveButton from "@/components/icons.component/SaveButton";
-import StarRate from "@/components/icons.component/StarRate";
+import StarIcon from "@/components/icons.component/StarIcon";
 import SpiceRate from "@/components/icons.component/SpiceRate";
 import TriedButton from "@/components/TriedButton";
 import { fakeRecipe } from "../../../public/assets/fakeData/fakeRecipe";
@@ -30,8 +30,8 @@ export default function DetailPage() {
         option={
           <>
             <div className="flex gap-3 md:gap-10">
+              <StarIcon star="4.5" large />
               <SpiceRate spiceRate={5} large />
-              <StarRate star="4.5" large />
             </div>
             <div className="flex gap-10 lg:gap-20 relative z-1">
               <TriedButton />
