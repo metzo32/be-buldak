@@ -1,29 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ButtonStrong, ButtonPlain } from "@/components/Buttons";
+import type { RegisterRequest } from "@/types/FetchUserTypes";
 import Blur from "@/components/Blur";
+import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
+import { formatDateToString } from "@/components/modules/formatDate";
 
 export default function RegisterPage() {
-  const [form, setForm] = useState<{
-    id: string;
-    password: string;
-    passwordConfirm: string;
-    emailCode: string;
-  }>({ id: "", password: "", passwordConfirm: "", emailCode: "" });
+  const [pickedDate, setPickedDate] = useState<Dayjs | null>(null);
+
+  useEffect(() => {
+    console.log(pickedDate?.toString());
+  }, [pickedDate]);
+
+  const [registerForm, setRegisterForm] = useState<RegisterRequest>({
+    email: "",
+    name: "",
+    password: "",
+    password_confirmation: "",
+    birthdate: "",
+  });
 
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+  };
+
+  const handleDateChange = (newValue: Dayjs | null) => {
+    setPickedDate(newValue);
+    setRegisterForm((prev) => ({
+      ...prev,
+      birthdate: newValue ? newValue.format("YYYY-MM-DD") : "",
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("회원가입 정보:", form);
+    console.log("회원가입 정보:", registerForm);
 
-    if (form.password !== form.passwordConfirm) {
+    if (registerForm.password !== registerForm.password_confirmation) {
       alert("비밀번호를 확인해주세요");
       return;
     }
@@ -38,58 +59,55 @@ export default function RegisterPage() {
   return (
     <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
       <h1 className="text-4xl relative z-1">회원가입</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-24 relative z-1"
-      >
-        <div className="flex flex-col gap-12">
-          <input
-            className="w-80 px-4 py-2 border-3 border-primary rounded-2xl"
-            type="text"
-            name="id"
-            value={form.id}
-            onChange={handleChange}
-            placeholder="아이디"
-            required
-          />
-          <input
-            className="w-80  px-4 py-2 border-3 border-primary rounded-2xl"
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="비밀번호"
-            required
-          />
+      <form onSubmit={handleSubmit} className="user-form">
+        <input
+          className="outlined-input"
+          type="text"
+          name="email"
+          value={registerForm.email}
+          onChange={handleChange}
+          placeholder="이메일"
+          required
+        />
 
-          <input
-            className="w-80  px-4 py-2 border-3 border-primary rounded-2xl"
-            type="password"
-            name="passwordConfirm"
-            value={form.passwordConfirm}
-            onChange={handleChange}
-            placeholder="비밀번호 확인"
-            required
-          />
+        <input
+          className="outlined-input"
+          type="text"
+          name="name"
+          value={registerForm.name}
+          onChange={handleChange}
+          placeholder="이름"
+          required
+        />
 
-          <div className="flex gap-5">
-            <input
-              className="w-60 px-4 py-2 border-3 border-primary rounded-2xl"
-              type="email"
-              name="emailConfirm"
-              value={form.emailCode}
-              onChange={handleChange}
-              placeholder="이메일 인증"
-              required
-            />
-            <button type="button">인증하기</button>
-          </div>
-        </div>
+        <input
+          className="outlined-input"
+          type="password"
+          name="password"
+          value={registerForm.password}
+          onChange={handleChange}
+          placeholder="비밀번호"
+          required
+        />
+
+        <input
+          className="outlined-input"
+          type="password"
+          name="password_confirmation"
+          value={registerForm.password_confirmation}
+          onChange={handleChange}
+          placeholder="비밀번호 확인"
+          required
+        />
+
+        <CustomizedDatePicker
+          label="생년월일"
+          selectedDate={pickedDate}
+          onChange={handleDateChange}
+        />
 
         <div className="flex flex-col gap-6 items-center">
-          <div className="w-[150px] flex flex-col items-stretch">
-            <ButtonStrong type="submit" text="가입하기" />
-          </div>
+          <ButtonStrong type="submit" text="가입하기" />
           <ButtonPlain
             type="button"
             onClick={handleRoute}

@@ -11,6 +11,16 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+
+  async rewrites() {
+    return [
+      {
+        source: "/:path*/",
+        destination: `http://localhost:8080`
+      },
+    ];
+  },
+  trailingSlash: true,
 };
 
 export default nextConfig;

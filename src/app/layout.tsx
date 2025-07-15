@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackgroundPattern from "./BackgroundPattern";
+import MUIThemeProvider from "@/components/provider/MUIThemeProvider";
 
 export const metadata: Metadata = {
   title: "불닭이되",
@@ -17,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <Header />
-        {children}
-        <Footer />
-        <BackgroundPattern />
+        <MUIThemeProvider>
+          <Header />
+          {children}
+          <Footer />
+          <BackgroundPattern />
+        </MUIThemeProvider>
       </body>
     </html>
   );

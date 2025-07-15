@@ -1,6 +1,7 @@
 "use client";
 
-import { ButtonPlain, ButtonStrong } from "./Buttons";
+import { ButtonPlain, ButtonStrong } from "./ui/Buttons";
+
 
 interface ModalProps {
   isModalOpen: boolean;

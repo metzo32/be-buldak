@@ -1,8 +1,12 @@
 import SearchCard from "@/components/SearchCard";
 import { buldakdData } from "../../../public/assets/fakeData/fakeData";
 import FilterOptions from "@/components/FilterOptions";
+import { getIngredients } from "@/components/fetch/fetchIngredients";
 
 export default function SearchPage() {
+  const ingredients = getIngredients();
+  console.log("재료", ingredients);
+
   return (
     <section className="comment-section">
       <div className="flex items-end justify-between">

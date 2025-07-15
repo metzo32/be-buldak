@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ButtonPlain } from "./Buttons";
 import LoginButton from "./LoginButton";
 import HomeButton from "./HomeButton";
 import useModal from "../../public/hooks/useModal";
 import Modal from "./Modal";
+import { ButtonPlain } from "./ui/Buttons";
 
 export default function Header() {
   const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =

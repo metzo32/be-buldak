@@ -12,8 +12,10 @@ export function ButtonStrong({ text, onClick, type, disabled }: ButtonProps) {
       type={type}
       onClick={onClick}
       className={`${
-        disabled ? "opacity-50 bg-disabled hover:bg-disabledHover" : "bg-primary  hover:bg-primaryHover"
-      } rounded-full py-1 px-3 lg:py-2 lg:px-6`}
+        disabled
+          ? "opacity-50 bg-disabled hover:bg-disabledHover"
+          : "bg-primary  hover:bg-primaryHover"
+      } rounded-full py-1 px-3 lg:px-5 flex-none`}
     >
       {text}
     </button>
@@ -31,10 +33,14 @@ export function ButtonPlain({
     <button
       type={type}
       onClick={onClick}
-      className={`shrink-0 flex justify-center items-center hover:text-textHover ${
+      className={`flex-none hover:text-textHover ${
         fixedSize ? "w-[30px]" : "w-auto"
       }
-      ${isSmall ? "text-base md:text-xl text-disabled px-0 py-1 lg:py-2" : "px-2 py-1 lg:py-2 lg:px-5"}`}
+      ${
+        isSmall
+          ? "text-disabled px-0 py-1 lg:py-2"
+          : "px-2 py-1 lg:py-2 lg:px-5"
+      }`}
     >
       {text}
     </button>

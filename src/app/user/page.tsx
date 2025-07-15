@@ -4,8 +4,10 @@ import Blur from "@/components/Blur";
 import Section from "@/components/Section";
 import SavedCard from "@/components/SavedCard";
 import { buldakdData } from "../../../public/assets/fakeData/fakeData";
-import { ButtonPlain } from "@/components/Buttons";
+
 import ViewAllButton from "@/components/ViewAllButton";
+import LogoutButton from "@/components/LogoutButton";
+import { ButtonPlain } from "@/components/ui/Buttons";
 
 export default function UserPage() {
   const spiceSum = 3;
@@ -50,7 +52,7 @@ export default function UserPage() {
           <ButtonPlain text="내 정보 바꾸기" />
           <ButtonPlain text="비밀번호 바꾸기" />
           <ButtonPlain text="탈퇴하기" />
-          <ButtonPlain text="로그아웃" />
+          <LogoutButton/>
         </div>
       </Section>
 

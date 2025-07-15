@@ -101,7 +101,7 @@ img {
     bg-back
     break-keep
 
-    lg:text-xl;
+    lg:text-lg;
   }
 
   header {
@@ -113,7 +113,7 @@ img {
   }
 
   h1 {
-    @apply text-4xl font-bold;
+    @apply text-2xl font-bold;
   }
 
   h1,
@@ -129,9 +129,7 @@ img {
     @apply cursor-pointer
     whitespace-nowrap
     text-sm
-
-    md:text-base
-    lg:text-xl;
+    lg:text-base;
   }
 }
 
@@ -143,8 +141,8 @@ img {
   }
 
   .recipie-process {
-    @apply text-primary text-2xl
-    md:text-4xl;
+    @apply text-primary text-xl
+    md:text-2xl;
   }
 
   .custom-section {
@@ -165,5 +163,15 @@ img {
     
     md:px-24 md:py-12 
     2xl:px-72 xl:py-24;
+  }
+
+  .user-form {
+    @apply
+    flex flex-col gap-5 relative z-1
+  }
+
+  .outlined-input {
+    @apply
+    w-full px-4 py-2 border-3 border-primary rounded-2xl
   }
 }
