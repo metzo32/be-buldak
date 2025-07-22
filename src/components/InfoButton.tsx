@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BsQuestionCircle } from "react-icons/bs";
-import { ButtonPlain } from "./Buttons";
+import { ButtonPlain } from "./ui/Buttons";
 
 export default function InfoButton() {
   const [isClicked, setIsClicked] = useState<boolean>(false);

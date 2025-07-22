@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ButtonPlain } from "./Buttons"
+import { ButtonPlain } from "./ui/Buttons"
 
 export default function ViewAllButton() {
     const [isClicked, setIsClicked] = useState<boolean>(false)

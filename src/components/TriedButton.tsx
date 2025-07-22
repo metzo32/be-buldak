@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ButtonStrong } from "./Buttons";
+import { ButtonStrong } from "./ui/Buttons";
 
 export default function TriedButton() {
   const [tried, setTried] = useState<boolean>(false);

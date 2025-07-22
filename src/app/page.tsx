@@ -1,8 +1,10 @@
+
 import GoToSearchButton from "@/components/GoToSearchButton";
 import Recommend from "@/components/Recommend";
 import TitleComp from "@/components/TitleComp";
 
 export default function HomePage() {
+
   return (
     <>
       <TitleComp

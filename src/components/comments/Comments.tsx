@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ButtonPlain, ButtonStrong } from "../Buttons";
+import { ButtonPlain, ButtonStrong } from "../ui/Buttons";
 import StarRating from "../StarRating";
 import { fakeComment } from "../../../public/assets/fakeData/fakeComment";
 import StarIcon from "../icons.component/StarIcon";

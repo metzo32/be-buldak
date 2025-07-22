@@ -1,76 +1,87 @@
-// 로그인
-import { axios, deleteCall, get, post, put } from "@/api/api";
+import { get, post, put, deleteCall } from "@/api/api";
 import type {
   LoginRequest,
   RegisterRequest,
-  RegisterResponse,
   UserProfileResponse,
   UserUpdateData,
 } from "@/types/FetchUserTypes";
 
-// CSRF 토큰 받아오기
-export async function getToken() {
+export async function getToken(): Promise<boolean> {
+  console.log("getToken 호출");
+
   try {
-    const response = await axios.get(
-      "http://localhost:8080/sanctum/csrf-cookie",
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await fetch("http://localhost:8080/sanctum/csrf-cookie", {
+      credentials: "include",
+    });
 
-    console.log("CSRF 쿠키 생성 성공!", response);
+    console.log("fetch 완료", response.status); // 204
 
+    if (!response.ok) throw new Error();
+
+    console.log("✅ CSRF 쿠키 생성 성공!", response);
     return true;
   } catch (error) {
-    console.log("CSRF 토큰 요청 실패", error);
+    console.error("❌ CSRF 쿠키 요청 실패:", error);
     return false;
   }
 }
 
-// 회원가입
-export async function postRegister(
-  userData: RegisterRequest
-): Promise<RegisterResponse> {
-  const { data } = await post("/api/auth/register", userData);
-
-  return data;
-}
-
 export async function postLogin(userData: LoginRequest) {
-  // return post("/api/auth/login", csrfToken, userData);
+  const ok = await getToken();
+  if (!ok) throw new Error("CSRF 토큰 발급 실패");
 
-  const response = await post("/api/auth/login", userData);
-  const token = response.data?.accessToken; // 유저 토큰 추출하기
-  const userInfo = response.data;
-
-  if (token) {
-    localStorage.setItem("accessToken", token);
-  }
-
+  const data = await post("/api/auth/login", userData);
   return {
-    accessToken: token,
-    user: userInfo,
+    user: data,
   };
 }
 
-// 로그아웃
-export async function postLogout(jwtToken: string, csrfToken: string) {
-  return post("/api/auth/logout", jwtToken, csrfToken);
+export async function postRegister(userData: RegisterRequest): Promise<void> {
+  try {
+    const response = await fetch("http://localhost:8080/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(userData), 
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("회원가입 실패:", response.status, errorText);
+      throw new Error(`회원가입 실패 (status: ${response.status})`);
+    }
+
+    console.log("회원가입 성공");
+  } catch (error) {
+    console.error("네트워크 오류 또는 처리 중 에러:", error);
+    throw error;
+  }
 }
 
-// 유저 상세정보 조회
-export async function getUserDetail(userId: number) {
-  const { data } = await get<UserProfileResponse>(`/api/users/${userId}`);
+export async function postLogout() {
+  const ok = await getToken();
+  if (!ok) throw new Error("CSRF 토큰 발급 실패");
 
+  return post("/api/auth/logout", {});
+}
+
+export async function getUserDetail(userId: number) {
+  const data = await get<UserProfileResponse>(`/api/users/${userId}`);
   return data;
 }
 
-// 회원 탈퇴
 export async function deleteUser(userId: number) {
+  const ok = await getToken();
+  if (!ok) throw new Error("CSRF 토큰 발급 실패");
+
   return deleteCall(`/api/users/${userId}`);
 }
 
-// 유저 정보 수정
 export async function updateUser(userId: number, userData: UserUpdateData) {
+  const ok = await getToken();
+  if (!ok) throw new Error("CSRF 토큰 발급 실패");
+
   return put(`/api/users/${userId}`, userData);
 }

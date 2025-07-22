@@ -12,41 +12,37 @@ type UserStore = {
   user: User | null;
   isLoading: boolean;
   setUserInfo: (user: User) => void;
-  getLocalToken: () => Promise<void>;
+  fetchUserInfo: () => Promise<void>;
   resetUser: () => void;
 };
 
 export const useUserStore = create<UserStore>()(
-	// 기존 상태 객체를 감싸준다.
   persist(
     (set) => ({
       user: null,
       isLoading: true,
+
       setUserInfo: (user) => set({ user }),
-      getLocalToken: async () => {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-          set({ isLoading: false });
-          return;
-        }
+
+      // ✅ 쿠키 기반 사용자 정보 요청
+      fetchUserInfo: async () => {
         try {
           const res = await get("/user/me");
           set({ user: res.data, isLoading: false });
         } catch (err) {
-          console.error("유저 정보 불러오기 실패:", err);
-          localStorage.removeItem("accessToken");
+          console.error("유저 정보 요청 실패:", err);
           set({ user: null, isLoading: false });
         }
       },
+
+      // ✅ 로그아웃 시 상태 초기화
       resetUser: () => {
-        localStorage.removeItem("accessToken");
         set({ user: null, isLoading: true });
       },
     }),
-    // 두번째 인자로 저장할 키값과 저장할 필드 설정
     {
-      name: "user-storage", // localStorage에 저장될 키
-      partialize: (state) => ({ user: state.user }), // 저장할 상태 필드 지정
+      name: "user-storage",
+      partialize: (state) => ({ user: state.user }),
     }
   )
 );

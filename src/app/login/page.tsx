@@ -8,6 +8,7 @@ import { AiFillFire } from "react-icons/ai"; //후
 import { useUserStore } from "@/stores/useUserStore";
 import { getToken, postLogin } from "@/components/fetch/fetchUsers";
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
+// import CsrfFetcher from "./fetcher";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -30,35 +31,74 @@ export default function LoginPage() {
 
   // 토큰이 expire date가 있으니, 토큰 기간이 만료된 뒤 유저가 api를 요청했을 때- CSRF토큰 갱신 요청 함수 추가하여
   // 기간이 만료됐는지 안됐는지 확인 후 해당 값을 header에 다시 넣어주는 페칭함수
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { email, password } = formData;
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    try {
-      getToken();
-      const response = await postLogin({ email, password });
+  const { email, password } = formData;
 
-      alert("로그인 성공");
-      setUserInfo(response.user);
+  try {
+    // 1. CSRF 토큰 요청
+    const csrfRes = await fetch("http://localhost:8080/sanctum/csrf-cookie", {
+      credentials: "include",
+    });
 
-      if (remember) {
-        localStorage.setItem("savedUserEmail", email);
-      } else {
-        localStorage.removeItem("savedUserEmail");
-      }
-
-      router.push("/user");
-    } catch (error) {
-      console.error("로그인 실패", error);
-      alert("로그인 요청 중 오류 발생");
+    if (!csrfRes.ok) {
+      throw new Error("CSRF 토큰 요청 실패");
     }
-  };
+
+    // 2. 약간의 딜레이 (브라우저가 쿠키를 반영할 시간)
+    await new Promise((res) => setTimeout(res, 50));
+
+    // 3. 쿠키에서 XSRF-TOKEN 추출
+    const getCsrfTokenFromCookie = (): string => {
+      const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+      return match ? decodeURIComponent(match[1]) : "";
+    };
+
+    const csrfToken = getCsrfTokenFromCookie();
+    if (!csrfToken) {
+      throw new Error("쿠키에서 CSRF 토큰을 찾을 수 없습니다");
+    }
+
+    // 4. 로그인 요청
+    const headers = new Headers();
+    headers.set("X-XSRF-TOKEN", csrfToken);
+    headers.set("Content-Type", "application/json");
+
+    const res = await fetch("http://localhost:8080/api/auth/login", {
+      method: "POST",
+      credentials: "include",
+      headers,
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+      throw new Error("로그인 실패");
+    }
+
+    const userData = await res.json();
+    setUserInfo(userData);
+
+    if (remember) {
+      localStorage.setItem("savedUserEmail", email);
+    } else {
+      localStorage.removeItem("savedUserEmail");
+    }
+
+    alert("로그인 성공");
+    router.push("/user");
+  } catch (err) {
+    console.error("로그인 실패:", err);
+    alert("로그인 요청 중 오류가 발생했습니다.");
+  }
+};
 
   const handleRoute = () => {
     router.push("/register");
   };
 
   return (
+    // <CsrfFetcher />
     <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
       <h1 className="text-4xl relative z-1">로그인</h1>
       <form onSubmit={handleSubmit} className="user-form">

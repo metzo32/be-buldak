@@ -10,6 +10,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
 import { formatDateToString } from "@/components/modules/formatDate";
+import { postRegister } from "@/components/fetch/fetchUsers";
 
 export default function RegisterPage() {
   const [pickedDate, setPickedDate] = useState<Dayjs | null>(null);
@@ -21,9 +22,9 @@ export default function RegisterPage() {
   const [registerForm, setRegisterForm] = useState<RegisterRequest>({
     email: "",
     name: "",
+    birth: "",
     password: "",
     password_confirmation: "",
-    birthdate: "",
   });
 
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function RegisterPage() {
     setPickedDate(newValue);
     setRegisterForm((prev) => ({
       ...prev,
-      birthdate: newValue ? newValue.format("YYYY-MM-DD") : "",
+      birth: newValue ? newValue.format("YYYY-MM-DD") : "",
     }));
   };
 
@@ -49,7 +50,7 @@ export default function RegisterPage() {
       return;
     }
 
-    console.log("회원가입 성공!");
+    postRegister(registerForm)
   };
 
   const handleRoute = () => {
