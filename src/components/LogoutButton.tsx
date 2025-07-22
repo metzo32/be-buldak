@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 
 import { postLogout } from "./fetch/fetchUsers";
 import { useRouter } from "next/navigation";
@@ -9,14 +8,7 @@ export default function LogoutButton() {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    try {
-      await postLogout("", "");
-      //   resetUser();
-      router.push("/login");
-    } catch (error) {
-      console.error("로그아웃 실패:", error);
-    } finally {
-    }
+    await postLogout();
   };
 
   return <ButtonPlain text="로그아웃" onClick={handleSignOut} />;

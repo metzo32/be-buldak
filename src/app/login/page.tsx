@@ -34,49 +34,15 @@ export default function LoginPage() {
  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
-  const { email, password } = formData;
-
   try {
-    // 1. CSRF 토큰 요청
-    const csrfRes = await fetch("http://localhost:8080/sanctum/csrf-cookie", {
-      credentials: "include",
-    });
+    const { email, password } = formData;
 
-    if (!csrfRes.ok) {
-      throw new Error("CSRF 토큰 요청 실패");
-    }
+    const csrfToken = await getToken();
+    if (!csrfToken) throw new Error("CSRF 토큰 발급 실패");
 
-    // 2. 약간의 딜레이 (브라우저가 쿠키를 반영할 시간)
-    await new Promise((res) => setTimeout(res, 50));
+    const res = await postLogin(formData);
+    const userData = res.user;
 
-    // 3. 쿠키에서 XSRF-TOKEN 추출
-    const getCsrfTokenFromCookie = (): string => {
-      const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
-      return match ? decodeURIComponent(match[1]) : "";
-    };
-
-    const csrfToken = getCsrfTokenFromCookie();
-    if (!csrfToken) {
-      throw new Error("쿠키에서 CSRF 토큰을 찾을 수 없습니다");
-    }
-
-    // 4. 로그인 요청
-    const headers = new Headers();
-    headers.set("X-XSRF-TOKEN", csrfToken);
-    headers.set("Content-Type", "application/json");
-
-    const res = await fetch("http://localhost:8080/api/auth/login", {
-      method: "POST",
-      credentials: "include",
-      headers,
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!res.ok) {
-      throw new Error("로그인 실패");
-    }
-
-    const userData = await res.json();
     setUserInfo(userData);
 
     if (remember) {
@@ -92,6 +58,7 @@ export default function LoginPage() {
     alert("로그인 요청 중 오류가 발생했습니다.");
   }
 };
+
 
   const handleRoute = () => {
     router.push("/register");
