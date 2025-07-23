@@ -6,9 +6,8 @@ import Blur from "@/components/Blur";
 import { AiOutlineFire } from "react-icons/ai"; //전
 import { AiFillFire } from "react-icons/ai"; //후
 import { useUserStore } from "@/stores/useUserStore";
-import { getToken, postLogin } from "@/components/fetch/fetchUsers";
+import { postLogin } from "@/components/fetch/fetchUsers";
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
-// import CsrfFetcher from "./fetcher";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -37,9 +36,6 @@ export default function LoginPage() {
   try {
     const { email, password } = formData;
 
-    const csrfToken = await getToken();
-    if (!csrfToken) throw new Error("CSRF 토큰 발급 실패");
-
     const res = await postLogin(formData);
     const userData = res.user;
 
@@ -65,7 +61,6 @@ export default function LoginPage() {
   };
 
   return (
-    // <CsrfFetcher />
     <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
       <h1 className="text-4xl relative z-1">로그인</h1>
       <form onSubmit={handleSubmit} className="user-form">
