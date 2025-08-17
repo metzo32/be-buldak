@@ -83,23 +83,23 @@ export async function get<T = any>(
   return response.json();
 }
 
-export async function post(
+export async function post<T = any>(
   url: string,
-  payload: any,
+  data: any,
   init?: RequestInit
-): Promise<{ status: number; ok: boolean }> {
+): Promise<T> {
   const headers = { "Content-Type": "application/json" };
   const response = await fetch(
     `${baseURL}${url}`,
     await _getHeader({
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify(data),
       ...init,
       headers: { ...headers, ...(init?.headers || {}) },
     })
   );
 
-  return { status: response.status, ok: response.ok };
+  return response.json();
 }
 
 export async function put<T = any>(
