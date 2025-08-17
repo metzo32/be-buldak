@@ -25,8 +25,8 @@ export default function Modal({
   if (!isModalOpen) return null;
 
   return (
-    <div className="bg-overlay fixed top-0 left-0 w-screen h-screen z-30 flex justify-center items-center">
-      <div className="w-[300px] h-[200px] md:w-[600px] md:h-[400px] p-5 md:p-10 bg-secondary flex flex-col justify-between md:justify-center items-center gap-5 md:gap-20 shadow-xl rounded-xl">
+    <div className="bg-overlay fixed top-0 left-0 min-w-[325px] w-screen h-screen z-30 flex justify-center items-center">
+      <div className="w-[300px] h-[200px] md:w-[450px] md:h-[300px] p-5 bg-secondary flex flex-col justify-between md:justify-center items-center gap-5 md:gap-12 shadow-xl rounded-xl">
         <h2 className="text-primary text-lg font-bold">{title01}</h2>
         <h1 className="font-medium text-lg">{title02}</h1>
         <div className="flex gap-5 md:gap-10">

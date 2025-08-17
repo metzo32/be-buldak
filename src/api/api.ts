@@ -123,7 +123,7 @@ export async function put<T = any>(
 
 export async function patch<T = any>(
   url: string,
-  data: any,
+  data?: any,
   init?: RequestInit
 ): Promise<T> {
   const headers = { "Content-Type": "application/json" };

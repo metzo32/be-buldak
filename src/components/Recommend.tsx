@@ -5,6 +5,7 @@ import RecoCard from "./RecoCard";
 import { buldakdData } from "../../public/assets/fakeData/fakeData";
 
 export default function Recommend() {
+  
   useEffect(() => {
     fetch("http://localhost:8080/api/ingredients")
       .then((res) => res.json())
