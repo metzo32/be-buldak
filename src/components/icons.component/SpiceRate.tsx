@@ -1,14 +1,14 @@
 import Image from "next/image";
 
 interface SpiceRateProps {
-  spiceRate: number;
+  spicy: number;
   large?: boolean;
 }
 
-export default function SpiceRate({ spiceRate, large }: SpiceRateProps) {
+export default function SpiceRate({ spicy, large }: SpiceRateProps) {
   return (
     <span className="flex w-[100px] md:w-[150px] items-center">
-      {Array.from({ length: spiceRate }, (_, index) => (
+      {Array.from({ length: spicy }, (_, index) => (
         <div
           key={index}
           className={`relative ${

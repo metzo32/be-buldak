@@ -5,7 +5,6 @@ import type {
   UserProfileResponse,
   UserUpdateData,
 } from "@/types/FetchUserTypes";
-import { error } from "console";
 
 export async function postLogout() {
   try {

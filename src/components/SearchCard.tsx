@@ -1,13 +1,22 @@
 import Image from "next/image";
-import type { CardProps } from "@/types/CardProps";
 import SaveButton from "./icons.component/SaveButton";
 import SpiceRate from "./icons.component/SpiceRate";
 import StarIcon from "./icons.component/StarIcon";
 
+export interface CardProps {
+    spicy: number;
+    title: string;
+    rate: string;
+    details?: string;
+    image: string;
+    altMessage: string;
+    description: string;
+  }
+
 export default function SearchCard({
-  spiceRate,
+  spicy,
   title,
-  starRate,
+  rate,
   image,
   altMessage,
   description,
@@ -16,7 +25,7 @@ export default function SearchCard({
     <div className="bg-secondary flex flex-col md:flex-row w-full shadow-2xl h-300px">
       <div className="w-full h-[180px] lg:w-[600px] lg:h-[300px] relative">
         <Image
-          src={image}
+          src={`/${image}`}
           alt={altMessage}
           fill
           className="bg-strong object-cover"
@@ -28,16 +37,16 @@ export default function SearchCard({
             <div className="flex gap-3 items-center">
               <h4 className="text-xl lg:text-3xl">{title}</h4>
               <span className="hidden lg:block">
-                <SpiceRate spiceRate={spiceRate} />
+                <SpiceRate spicy={spicy} />
               </span>
             </div>
 
             <SaveButton />
           </div>
           <div className="flex gap-2">
-            <StarIcon star={starRate} />
+            <StarIcon star={rate} />
             <span className="block lg:hidden">
-              <SpiceRate spiceRate={spiceRate} />
+              <SpiceRate spicy={spicy} />
             </span>
           </div>
         </div>
