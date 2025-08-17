@@ -21,7 +21,6 @@ export default function LoginPage() {
       setFormData((prev) => ({ ...prev, email: savedEmail }));
       setRemember(true);
     }
-    console.log("로컬 이메일:", savedEmail);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

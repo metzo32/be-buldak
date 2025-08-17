@@ -52,7 +52,7 @@ export default function UserPage() {
           <ButtonPlain text="내 정보 바꾸기" />
           <ButtonPlain text="비밀번호 바꾸기" />
           <ButtonPlain text="탈퇴하기" />
-          <LogoutButton/>
+          <LogoutButton />
         </div>
       </Section>
 
@@ -62,7 +62,6 @@ export default function UserPage() {
         option
         optionElement={<ViewAllButton />}
       >
-        {/* <div className="grid grid-cols-5 gap-12"> */}
         <div className="flex gap-5 md:gap-10 overflow-x-scroll scroll-hide">
           {buldakdData.map((item) => (
             <SavedCard

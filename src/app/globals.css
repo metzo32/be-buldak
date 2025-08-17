@@ -1,18 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "KingSejongInstitute";
-  src: url("/assets/fonts/KingSejongInstitute-Regular.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "KingSejongInstitute";
-  src: url("/assets/fonts/KingSejongInstitute-Bold.otf") format("opentype");
-  font-weight: bold;
-  font-style: normal;
-}
 
 @theme {
   --color-back: #242120;
@@ -58,7 +45,7 @@
 }
 
 body {
-  font-family: var(--font-sejong);
+  font-family: var(--font-kingsejong);
 }
 
 button:focus,

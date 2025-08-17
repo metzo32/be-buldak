@@ -41,7 +41,7 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("회원가입 정보:", registerForm);
 
@@ -50,7 +50,12 @@ export default function RegisterPage() {
       return;
     }
 
-    postRegister(registerForm)
+    try {
+      postRegister(registerForm);
+      router.push("/");
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+    }
   };
 
   const handleRoute = () => {

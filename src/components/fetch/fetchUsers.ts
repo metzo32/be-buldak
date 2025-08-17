@@ -5,6 +5,7 @@ import type {
   UserProfileResponse,
   UserUpdateData,
 } from "@/types/FetchUserTypes";
+import { error } from "console";
 
 export async function postLogout() {
   try {
@@ -30,11 +31,22 @@ export async function postLogin(userData: LoginRequest) {
 
 export async function postRegister(userData: RegisterRequest): Promise<void> {
   try {
-    const response = await post("/api/users", userData);
+    const { status, ok } = await post("/api/users", userData);
+
+    if (!ok) {
+      if (status === 409 || status === 422) {
+        console.error("중복된 이메일입니다.");
+      } else if (status === 400) {
+        console.error("잘못된 요청입니다.");
+      } else if (status === 500) {
+        console.error("서버 오류가 발생했습니다.");
+      }
+      return;
+    }
 
     console.log("회원가입 성공");
   } catch (error) {
-    console.error("네트워크 오류 또는 처리 중 에러:", error);
+    console.error("네트워크 오류:", error);
     throw error;
   }
 }

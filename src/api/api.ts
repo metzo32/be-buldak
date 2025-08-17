@@ -11,7 +11,7 @@ export async function getToken(): Promise<string | null> {
       return null;
     }
 
-    await new Promise((res) => setTimeout(res, 50));
+    await new Promise((res) => setTimeout(res, 1000));
 
     const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
     const csrfToken = match ? decodeURIComponent(match[1]) : "";
@@ -50,16 +50,16 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
   if (csrfToken) {
     headers["X-CSRF-TOKEN"] = csrfToken;
 
-    // console.log(
-    //   "🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:",
-    //   headers["X-CSRF-TOKEN"]
-    // );
-    // console.log(
-    //   "🔍 [쿠키와 헤더 일치 여부]:",
-    //   csrfToken === headers["X-CSRF-TOKEN"]
-    // );
+    console.log(
+      "🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:",
+      headers["X-CSRF-TOKEN"]
+    );
+    console.log(
+      "🔍 [쿠키와 헤더 일치 여부]:",
+      csrfToken === headers["X-CSRF-TOKEN"]
+    );
   } else {
-    console.warn("CSRF 토큰이 쿠키에서 발견되지 않았습니다.");
+    console.log("CSRF 토큰이 쿠키에서 발견되지 않았습니다.");
   }
 
   const finalInit: RequestInit = {
@@ -83,23 +83,23 @@ export async function get<T = any>(
   return response.json();
 }
 
-export async function post<T = any>(
+export async function post(
   url: string,
-  data: any,
+  payload: any,
   init?: RequestInit
-): Promise<T> {
+): Promise<{ status: number; ok: boolean }> {
   const headers = { "Content-Type": "application/json" };
   const response = await fetch(
     `${baseURL}${url}`,
     await _getHeader({
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       ...init,
       headers: { ...headers, ...(init?.headers || {}) },
     })
   );
 
-  return response.json();
+  return { status: response.status, ok: response.ok };
 }
 
 export async function put<T = any>(
