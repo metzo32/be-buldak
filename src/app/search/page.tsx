@@ -1,44 +1,48 @@
 "use client";
 
-import SearchCard from "@/components/SearchCard";
-import { buldakdData } from "../../../public/assets/fakeData/fakeData";
-import FilterOptions from "@/components/FilterOptions";
-import { useEffect, useState } from "react";
+import { Suspense } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRecipes } from "@/components/fetch/fetchRecipies";
-import type { Recipe } from "@/types/FetchRecipeType";
+import SearchCard from "@/components/SearchCard/SearchCard";
+import FilterOptions from "@/components/FilterOptions";
+import SearchCardSkeleton from "@/components/SearchCard/SearchCard.skeleton";
+
+function RecipeList() {
+  const { data: recipes } = useSuspenseQuery({
+    queryKey: ["recipes"],
+    queryFn: getRecipes,
+    retry: false,
+  });
+
+  return (
+    <>
+      {recipes.map((item) => (
+        <SearchCard
+          key={item.id}
+          id={item.id}
+          spicy={item.spicy}
+          title={item.title}
+          rate={item.rate}
+          image={item.image_path}
+          altMessage={item.title}
+          description={item.description || ""}
+        />
+      ))}
+    </>
+  );
+}
 
 export default function SearchPage() {
-
-  const [recipesArr, setRecipesArr] = useState<Recipe[]>([])
-
-  useEffect(() => {
-    async function fetchRecipes() {
-      const recipes = await getRecipes();
-      console.log(recipes); 
-
-      setRecipesArr(recipes)
-    }
-
-    fetchRecipes();
-  }, []);
-
   return (
     <section className="comment-section">
       <div className="flex items-end justify-between">
         <h2 className="text-xl lg:text-3xl 2xl:text-4xl">둘러보기</h2>
         <FilterOptions />
       </div>
-      {recipesArr.map((item) => (
-        <SearchCard
-          key={item.id}
-          spicy={item.spicy}
-          title={item.title}
-          rate={item.rate.toString()} // TODO
-          image={item.image_path}
-          altMessage={item.title}
-          description={item.description || ""}
-        />
-      ))}
+
+      <Suspense fallback={<SearchCardSkeleton />}>
+        <RecipeList />
+      </Suspense>
     </section>
   );
 }

@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackgroundPattern from "./BackgroundPattern";
-import MUIThemeProvider from "@/components/provider/MUIThemeProvider";
+import ClientProviders from "./ClientProviders";
 
 export const metadata: Metadata = {
   title: "불닭이되",
@@ -37,12 +37,12 @@ export default function RootLayout({
   return (
     <html lang="kr" className={kingSejong.variable}>
       <body className="font-king">
-        <MUIThemeProvider>
+        <ClientProviders>
           <Header />
           {children}
           <Footer />
           <BackgroundPattern />
-        </MUIThemeProvider>
+        </ClientProviders>
       </body>
     </html>
   );

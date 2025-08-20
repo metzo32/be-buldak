@@ -1,26 +1,28 @@
 "use client";
 
-import { ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import SearchCardContent from "./SearchCardContent";
 
-type SearchCardProps = {
+type Props = {
   id: number;
-  children: ReactNode;
+  spicy: number;
+  title: string;
+  rate: number;
+  image: string;
+  altMessage: string;
+  description: string;
 };
 
-export default function SearchCard({ id, children }: SearchCardProps) {
+export default function SearchCard(props: Props) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/search/${id}`);
+    router.push(`/search/${props.id}`);
   };
 
   return (
-    <div
-      onClick={handleClick}
-      className="w-full h-[180px] lg:h-[300px] cursor-pointer bg-secondary flex flex-col md:flex-row shadow-2xl"
-    >
-      {children}
+    <div onClick={handleClick} className="cursor-pointer">
+      <SearchCardContent {...props} />
     </div>
   );
 }

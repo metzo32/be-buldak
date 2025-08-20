@@ -30,8 +30,8 @@ export default function DetailPage() {
         option={
           <>
             <div className="flex gap-3 md:gap-10">
-              <StarIcon star="4.5" large />
-              <SpiceRate spiceRate={5} large />
+              <StarIcon rate={4.5} large />
+              <SpiceRate spicy={5} large />
             </div>
             <div className="flex gap-10 lg:gap-20 relative z-1">
               <TriedButton />

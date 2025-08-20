@@ -1,11 +1,11 @@
 import Image from "next/image";
 
 interface StarProps {
-  star: string;
+  rate: number;
   large?: boolean;
 }
 
-export default function StarIcon({ star, large }: StarProps) {
+export default function StarIcon({ rate, large }: StarProps) {
   return (
     <span className={`flex items-center ${large ? "gap-1 md:gap-2" : "gap-1"}`}>
       <div
@@ -20,7 +20,7 @@ export default function StarIcon({ star, large }: StarProps) {
           large ? "text-lg lg:text-3xl" : "text-base lg:text-lg"
         }`}
       >
-        {star}
+        {rate}
       </h6>
     </span>
   );

@@ -42,8 +42,8 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
         option={
           <>
             <div className="flex gap-3 md:gap-10">
-              <StarIcon star={data.starRate} large />
-              <SpiceRate spiceRate={data.spiceRate} large />
+              <StarIcon rate={Number(data.starRate)} large />
+              <SpiceRate spicy={data.spiceRate} large />
             </div>
             <div className="flex gap-10 lg:gap-20 relative z-1">
               <TriedButton />
