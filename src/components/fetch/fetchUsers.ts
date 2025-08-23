@@ -8,13 +8,11 @@ import type {
 
 export async function postLogout() {
   try {
-    const response = await post("/api/auth/logout", null); // post할 두번째 인자가 없음
-
-    if (!response.ok) {
-      console.log("로그아웃 실패");
-    }
+    await post("/api/auth/logout", null);
+    console.log("로그아웃 성공");
+    return;
   } catch (err) {
-    console.log("로그아웃 에러", err);
+    console.log("헉! 로그아웃 에러", err);
   }
 }
 
@@ -23,8 +21,7 @@ export async function postLogin(userData: LoginRequest) {
     const data = await post("/api/auth/login", userData);
     return { user: data };
   } catch (err) {
-    console.error("로그인 에러", err);
-    throw err;
+    console.log("로그인 에러", err);
   }
 }
 

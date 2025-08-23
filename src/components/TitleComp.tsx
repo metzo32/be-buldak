@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Blur from "./Blur";
+import Blur from "./ui/Blur";
 import { ReactNode } from "react";
 
 interface TitleCompProps {
   title: string;
-  subTitle: string;
+  subTitle?: string;
   image: string;
   alt: string;
   option?: ReactNode;

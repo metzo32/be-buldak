@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { RegisterRequest } from "@/types/FetchUserTypes";
-import Blur from "@/components/Blur";
+import Blur from "@/components/ui/Blur";
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
 import { Dayjs } from "dayjs";
 import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
@@ -49,8 +49,7 @@ export default function RegisterPage() {
 
     try {
       postRegister(registerForm);
-      openModal();
-      // router.push("/");
+      // openModal();
     } catch (error) {
       console.error("회원가입 실패:", error);
     }

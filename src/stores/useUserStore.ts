@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { get } from "@/api/api";
 import { persist } from "zustand/middleware";
+import { get } from "@/api/api";
 
 type User = {
   id: number;
@@ -24,7 +24,6 @@ export const useUserStore = create<UserStore>()(
 
       setUserInfo: (user) => set({ user }),
 
-      // ✅ 쿠키 기반 사용자 정보 요청
       fetchUserInfo: async () => {
         try {
           const res = await get("/user/me");
@@ -35,7 +34,6 @@ export const useUserStore = create<UserStore>()(
         }
       },
 
-      // ✅ 로그아웃 시 상태 초기화
       resetUser: () => {
         set({ user: null, isLoading: true });
       },

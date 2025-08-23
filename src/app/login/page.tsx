@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Blur from "@/components/Blur";
+import Blur from "@/components/ui/Blur";
 import { AiOutlineFire } from "react-icons/ai"; //전
 import { AiFillFire } from "react-icons/ai"; //후
 import { useUserStore } from "@/stores/useUserStore";
@@ -29,31 +29,30 @@ export default function LoginPage() {
 
   // 토큰이 expire date가 있으니, 토큰 기간이 만료된 뒤 유저가 api를 요청했을 때- CSRF토큰 갱신 요청 함수 추가하여
   // 기간이 만료됐는지 안됐는지 확인 후 해당 값을 header에 다시 넣어주는 페칭함수
- const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  try {
-    const { email, password } = formData;
+    try {
+      const { email, password } = formData;
 
-    const res = await postLogin(formData);
-    const userData = res.user;
+      const res = await postLogin(formData);
+      const userData = res?.user;
 
-    setUserInfo(userData);
+      setUserInfo(userData);
 
-    if (remember) {
-      localStorage.setItem("savedUserEmail", email);
-    } else {
-      localStorage.removeItem("savedUserEmail");
+      if (remember) {
+        localStorage.setItem("savedUserEmail", email);
+      } else {
+        localStorage.removeItem("savedUserEmail");
+      }
+
+      alert("로그인 성공");
+      router.push("/user");
+    } catch (err) {
+      console.error("로그인 실패:", err);
+      alert("로그인 요청 중 오류가 발생했습니다.");
     }
-
-    alert("로그인 성공");
-    router.push("/user");
-  } catch (err) {
-    console.error("로그인 실패:", err);
-    alert("로그인 요청 중 오류가 발생했습니다.");
-  }
-};
-
+  };
 
   const handleRoute = () => {
     router.push("/register");
