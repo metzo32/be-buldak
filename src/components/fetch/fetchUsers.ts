@@ -1,4 +1,4 @@
-import { get, post, put, deleteCall } from "@/api/api";
+import { _get, _post, _put, _deleteCall } from "@/api/api";
 import type {
   LoginRequest,
   RegisterRequest,
@@ -8,7 +8,7 @@ import type {
 
 export async function postLogout() {
   try {
-    await post("/api/auth/logout", null);
+    await _post("/api/auth/logout", null);
     console.log("로그아웃 성공");
     return;
   } catch (err) {
@@ -18,7 +18,7 @@ export async function postLogout() {
 
 export async function postLogin(userData: LoginRequest) {
   try {
-    const data = await post("/api/auth/login", userData);
+    const data = await _post("/api/auth/login", userData);
     return { user: data };
   } catch (err) {
     console.log("로그인 에러", err);
@@ -27,7 +27,7 @@ export async function postLogin(userData: LoginRequest) {
 
 export async function postRegister(userData: RegisterRequest): Promise<void> {
   try {
-    const { status, ok } = await post("/api/users", userData);
+    const { status, ok } = await _post("/api/users", userData);
 
     if (!ok) {
       if (status === 409 || status === 422) {
@@ -48,14 +48,14 @@ export async function postRegister(userData: RegisterRequest): Promise<void> {
 }
 
 export async function getUserDetail(userId: number) {
-  const data = await get<UserProfileResponse>(`/api/users/${userId}`);
+  const data = await _get<UserProfileResponse>(`/api/users/${userId}`);
   return data;
 }
 
 export async function deleteUser(userId: number) {
-  return deleteCall(`/api/users/${userId}`);
+  return _deleteCall(`/api/users/${userId}`);
 }
 
 export async function updateUser(userId: number, userData: UserUpdateData) {
-  return put(`/api/users/${userId}`, userData);
+  return _put(`/api/users/${userId}`, userData);
 }

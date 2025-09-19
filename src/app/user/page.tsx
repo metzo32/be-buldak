@@ -67,7 +67,6 @@ export default function UserPage() {
   return (
     <>
       <section className="py-48 flex flex-col items-center gap-12">
-        <p>CSRF 토큰이 확인된 사용자만 이 페이지에 접근할 수 있습니다 ✅</p>
         <div className="flex gap-5 items-center relative z-2">
           <h2 className="text-4xl">나의 맵티어는...</h2>
           <InfoButton />

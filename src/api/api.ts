@@ -11,7 +11,7 @@ export function getCookie(key: string): string | null {
 
 let csrfFetched = false;
 
-export async function getToken(): Promise<string | null> {
+export async function _getToken(): Promise<string | null> {
   // Reset the flag to allow refetching
   csrfFetched = false;
 
@@ -19,7 +19,7 @@ export async function getToken(): Promise<string | null> {
     console.log("🔄 CSRF 토큰 요청 시작...");
 
     const csrfRes = await fetch(`${baseURL}/sanctum/csrf-cookie`, {
-      credentials: "include",
+      credentials: "include", // 쿠키 주고받기 가능
     });
 
     console.log("📡 CSRF 응답 상태:", csrfRes.status, csrfRes.statusText);
@@ -34,9 +34,11 @@ export async function getToken(): Promise<string | null> {
       return null;
     }
 
-    await new Promise((res) => setTimeout(res, 1000));
+    await new Promise((res) => setTimeout(res, 1000)); // 서버가 쿠키 세팅할 시간 주기
 
+    // XSRF-TOKEN: CSRF 보호용 토큰이 들어 있는 쿠키
     const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+    // URL 인코딩 되어있을 수 있으므로 decodeURIComponent로 디코딩
     const csrfToken = match ? decodeURIComponent(match[1]) : "";
 
     console.log("🔍 전체 쿠키:", document.cookie);
@@ -50,6 +52,7 @@ export async function getToken(): Promise<string | null> {
 
     console.log("✅ CSRF 토큰 성공적으로 가져옴:", csrfToken);
     return csrfToken;
+    
   } catch (err) {
     console.error("❌ CSRF 토큰 요청 중 에러", err);
     return null;
@@ -66,7 +69,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
     console.warn(
       "⚠️ 쿠키에서 CSRF 토큰을 찾지 못했습니다. 토큰을 요청합니다..."
     );
-    await getToken();
+    await _getToken();
     csrfToken = getCookie("XSRF-TOKEN");
     console.log("🔄 토큰 요청 후 CSRF 토큰:", csrfToken);
   }
@@ -78,11 +81,11 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
   };
 
   if (csrfToken) {
-    headers["X-CSRF-TOKEN"] = csrfToken;
+    headers["X-XSRF-TOKEN"] = csrfToken;
     // console.log("🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:", csrfToken);
     console.log(
       "🔍 [쿠키와 헤더 일치 여부]:",
-      csrfToken === headers["X-CSRF-TOKEN"]
+      csrfToken === headers["X-XSRF-TOKEN"]
     );
     console.log("📋 최종 요청 헤더:", headers);
   } else {
@@ -97,7 +100,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
 };
 
 // const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
-//   await getToken();
+//   await _getToken();
 
 //   let csrfToken: string | null = null;
 
@@ -138,7 +141,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
 //   return finalInit;
 // };
 
-export async function get<T = any>(
+export async function _get<T = any>(
   url: string,
   init?: RequestInit
 ): Promise<T> {
@@ -150,7 +153,7 @@ export async function get<T = any>(
   return response.json();
 }
 
-export async function post<T = any>(
+export async function _post<T = any>(
   url: string,
   data: any,
   init?: RequestInit
@@ -163,6 +166,7 @@ export async function post<T = any>(
       body: JSON.stringify(data),
       ...init,
       headers: { ...headers, ...(init?.headers || {}) },
+      credentials: "include",
     })
   );
 
@@ -174,7 +178,7 @@ export async function post<T = any>(
   return response.json();
 }
 
-export async function put<T = any>(
+export async function _put<T = any>(
   url: string,
   data: any,
   init?: RequestInit
@@ -193,7 +197,7 @@ export async function put<T = any>(
   return response.json();
 }
 
-export async function patch<T = any>(
+export async function _patch<T = any>(
   url: string,
   data?: any,
   init?: RequestInit
@@ -212,7 +216,7 @@ export async function patch<T = any>(
   return response.json();
 }
 
-export async function deleteCall<T = any>(
+export async function _deleteCall<T = any>(
   url: string,
   data?: any,
   init?: RequestInit

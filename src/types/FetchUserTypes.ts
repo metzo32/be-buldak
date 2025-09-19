@@ -1,6 +1,6 @@
 // 로그인 요청
 export interface LoginRequest {
-  email: string;
+  id: string;
   password: string;
 }
 

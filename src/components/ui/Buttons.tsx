@@ -11,9 +11,10 @@ export function ButtonStrong({ text, onClick, type, disabled }: ButtonProps) {
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={`${
         disabled
-          ? "opacity-50 bg-disabled hover:bg-disabledHover"
+          ? "opacity-50 bg-disabled"
           : "bg-primary  hover:bg-primaryHover"
       } rounded-full py-1 px-3 lg:px-5 flex-none`}
     >

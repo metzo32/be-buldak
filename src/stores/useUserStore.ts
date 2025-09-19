@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { get } from "@/api/api";
+import { _get } from "@/api/api";
 
 type User = {
   id: number;
@@ -26,7 +26,7 @@ export const useUserStore = create<UserStore>()(
 
       fetchUserInfo: async () => {
         try {
-          const res = await get("/user/me");
+          const res = await _get("/user/me");
           set({ user: res.data, isLoading: false });
         } catch (err) {
           console.error("유저 정보 요청 실패:", err);

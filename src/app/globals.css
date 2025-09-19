@@ -161,4 +161,9 @@ img {
     @apply
     w-full px-4 py-2 border-3 border-primary rounded-2xl
   }
+
+  .error {
+    @apply
+    text-sm text-strong
+  }
 }

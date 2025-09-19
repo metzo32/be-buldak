@@ -2,48 +2,48 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useUserStore } from "@/stores/useUserStore";
+import { postLogin } from "@/components/fetch/fetchUsers";
 import Blur from "@/components/ui/Blur";
 import { AiOutlineFire } from "react-icons/ai"; //전
 import { AiFillFire } from "react-icons/ai"; //후
-import { useUserStore } from "@/stores/useUserStore";
-import { postLogin } from "@/components/fetch/fetchUsers";
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
+import type { LoginRequest } from "@/types/FetchUserTypes";
+import { noKoreanRegex, passwordRegex } from "@/lib/regex";
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [remember, setRemember] = useState<boolean>(false);
-  const router = useRouter();
   const { setUserInfo } = useUserStore();
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { isValid, errors },
+  } = useForm<LoginRequest>({ mode: "onChange" });
+  const [remember, setRemember] = useState<boolean>(false);
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem("savedUserEmail");
-    if (savedEmail) {
-      setFormData((prev) => ({ ...prev, email: savedEmail }));
+    const savedId = localStorage.getItem("savedId");
+    if (savedId) {
+      // setFormData((prev) => ({ ...prev, id: savedId }));
       setRemember(true);
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // 토큰이 expire date가 있으니, 토큰 기간이 만료된 뒤 유저가 api를 요청했을 때- CSRF토큰 갱신 요청 함수 추가하여
-  // 기간이 만료됐는지 안됐는지 확인 후 해당 값을 header에 다시 넣어주는 페칭함수
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: LoginRequest) => {
     try {
-      const { email, password } = formData;
+      const { id, password } = data;
 
-      const res = await postLogin(formData);
+      const res = await postLogin(data);
       const userData = res?.user;
 
       setUserInfo(userData);
 
       if (remember) {
-        localStorage.setItem("savedUserEmail", email);
+        localStorage.setItem("savedUserId", id);
       } else {
-        localStorage.removeItem("savedUserEmail");
+        localStorage.removeItem("savedUserId");
       }
 
       alert("로그인 성공");
@@ -54,6 +54,15 @@ export default function LoginPage() {
     }
   };
 
+  // 토큰이 expire date가 있으니, 토큰 기간이 만료된 뒤 유저가 api를 요청했을 때- CSRF토큰 갱신 요청 함수 추가하여
+  // 기간이 만료됐는지 안됐는지 확인 후 해당 값을 header에 다시 넣어주는 페칭함수
+
+  const handleChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // e.target.value = e.target.value.replace(noKoreanRegex, "");
+    const cleaned = e.target.value.replace(noKoreanRegex, "");
+    setValue("id", cleaned, { shouldValidate: true });
+  };
+
   const handleRoute = () => {
     router.push("/register");
   };
@@ -61,26 +70,36 @@ export default function LoginPage() {
   return (
     <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
       <h1 className="text-4xl relative z-1">로그인</h1>
-      <form onSubmit={handleSubmit} className="user-form">
-        <input
-          className="outlined-input"
-          type="text"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="아이디"
-          required
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className="user-form">
+        <div className="flex flex-col gap-2">
+          <input
+            type="text"
+            {...register("id", {
+              pattern: {
+                value: noKoreanRegex,
+                message: "한글은 입력할 수 없습니다",
+              },
+              required: "아이디를 입력해주세요",
+            })}
+            placeholder="아이디"
+            className="outlined-input"
+          />
+          {errors.id?.message && <p className="error">{errors.id?.message}</p>}
+        </div>
 
-        <input
-          className="outlined-input"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="비밀번호"
-          required
-        />
+        <div className="flex flex-col gap-2">
+          <input
+            type="password"
+            {...register("password", {
+              required: "비밀번호를 입력해주세요",
+            })}
+            placeholder="비밀번호"
+            className="outlined-input"
+          />
+          {errors.password?.message && (
+            <p className="error">{errors.password?.message}</p>
+          )}
+        </div>
 
         <div className="flex gap-3 md:gap-5 items-center justify-center">
           <input
@@ -101,7 +120,7 @@ export default function LoginPage() {
 
         <div className="flex flex-col gap-6 items-center">
           <div className="w-[150px] flex flex-col items-stretch">
-            <ButtonStrong type="submit" text="로그인" />
+            <ButtonStrong type="submit" text="로그인" disabled={!isValid}/>
           </div>
 
           <ButtonPlain
