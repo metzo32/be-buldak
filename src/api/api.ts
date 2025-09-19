@@ -17,7 +17,6 @@ export async function getToken(): Promise<string | null> {
 
   try {
     console.log("🔄 CSRF 토큰 요청 시작...");
-    console.log("📍 요청 URL:", `${baseURL}/sanctum/csrf-cookie`);
 
     const csrfRes = await fetch(`${baseURL}/sanctum/csrf-cookie`, {
       credentials: "include",
@@ -61,9 +60,8 @@ export async function getToken(): Promise<string | null> {
 const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
   let csrfToken = getCookie("XSRF-TOKEN");
 
-  console.log("🔍 초기 CSRF 토큰 확인:", csrfToken);
+  // console.log("🔍 초기 CSRF 토큰 확인:", csrfToken);
 
-  // If no CSRF token, try to fetch it
   if (!csrfToken) {
     console.warn(
       "⚠️ 쿠키에서 CSRF 토큰을 찾지 못했습니다. 토큰을 요청합니다..."
@@ -73,7 +71,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
     console.log("🔄 토큰 요청 후 CSRF 토큰:", csrfToken);
   }
 
-  console.log("🟡 현재 쿠키에서 가져온 XSRF-TOKEN:", csrfToken);
+  // console.log("🟡 현재 쿠키에서 가져온 XSRF-TOKEN:", csrfToken);
 
   const headers: Record<string, string> = {
     ...(init?.headers as Record<string, string>),
@@ -81,7 +79,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
 
   if (csrfToken) {
     headers["X-CSRF-TOKEN"] = csrfToken;
-    console.log("🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:", csrfToken);
+    // console.log("🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:", csrfToken);
     console.log(
       "🔍 [쿠키와 헤더 일치 여부]:",
       csrfToken === headers["X-CSRF-TOKEN"]

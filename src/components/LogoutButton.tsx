@@ -2,7 +2,6 @@
 
 import { postLogout } from "./fetch/fetchUsers";
 import { useRouter } from "next/navigation";
-import { ButtonPlain } from "./ui/Buttons";
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -16,7 +15,6 @@ export default function LogoutButton() {
   };
 
   return (
-    // <ButtonPlain text="로그아웃" onClick={handleSignOut} />
-    <button onClick={handleSignOut}>로그아아아아웃</button>
+    <button onClick={handleSignOut}>로그아웃</button>
   );
 }
