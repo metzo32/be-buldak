@@ -41,7 +41,7 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
       <TitleComp
         title={data.title}
         subTitle={data.description}
-        image={data?.image_path ||  "/"}
+        image={data.image_path ||  "/"}
         alt={data.title}
         option={
           <>

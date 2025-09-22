@@ -2,7 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["img.youtube.com"],
+    domains: ["img.youtube.com"], // 기존 유지
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8080",
+        pathname: "/**",
+      },
+    ],
   },
   webpack(config) {
     config.module.rules.push({
@@ -16,7 +24,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: `http://localhost:8080`,
+        destination: `http://localhost:8080/:path*`, // 원래 누락된 :path* 추가!
       },
     ];
   },

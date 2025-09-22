@@ -19,9 +19,8 @@ export default function TitleComp({
   alt,
   option
 }: TitleCompProps) {
-  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
   
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   return (
     <section className="w-full px-10 md:px-40 md:py-20 2xl:px-80 2xl:py-45 mb-24 relative z-1 flex justify-center 2xl:justify-between items-center gap-2">
@@ -33,7 +32,7 @@ export default function TitleComp({
        {option}
       </div>
       <div className="w-1/2">
-        <Image src={image} alt={alt} width={650} height={400} />
+        <Image src={`${BASE_URL}/${image}`} alt={alt} width={650} height={400} />
       </div>
       <Blur />
     </section>
