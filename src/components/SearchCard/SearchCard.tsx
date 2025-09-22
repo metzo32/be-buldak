@@ -1,9 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import SearchCardContent from "./SearchCardContent";
+import Image from "next/image";
+import SpiceRate from "../icons.component/SpiceRate";
+import SaveButton from "../icons.component/SaveButton";
+import StarIcon from "../icons.component/StarIcon";
 
-type Props = {
+type SearchCardItem = {
   id: number;
   spicy: number;
   title: string;
@@ -13,16 +16,50 @@ type Props = {
   description: string;
 };
 
-export default function SearchCard(props: Props) {
+export default function SearchCard(props: SearchCardItem) {
   const router = useRouter();
 
   const handleClick = () => {
     router.push(`/search/${props.id}`);
+    console.log(props.id);
   };
 
   return (
     <div onClick={handleClick} className="cursor-pointer">
-      <SearchCardContent {...props} />
+      <div className="bg-secondary flex flex-col md:flex-row w-full shadow-2xl h-[300px]">
+        <div className="w-full h-[180px] lg:w-[600px] lg:h-[300px] relative">
+          <Image
+            src={`/${props.image}`}
+            alt={props.altMessage}
+            fill
+            className="bg-strong object-cover"
+          />
+        </div>
+
+        <div className="w-full p-5 lg:p-10 flex flex-col justify-between gap-2 lg:gap-5">
+          <div className="flex flex-col gap-2 lg:gap-3">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-3 items-center">
+                <h4 className="text-xl lg:text-3xl">{props.title}</h4>
+                <span className="hidden lg:block">
+                  <SpiceRate spicy={props.spicy} />
+                </span>
+              </div>
+              <SaveButton />
+            </div>
+
+            <div className="flex gap-2">
+              <StarIcon rate={props.rate} />
+              <span className="block lg:hidden">
+                <SpiceRate spicy={props.spicy} />
+              </span>
+            </div>
+          </div>
+
+          <p className="2xl:mt-10">{props.description}</p>
+        </div>
+      </div>
+      {/* <SearchCardContent {...props} /> */}
     </div>
   );
 }

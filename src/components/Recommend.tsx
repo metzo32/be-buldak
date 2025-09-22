@@ -6,16 +6,16 @@ import { buldakdData } from "../../public/assets/fakeData/fakeData";
 
 export default function Recommend() {
   
-  useEffect(() => {
-    fetch("http://localhost:8080/api/ingredients")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("재료 목록:", data);
-      })
-      .catch((err) => {
-        console.error("불러오기 실패:", err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8080/api/ingredients")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("재료 목록:", data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("불러오기 실패:", err);
+  //     });
+  // }, []);
 
   return (
     <Section title={"오늘의 추천"}>

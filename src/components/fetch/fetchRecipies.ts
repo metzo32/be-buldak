@@ -1,9 +1,10 @@
 import { _deleteCall, _get, _patch, _post, _put } from "@/api/api";
-import type { Recipe } from "@/types/FetchRecipeType";
+import type { Recipe } from "@/types/RecipeTypes";
 
 // 레시피 목록
 export async function getRecipes() {
   const res = await _get<{ data: Recipe[] }>("/api/recipes");
+  console.log("레시피 목록", res.data);
 
   return res.data;
 }
@@ -17,9 +18,10 @@ export async function postRecipes({ recipe }: { recipe: Recipe }) {
 
 // 레시피 상세
 export async function getRecipeDetails(recipeId: number) {
-  const data = await _get<Recipe[]>(`/api/recipes/${recipeId}`);
+  const data = await _get(`/api/recipes/${recipeId}`);
+  console.log("디테일", data.data);
 
-  return data;
+  return data.data;
 }
 
 // 레시피 수정

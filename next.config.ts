@@ -2,12 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['img.youtube.com'],
+    domains: ["img.youtube.com"],
   },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack'],
+      use: ["@svgr/webpack"],
     });
     return config;
   },
@@ -15,8 +15,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path*/",
-        destination: `http://localhost:8080`
+        source: "/api/:path*",
+        destination: `http://localhost:8080`,
       },
     ];
   },

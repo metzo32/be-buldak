@@ -18,7 +18,7 @@ export async function postLogout() {
 
 export async function postLogin(userData: LoginRequest) {
   try {
-    const data = await _post("/api/auth/login", userData);
+    const data = await _post("/api/auth/login", userData, undefined, true);
     return { user: data };
   } catch (err) {
     console.log("로그인 에러", err);
@@ -27,7 +27,7 @@ export async function postLogin(userData: LoginRequest) {
 
 export async function postRegister(userData: RegisterRequest): Promise<void> {
   try {
-    const { status, ok } = await _post("/api/users", userData);
+    const { status, ok } = await _post("/api/users", userData, undefined, true);
 
     if (!ok) {
       if (status === 409 || status === 422) {
@@ -57,5 +57,5 @@ export async function deleteUser(userId: number) {
 }
 
 export async function updateUser(userId: number, userData: UserUpdateData) {
-  return _put(`/api/users/${userId}`, userData);
+  return _put(`/api/users/${userId}`, userData, undefined, true);
 }

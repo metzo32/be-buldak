@@ -9,7 +9,10 @@ import SpiceRate from "@/components/icons.component/SpiceRate";
 import TriedButton from "@/components/TriedButton";
 import Youtube from "@/components/Youtube";
 import SearchNotFound from "@/components/SearchCard/SearchNotFound";
-import { buldakdData } from "../../../../public/assets/fakeData/fakeData";
+import { getRecipeDetails } from "@/components/fetch/fetchRecipies";
+import type { Ingredients } from "@/types/FetchIngredientsType";
+import type { SideMenus } from "@/types/SideMenusTypes";
+import type { Recipe } from "@/types/RecipeTypes";
 
 interface DetailPageProps {
   params: {
@@ -19,9 +22,10 @@ interface DetailPageProps {
 
 export default async function SearchItemPage({ params }: DetailPageProps) {
   const { id } = params;
-  const numerId = Number(id);
-  const data = buldakdData.find((item) => item.id === numerId);
-  console.log(id, data);
+
+  const data: Recipe = await getRecipeDetails(Number(id));
+
+  console.log(data.title);
 
   // const ingredients = [
   //   "불닭볶음면 1봉",
@@ -37,13 +41,13 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
       <TitleComp
         title={data.title}
         subTitle={data.description}
-        image={data.image}
+        image={data?.image_path ||  "/"}
         alt={data.title}
         option={
           <>
             <div className="flex gap-3 md:gap-10">
-              <StarIcon rate={Number(data.starRate)} large />
-              <SpiceRate spicy={data.spiceRate} large />
+              <StarIcon rate={Number(data.rate)} large />
+              <SpiceRate spicy={data.spicy} large />
             </div>
             <div className="flex gap-10 lg:gap-20 relative z-1">
               <TriedButton />
@@ -52,22 +56,27 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
           </>
         }
       />
-      <Section title="재료" hasSub subText="n인분 기준">
+      <Section title="재료" hasSub subText={`${data.servings}인분 기준`}>
         <div className="w-full flex flex-col md:grid md:grid-cols-4 gap-3 md:gap-10">
-          {data.ingredient.map((item, index) => (
-            <p
-              key={index}
-              className={
-                index % 4 === 0
-                  ? "text-left"
-                  : index % 4 === 3
-                  ? "text-left md:text-right"
-                  : "text-left md:text-center"
-              }
-            >
-              {item}
-            </p>
-          ))}
+          {data.ingredients.length > 0 ? (
+            data.ingredients.map((item: Ingredients, index: number) => ( //TODO 타입 확인
+              <p
+                key={index}
+                className={
+                  index % 4 === 0
+                    ? "text-left"
+                    : index % 4 === 3
+                    ? "text-left md:text-right"
+                    : "text-left md:text-center"
+                }
+              >
+                {item.name}
+                {item.description}
+              </p>
+            ))
+          ) : (
+            <p>등록된 재료가 없습니다.</p>
+          )}
         </div>
       </Section>
 
@@ -84,10 +93,10 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
 
       <Section title="만드는 법">
         <div className="flex flex-col gap-5 md:gap-10">
-          {data.step.map((item, index) => (
+          {data.steps?.map((step: string, index: number) => (
             <div key={index} className="flex gap-5 items-start">
-              <span className="recipie-process">{index + 1}.</span>
-              <p className="py-2">{item}</p>
+              <p className="recipie-process">{index + 1}.</p>
+              <p className="py-1">{step}</p>
             </div>
           ))}
         </div>
@@ -95,7 +104,7 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
 
       <Section title="추천 조합">
         <div className="flex justify-around">
-          {data.sides.map((item, index) => (
+          {data.recommend_side_menus?.map((item, index: number) => (
             <p key={index}>{item}</p>
           ))}
           {/* <div className="w-48 h-48 bg-strong" />
@@ -108,6 +117,6 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
       <Recommend />
     </>
   ) : (
-    <SearchNotFound/>
+    <SearchNotFound />
   );
 }

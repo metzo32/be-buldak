@@ -52,7 +52,6 @@ export async function _getToken(): Promise<string | null> {
 
     console.log("✅ CSRF 토큰 성공적으로 가져옴:", csrfToken);
     return csrfToken;
-    
   } catch (err) {
     console.error("❌ CSRF 토큰 요청 중 에러", err);
     return null;
@@ -60,138 +59,92 @@ export async function _getToken(): Promise<string | null> {
 }
 
 // 공통 헤더 추출
-const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
-  let csrfToken = getCookie("XSRF-TOKEN");
-
-  // console.log("🔍 초기 CSRF 토큰 확인:", csrfToken);
-
-  if (!csrfToken) {
-    console.warn(
-      "⚠️ 쿠키에서 CSRF 토큰을 찾지 못했습니다. 토큰을 요청합니다..."
-    );
-    await _getToken();
-    csrfToken = getCookie("XSRF-TOKEN");
-    console.log("🔄 토큰 요청 후 CSRF 토큰:", csrfToken);
-  }
-
-  // console.log("🟡 현재 쿠키에서 가져온 XSRF-TOKEN:", csrfToken);
-
+const _getHeader = async (
+  init?: RequestInit,
+  withAuth: boolean = false
+): Promise<RequestInit> => {
   const headers: Record<string, string> = {
     ...(init?.headers as Record<string, string>),
   };
 
-  if (csrfToken) {
-    headers["X-XSRF-TOKEN"] = csrfToken;
-    // console.log("🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:", csrfToken);
-    console.log(
-      "🔍 [쿠키와 헤더 일치 여부]:",
-      csrfToken === headers["X-XSRF-TOKEN"]
-    );
-    console.log("📋 최종 요청 헤더:", headers);
-  } else {
-    console.log("⚠️ CSRF 토큰을 가져올 수 없습니다.");
+  if (withAuth) {
+    let csrfToken = getCookie("XSRF-TOKEN");
+
+    if (!csrfToken) {
+      console.warn(
+        "⚠️ 쿠키에서 CSRF 토큰을 찾지 못했습니다. 토큰을 요청합니다..."
+      );
+      await _getToken();
+      csrfToken = getCookie("XSRF-TOKEN");
+    }
+
+    if (csrfToken) {
+      headers["X-XSRF-TOKEN"] = csrfToken;
+    }
   }
 
   return {
     ...init,
     headers,
-    credentials: "include",
+    credentials: withAuth ? "include" : "same-origin",
   };
 };
 
-// const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
-//   await _getToken();
-
-//   let csrfToken: string | null = null;
-
-//   if (typeof document !== "undefined") {
-//     const cookies = document.cookie.split("; ");
-//     const getCookie = (key: string) =>
-//       cookies.find((row) => row.startsWith(`${key}=`))?.split("=")[1] || null;
-
-//     const rawToken = getCookie("XSRF-TOKEN");
-//     csrfToken = rawToken ? decodeURIComponent(rawToken) : null;
-//   }
-
-//   const headers: Record<string, string> = {
-//     ...(init?.headers as Record<string, string>),
-//   };
-
-//   if (csrfToken) {
-//     headers["X-CSRF-TOKEN"] = csrfToken;
-
-//     console.log(
-//       "🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:",
-//       headers["X-CSRF-TOKEN"]
-//     );
-//     console.log(
-//       "🔍 [쿠키와 헤더 일치 여부]:",
-//       csrfToken === headers["X-CSRF-TOKEN"]
-//     );
-//   } else {
-//     console.log("CSRF 토큰이 쿠키에서 발견되지 않았습니다.");
-//   }
-
-//   const finalInit: RequestInit = {
-//     ...init,
-//     headers,
-//     credentials: "include",
-//   };
-
-//   return finalInit;
-// };
-
 export async function _get<T = any>(
   url: string,
-  init?: RequestInit
+  init?: RequestInit,
+  withAuth: boolean = false
 ): Promise<T> {
   const response = await fetch(
     `${baseURL}${url}`,
-    await _getHeader({ ...init, method: "GET" })
+    await _getHeader({ ...init, method: "GET" }, withAuth)
   );
-
   return response.json();
 }
 
 export async function _post<T = any>(
   url: string,
   data: any,
-  init?: RequestInit
+  init?: RequestInit,
+  withAuth: boolean = false
 ): Promise<T | null> {
   const headers = { "Content-Type": "application/json" };
+
   const response = await fetch(
     `${baseURL}${url}`,
-    await _getHeader({
-      method: "POST",
-      body: JSON.stringify(data),
-      ...init,
-      headers: { ...headers, ...(init?.headers || {}) },
-      credentials: "include",
-    })
+    await _getHeader(
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        ...init,
+        headers: { ...headers, ...(init?.headers || {}) },
+      },
+      withAuth
+    )
   );
 
-  if (response.status === 204) {
-    // 로그아웃 같은 경우 → No Content
-    return null;
-  }
-
+  if (response.status === 204) return null;
   return response.json();
 }
 
 export async function _put<T = any>(
   url: string,
   data: any,
-  init?: RequestInit
+  init?: RequestInit,
+  withAuth: boolean = false
 ): Promise<T> {
   const headers = { "Content-Type": "application/json" };
   const response = await fetch(
     `${baseURL}${url}`,
-    await _getHeader({
-      method: "PUT",
-      body: JSON.stringify(data),
-      ...init,
-      headers: { ...headers, ...(init?.headers || {}) },
-    })
+    await _getHeader(
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        ...init,
+        headers: { ...headers, ...(init?.headers || {}) },
+      },
+      withAuth
+    )
   );
 
   return response.json();
@@ -200,17 +153,21 @@ export async function _put<T = any>(
 export async function _patch<T = any>(
   url: string,
   data?: any,
-  init?: RequestInit
+  init?: RequestInit,
+  withAuth: boolean = false
 ): Promise<T> {
   const headers = { "Content-Type": "application/json" };
   const response = await fetch(
     `${baseURL}${url}`,
-    await _getHeader({
-      method: "PATCH",
-      body: JSON.stringify(data),
-      ...init,
-      headers: { ...headers, ...(init?.headers || {}) },
-    })
+    await _getHeader(
+      {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        ...init,
+        headers: { ...headers, ...(init?.headers || {}) },
+      },
+      withAuth
+    )
   );
 
   return response.json();
@@ -219,17 +176,21 @@ export async function _patch<T = any>(
 export async function _deleteCall<T = any>(
   url: string,
   data?: any,
-  init?: RequestInit
+  init?: RequestInit,
+  withAuth: boolean = false
 ): Promise<T> {
   const headers = { "Content-Type": "application/json" };
   const response = await fetch(
     `${baseURL}${url}`,
-    await _getHeader({
-      method: "DELETE",
-      body: data ? JSON.stringify(data) : undefined,
-      ...init,
-      headers: { ...headers, ...(init?.headers || {}) },
-    })
+    await _getHeader(
+      {
+        method: "DELETE",
+        body: data ? JSON.stringify(data) : undefined,
+        ...init,
+        headers: { ...headers, ...(init?.headers || {}) },
+      },
+      withAuth
+    )
   );
 
   return response.json();
