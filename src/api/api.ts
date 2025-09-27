@@ -9,87 +9,56 @@ export function getCookie(key: string): string | null {
   return value ? decodeURIComponent(value) : null;
 }
 
-let csrfFetched = false;
+// let csrfFetched = false;
 
+// CSRF 토큰 가져오기
 export async function _getToken(): Promise<string | null> {
-  // Reset the flag to allow refetching
-  csrfFetched = false;
-
   try {
     console.log("🔄 CSRF 토큰 요청 시작...");
 
     const csrfRes = await fetch(`${baseURL}/sanctum/csrf-cookie`, {
-      credentials: "include", // 쿠키 주고받기 가능
+      credentials: "include",
     });
 
     console.log("📡 CSRF 응답 상태:", csrfRes.status, csrfRes.statusText);
-    console.log("🍪 응답 쿠키:", csrfRes.headers.get("set-cookie"));
 
     if (!csrfRes.ok) {
-      console.error(
-        "❌ CSRF 토큰 요청 실패:",
-        csrfRes.status,
-        csrfRes.statusText
-      );
+      console.error("❌ CSRF 토큰 요청 실패");
       return null;
     }
 
-    await new Promise((res) => setTimeout(res, 1000)); // 서버가 쿠키 세팅할 시간 주기
+    // 서버가 쿠키를 심을 시간
+    await new Promise((res) => setTimeout(res, 500));
 
-    // XSRF-TOKEN: CSRF 보호용 토큰이 들어 있는 쿠키
+    // Laravel Sanctum: XSRF-TOKEN 쿠키 확인
     const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
-    // URL 인코딩 되어있을 수 있으므로 decodeURIComponent로 디코딩
-    const csrfToken = match ? decodeURIComponent(match[1]) : "";
+    const csrfToken = match ? decodeURIComponent(match[1]) : null;
 
-    console.log("🔍 전체 쿠키:", document.cookie);
-    console.log("🎯 XSRF-TOKEN 매치:", match);
-    console.log("🔑 디코딩된 CSRF 토큰:", csrfToken);
+    console.log("🔑 최종 CSRF 토큰:", csrfToken);
 
-    if (!csrfToken) {
-      console.error("❌ 쿠키에서 CSRF 토큰을 찾을 수 없습니다");
-      return null;
-    }
-
-    console.log("✅ CSRF 토큰 성공적으로 가져옴:", csrfToken);
     return csrfToken;
-    
   } catch (err) {
     console.error("❌ CSRF 토큰 요청 중 에러", err);
     return null;
   }
 }
 
-// 공통 헤더 추출
+// 공통 헤더 세팅
 const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
   let csrfToken = getCookie("XSRF-TOKEN");
 
-  // console.log("🔍 초기 CSRF 토큰 확인:", csrfToken);
-
   if (!csrfToken) {
-    console.warn(
-      "⚠️ 쿠키에서 CSRF 토큰을 찾지 못했습니다. 토큰을 요청합니다..."
-    );
-    await _getToken();
-    csrfToken = getCookie("XSRF-TOKEN");
-    console.log("🔄 토큰 요청 후 CSRF 토큰:", csrfToken);
+    console.warn("⚠️ 쿠키에 XSRF-TOKEN 없음, 재요청 시도");
+    csrfToken = await _getToken();
   }
-
-  // console.log("🟡 현재 쿠키에서 가져온 XSRF-TOKEN:", csrfToken);
 
   const headers: Record<string, string> = {
     ...(init?.headers as Record<string, string>),
   };
 
   if (csrfToken) {
-    headers["X-XSRF-TOKEN"] = csrfToken;
-    // console.log("🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:", csrfToken);
-    console.log(
-      "🔍 [쿠키와 헤더 일치 여부]:",
-      csrfToken === headers["X-XSRF-TOKEN"]
-    );
-    console.log("📋 최종 요청 헤더:", headers);
-  } else {
-    console.log("⚠️ CSRF 토큰을 가져올 수 없습니다.");
+    headers["X-XSRF-TOKEN"] = csrfToken; // ✅ 헤더명은 X-XSRF-TOKEN
+    console.log("🚀 요청 헤더에 포함된 CSRF:", headers["X-XSRF-TOKEN"]);
   }
 
   return {
@@ -98,6 +67,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
     credentials: "include",
   };
 };
+
 
 // const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
 //   await _getToken();

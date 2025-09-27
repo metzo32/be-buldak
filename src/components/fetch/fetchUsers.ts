@@ -9,7 +9,11 @@ import type {
 export async function postLogout() {
   try {
     await _post("/api/auth/logout", null);
-    console.log("로그아웃 성공");
+
+    document.cookie = "XSRF-TOKEN=; Max-Age=0; path=/";
+    document.cookie = "laravel_session=; Max-Age=0; path=/";
+
+    console.log("로그아웃 성공", "현재 쿠키:", document.cookie );
     return;
   } catch (err) {
     console.log("헉! 로그아웃 에러", err);
