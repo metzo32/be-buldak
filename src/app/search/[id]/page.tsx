@@ -51,7 +51,10 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
             </div>
             <div className="flex gap-10 lg:gap-20 relative z-1">
               <TriedButton />
+              <div className="flex items-center gap-3">
               <SaveButton />
+              <p className="text-lg text-primary">{data.saved}</p>
+              </div>
             </div>
           </>
         }
