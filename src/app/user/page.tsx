@@ -18,12 +18,8 @@ export default function UserPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [hasToken, setHasToken] = useState(false);
+  
 
-  useEffect(() => {
-    const csrfToken = getCookie("XSRF-TOKEN");
-
-    console.log("현재 csrfToken", csrfToken);
-  }, []);
 
   useEffect(() => {
     const csrfToken = getCookie("XSRF-TOKEN");

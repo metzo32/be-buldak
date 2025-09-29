@@ -13,7 +13,7 @@ export async function postLogout() {
     document.cookie = "XSRF-TOKEN=; Max-Age=0; path=/";
     document.cookie = "laravel_session=; Max-Age=0; path=/";
 
-    console.log("로그아웃 성공", "현재 쿠키:", document.cookie );
+    console.log("로그아웃 성공", "현재 쿠키:", document.cookie);
     return;
   } catch (err) {
     console.log("헉! 로그아웃 에러", err);
@@ -48,6 +48,16 @@ export async function postRegister(userData: RegisterRequest): Promise<void> {
   } catch (error) {
     console.error("네트워크 오류:", error);
     throw error;
+  }
+}
+
+export async function getCurrentUser() {
+  try {
+    const res = await _get("/api/auth/user");
+    console.log("유저", res)
+    return res;
+  } catch (err) {
+    console.log("사용자 찾을 수 없음", err);
   }
 }
 

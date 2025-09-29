@@ -6,6 +6,8 @@ import HomeButton from "./HomeButton";
 import useModal from "../../public/hooks/useModal";
 import Modal from "./Modal";
 import { ButtonPlain } from "./ui/Buttons";
+import { useEffect } from "react";
+import { getCurrentUser } from "./fetch/fetchUsers";
 
 export default function Header() {
   const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =
@@ -19,6 +21,10 @@ export default function Header() {
   if (isConfirmed) {
     console.log("확인버튼 클릭");
   }
+
+  useEffect(() => {
+    getCurrentUser();
+  },[])
 
   return (
     <header>
