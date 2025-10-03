@@ -60,7 +60,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
   };
 
   if (csrfToken) {
-    headers["X-XSRF-TOKEN"] = csrfToken; // ✅ 헤더명은 X-XSRF-TOKEN
+    headers["X-XSRF-TOKEN"] = csrfToken;
     console.log("🚀 요청 헤더에 포함된 CSRF:", headers["X-XSRF-TOKEN"]);
   }
 
@@ -69,50 +69,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
     headers,
     credentials: "include",
   };
-};
-
-// const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
-//   await _getToken();
-
-//   let csrfToken: string | null = null;
-
-//   if (typeof document !== "undefined") {
-//     const cookies = document.cookie.split("; ");
-//     const getCookie = (key: string) =>
-//       cookies.find((row) => row.startsWith(`${key}=`))?.split("=")[1] || null;
-
-//     const rawToken = getCookie("XSRF-TOKEN");
-//     csrfToken = rawToken ? decodeURIComponent(rawToken) : null;
-//   }
-
-//   const headers: Record<string, string> = {
-//     ...(init?.headers as Record<string, string>),
-//   };
-
-//   if (csrfToken) {
-//     headers["X-CSRF-TOKEN"] = csrfToken;
-
-//     console.log(
-//       "🚀 [요청 헤더에 들어가는 X-CSRF-TOKEN]:",
-//       headers["X-CSRF-TOKEN"]
-//     );
-//     console.log(
-//       "🔍 [쿠키와 헤더 일치 여부]:",
-//       csrfToken === headers["X-CSRF-TOKEN"]
-//     );
-//   } else {
-//     console.log("CSRF 토큰이 쿠키에서 발견되지 않았습니다.");
-//   }
-
-//   const finalInit: RequestInit = {
-//     ...init,
-//     headers,
-//     credentials: "include",
-//   };
-
-//   return finalInit;
-// };
-
+}
 export async function _get<T = any>(
   url: string,
   init?: RequestInit
@@ -122,7 +79,7 @@ export async function _get<T = any>(
     await _getHeader({ ...init, method: "GET" })
   );
 
-  return response.json();
+  return await response.json();
 }
 
 export async function _post<T = any>(
@@ -147,7 +104,7 @@ export async function _post<T = any>(
     return null;
   }
 
-  return response.json();
+  return await response.json();
 }
 
 export async function _put<T = any>(
@@ -166,7 +123,7 @@ export async function _put<T = any>(
     })
   );
 
-  return response.json();
+  return await response.json();
 }
 
 export async function _patch<T = any>(
@@ -185,7 +142,7 @@ export async function _patch<T = any>(
     })
   );
 
-  return response.json();
+  return await response.json();
 }
 
 export async function _deleteCall<T = any>(
@@ -204,5 +161,5 @@ export async function _deleteCall<T = any>(
     })
   );
 
-  return response.json();
+  return await response.json();
 }

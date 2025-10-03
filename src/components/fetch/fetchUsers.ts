@@ -33,6 +33,7 @@ export async function postRegister(userData: RegisterRequest): Promise<void> {
   try {
     const { status, ok } = await _post("/api/users", userData);
 
+    //TODO 에러메세지 백엔드에서 보내주고 있으니 생략
     if (!ok) {
       if (status === 409 || status === 422) {
         console.error("중복된 이메일입니다.");
