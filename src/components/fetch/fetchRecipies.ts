@@ -17,9 +17,10 @@ export async function postRecipes({ recipe }: { recipe: Recipe }) {
 
 // 레시피 상세
 export async function getRecipeDetails(recipeId: number) {
-  const data = await _get<Recipe[]>(`/api/recipes/${recipeId}`);
+  const data = await _get(`/api/recipes/${recipeId}`);
 
-  return data;
+  console.log("레시피 상세", data.data)
+  return data.data;
 }
 
 // 레시피 수정
