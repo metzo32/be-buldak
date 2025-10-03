@@ -43,9 +43,9 @@ export async function deleteRecipe(recipeId: number) {
 
 // 조회수 +1
 export async function addViewCount(recipeId: number) {
-  const data = await _patch(`/api/recipes/${recipeId}/view`);
+  const res = await _patch(`/api/recipes/${recipeId}/view`);
 
-  return data;
+  return res;
 }
 
 // 저장 토글

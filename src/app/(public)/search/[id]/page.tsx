@@ -9,27 +9,29 @@ import SaveButton from "@/components/icons.component/SaveButton";
 import StarIcon from "@/components/icons.component/StarIcon";
 import SpiceRate from "@/components/icons.component/SpiceRate";
 import TriedButton from "@/components/TriedButton";
-import { fakeRecipe } from "../../../public/assets/fakeData/fakeRecipe";
 import Youtube from "@/components/ui/Youtube";
 import { useQuery } from "@tanstack/react-query";
 import {
   getIngredients,
   getIngredientsDetails,
 } from "@/components/fetch/fetchIngredients";
-import { getRecipeDetails } from "@/components/fetch/fetchRecipies";
+import {
+  addViewCount,
+  getRecipeDetails,
+} from "@/components/fetch/fetchRecipies";
 import { useSearchParams } from "next/navigation";
 import type { Recipe } from "@/types/FetchRecipeType";
 
-export default function DetailPage() {
-  // const ingredients = [
-  //   "불닭볶음면 1봉",
-  //   "슬라이스 치즈 1장",
-  //   "우유 1컵",
-  //   "마늘 약간",
-  //   "달걀 1개",
-  //   "후추",
-  // ];
-
+interface PageProps {
+  params: {
+    id: string; 
+  };
+}
+export default function DetailPage({ params }: PageProps) {
+  console.log("params.id", params.id);
+  const {id} = params;
+  const recipeId = Number(id)
+  
   // const { data: ingredients } = useQuery({
   //   queryKey: ["getData"],
   //   queryFn: getIngredients,
@@ -40,13 +42,18 @@ export default function DetailPage() {
   //   queryFn: () => getIngredientsDetails(1),
   // });
 
+  const { data: viewCount } = useQuery({
+    queryKey: ["views", recipeId],
+    queryFn: () => addViewCount(recipeId),
+  });
+
   const {
     data: recipeDetail,
     isLoading,
     isError,
   } = useQuery<Recipe>({
-    queryKey: ["recipeDetail", 1],
-    queryFn: () => getRecipeDetails(1),
+    queryKey: ["recipeDetail", recipeId],
+    queryFn: () => getRecipeDetails(recipeId),
   });
 
   if (isLoading) return <p>로딩중...</p>;
@@ -73,11 +80,7 @@ export default function DetailPage() {
           </>
         }
       />
-      <Section
-        title="재료"
-        hasSub
-        subText={`${recipeDetail.servings}인분 기준`}
-      >
+      <Section title="재료" subText={`${recipeDetail.servings}인분 기준`}>
         <div className="w-full flex flex-col md:grid md:grid-cols-4 gap-3 md:gap-10">
           {recipeDetail.ingredients.length === 0 ? (
             <p>재료 정보가 없습니다.</p>
@@ -111,7 +114,6 @@ export default function DetailPage() {
       </span>
       <Section
         title="만드는 법"
-        hasSub
         subText={`소요시간 약 ${recipeDetail.cooking_time}분`}
       >
         <div className="flex flex-col gap-5 md:gap-10">

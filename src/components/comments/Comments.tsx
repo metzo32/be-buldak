@@ -111,7 +111,7 @@ export default function Comments() {
                   <h6 className="text-lg md:text-2xl text-primary">
                     {item.nickname}
                   </h6>
-                  <StarIcon star={"4.0"} />
+                  <StarIcon rate={4.0} />
                 </div>
                 <div className="flex items-center gap-5">
                   <p className="text-textHover text-sm md:text-xl">

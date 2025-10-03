@@ -5,7 +5,7 @@ import InfoButton from "@/components/InfoButton";
 import Blur from "@/components/ui/Blur";
 import Section from "@/components/ui/Section";
 import SavedCard from "@/components/SavedCard";
-import { buldakdData } from "../../../public/assets/fakeData/fakeData";
+import { fakeData } from "../../../../public/assets/fakeData"
 
 import ViewAllButton from "@/components/ViewAllButton";
 import LogoutButton from "@/components/LogoutButton";
@@ -89,11 +89,10 @@ export default function UserPage() {
       <Section
         title={"저장한 레시피"}
         isTrans
-        option
         optionElement={<ViewAllButton />}
       >
         <div className="flex gap-5 md:gap-10 overflow-x-scroll scroll-hide">
-          {buldakdData.map((item) => (
+          {fakeData.map((item) => (
             <SavedCard
               key={item.id}
               spiceRate={item.spiceRate}
@@ -107,7 +106,7 @@ export default function UserPage() {
         </div>
       </Section>
 
-      <Section title={"이미 먹어본 레시피"} isTrans hasSub subText="내 점수: 5">
+      <Section title={"이미 먹어본 레시피"} isTrans subText="내 점수: 5">
         <div className="flex gap-5 md:gap-10 overflow-x-scroll">
           {buldakdData.map((item) => (
             <SavedCard
