@@ -11,6 +11,8 @@ import { AiFillFire } from "react-icons/ai"; //후
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
 import type { LoginRequest } from "@/types/FetchUserTypes";
 import { noKoreanRegex, passwordRegex } from "@/lib/regex";
+import { useQuery } from "@tanstack/react-query";
+import { _get } from "@/api/api";
 
 export default function LoginPage() {
   const { setUserInfo } = useUserStore();
@@ -22,6 +24,35 @@ export default function LoginPage() {
     formState: { isValid, errors },
   } = useForm<LoginRequest>({ mode: "onChange" });
   const [remember, setRemember] = useState<boolean>(false);
+
+  // 로그인 쿠키 있는 경우 로그인페이지 진입 불가
+
+  const fetchUser = async () => {
+    const res = await _get("/api/auth/user");
+
+    return res.data?.data
+  }
+
+  const {data: userData, isLoading, isError} = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+    retry: false,
+  })
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (userData) {
+        // 로그인 상태라면 → /user 로 이동
+        router.push("/user");
+      } else if (isError) {
+        // 401 같은 에러 → 로그인 안 된 상태, 현재 페이지에 머무름
+      }
+    }
+
+    console.log("로그인 여부", !!userData)
+  }, [userData, isLoading, isError, router]);
+  
+  
 
   useEffect(() => {
     const savedId = localStorage.getItem("savedId");
@@ -70,7 +101,7 @@ export default function LoginPage() {
   return (
     <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
       <h1 className="text-4xl relative z-1">로그인</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="user-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 relative z-1">
         <div className="flex flex-col gap-2">
           <input
             type="text"
@@ -82,7 +113,7 @@ export default function LoginPage() {
               required: "아이디를 입력해주세요",
             })}
             placeholder="아이디"
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
           />
           {errors.id?.message && <p className="error">{errors.id?.message}</p>}
         </div>
@@ -94,7 +125,7 @@ export default function LoginPage() {
               required: "비밀번호를 입력해주세요",
             })}
             placeholder="비밀번호"
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
           />
           {errors.password?.message && (
             <p className="error">{errors.password?.message}</p>
@@ -120,7 +151,7 @@ export default function LoginPage() {
 
         <div className="flex flex-col gap-6 items-center">
           <div className="w-[150px] flex flex-col items-stretch">
-            <ButtonStrong type="submit" text="로그인" disabled={!isValid}/>
+            <ButtonStrong type="submit" text="로그인" disabled={!isValid} />
           </div>
 
           <ButtonPlain

@@ -21,7 +21,13 @@ export default function Section({
 }: SectionProps) {
   return (
     <section
-      className={`custom-section ${
+      className={`px-10 py-10 
+    mb-24
+    flex flex-col gap-15 
+    relative z-1
+    
+    md:px-24 md:py-12 
+    2xl:px-48 2xl:py-24 ${
         isTrans ? "bg-transparent shadow-none" : "bg-secondary shadow-2xl"
       }`}
     >

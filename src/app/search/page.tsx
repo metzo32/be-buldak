@@ -34,7 +34,10 @@ function RecipeList() {
 
 export default function SearchPage() {
   return (
-    <section className="comment-section">
+    <section
+      className="px-10 py-10 mb-24 flex flex-col gap-15 relative z-1
+    md:px-24 md:py-12 2xl:px-72 xl:py-24"
+    >
       <div className="flex items-end justify-between">
         <h2 className="text-xl lg:text-3xl 2xl:text-4xl">둘러보기</h2>
         <FilterOptions />

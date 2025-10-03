@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 @theme {
   --color-back: #242120;
   --color-overlay: rgb(0 0 0 / 0.7);
@@ -80,7 +79,6 @@ img {
 }
 
 @tailwind utilities;
-
 @layer base {
   body {
     @apply min-w-[320px]
@@ -121,49 +119,7 @@ img {
 }
 
 @layer utilities {
-  .header-box {
-    @apply flex gap-2
-    
-    2xl:gap-10;
-  }
-
-  .recipie-process {
-    @apply text-primary text-xl
-    md:text-2xl;
-  }
-
-  .custom-section {
-    @apply px-10 py-10 
-    mb-24
-    flex flex-col gap-15 
-    relative z-1
-    
-    md:px-24 md:py-12 
-    2xl:px-48 2xl:py-24;
-  }
-
-  .comment-section {
-    @apply px-10 py-10 
-    mb-24
-    flex flex-col gap-15 
-    relative z-1
-    
-    md:px-24 md:py-12 
-    2xl:px-72 xl:py-24;
-  }
-
-  .user-form {
-    @apply
-    flex flex-col gap-5 relative z-1
-  }
-
-  .outlined-input {
-    @apply
-    w-full px-4 py-2 border-3 border-primary rounded-2xl
-  }
-
   .error {
-    @apply
-    text-sm text-strong
+    @apply text-sm text-strong;
   }
 }

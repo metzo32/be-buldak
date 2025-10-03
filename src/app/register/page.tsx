@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { RegisterRequest } from "@/types/FetchUserTypes";
+import { postRegister } from "@/components/fetch/fetchUsers";
+import useModal from "@/hooks/useModal";
+import { Dayjs } from "dayjs";
+
+import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
 import Blur from "@/components/ui/Blur";
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
-import { Dayjs } from "dayjs";
-import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
-import { postRegister } from "@/components/fetch/fetchUsers";
-import useModal from "../../../public/hooks/useModal";
-import Modal from "@/components/Modal";
+import Modal from "@/components/ui/Modal";
 
 export default function RegisterPage() {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -77,9 +78,9 @@ export default function RegisterPage() {
 
       <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
         <h1 className="text-4xl relative z-1">회원가입</h1>
-        <form onSubmit={handleSubmit} className="user-form">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 relative z-1">
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="text"
             name="email"
             value={registerForm.email}
@@ -89,7 +90,7 @@ export default function RegisterPage() {
           />
 
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="text"
             name="name"
             value={registerForm.name}
@@ -99,7 +100,7 @@ export default function RegisterPage() {
           />
 
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="password"
             name="password"
             value={registerForm.password}
@@ -109,7 +110,7 @@ export default function RegisterPage() {
           />
 
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="password"
             name="password_confirmation"
             value={registerForm.password_confirmation}

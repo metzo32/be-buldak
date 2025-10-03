@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Section from "@/components/Section";
+import Section from "@/components/ui/Section";
 import Comments from "@/components/comments/Comments";
 import Recommend from "@/components/Recommend";
 import TitleComp from "@/components/TitleComp";
@@ -7,7 +7,7 @@ import SaveButton from "@/components/icons.component/SaveButton";
 import StarIcon from "@/components/icons.component/StarIcon";
 import SpiceRate from "@/components/icons.component/SpiceRate";
 import TriedButton from "@/components/TriedButton";
-import Youtube from "@/components/Youtube";
+import Youtube from "@/components/ui/Youtube";
 import SearchNotFound from "@/components/SearchCard/SearchNotFound";
 import { buldakdData } from "../../../../public/assets/fakeData/fakeData";
 
@@ -86,7 +86,8 @@ export default async function SearchItemPage({ params }: DetailPageProps) {
         <div className="flex flex-col gap-5 md:gap-10">
           {data.step.map((item, index) => (
             <div key={index} className="flex gap-5 items-start">
-              <span className="recipie-process">{index + 1}.</span>
+              <span className="text-primary text-xl
+    md:text-2xl">{index + 1}.</span>
               <p className="py-2">{item}</p>
             </div>
           ))}
