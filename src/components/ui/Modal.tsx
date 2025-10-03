@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonPlain, ButtonStrong } from "./ui/Buttons";
+import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
 
 
 interface ModalProps {

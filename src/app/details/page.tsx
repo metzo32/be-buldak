@@ -1,5 +1,7 @@
+"use client"
+
 import Image from "next/image";
-import Section from "@/components/Section";
+import Section from "@/components/ui/Section";
 import Comments from "@/components/comments/Comments";
 import Recommend from "@/components/Recommend";
 import TitleComp from "@/components/TitleComp";
@@ -8,17 +10,25 @@ import StarIcon from "@/components/icons.component/StarIcon";
 import SpiceRate from "@/components/icons.component/SpiceRate";
 import TriedButton from "@/components/TriedButton";
 import { fakeRecipe } from "../../../public/assets/fakeData/fakeRecipe";
-import Youtube from "@/components/Youtube";
+import Youtube from "@/components/ui/Youtube";
+import { useQuery } from "@tanstack/react-query";
+import { getIngredients } from "@/components/fetch/fetchIngredients";
 
 export default function DetailPage() {
-  const ingredients = [
-    "불닭볶음면 1봉",
-    "슬라이스 치즈 1장",
-    "우유 1컵",
-    "마늘 약간",
-    "달걀 1개",
-    "후추",
-  ];
+  // const ingredients = [
+  //   "불닭볶음면 1봉",
+  //   "슬라이스 치즈 1장",
+  //   "우유 1컵",
+  //   "마늘 약간",
+  //   "달걀 1개",
+  //   "후추",
+  // ];
+
+  const {data: detailData} = useQuery({
+    queryKey: ["getDetailData"],
+    queryFn: getIngredients,
+  })
+
 
   return (
     <>
@@ -42,7 +52,7 @@ export default function DetailPage() {
       />
       <Section title="재료" hasSub subText="n인분 기준">
         <div className="w-full flex flex-col md:grid md:grid-cols-4 gap-3 md:gap-10">
-          {ingredients.map((item, index) => (
+          {/* {detailData?.map((item, index) => (
             <p
               key={index}
               className={
@@ -55,7 +65,7 @@ export default function DetailPage() {
             >
               {item}
             </p>
-          ))}
+          ))} */}
         </div>
       </Section>
       <span className="pb-24 flex items-center justify-center">

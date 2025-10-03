@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BackgroundPattern from "./BackgroundPattern";
-import ClientProviders from "./ClientProviders";
+import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
+import BackgroundPattern from "@/components/ui/BackgroundPattern";
+import ClientProviders from "@/providers/ClientProviders";
 
 export const metadata: Metadata = {
   title: "불닭이되",

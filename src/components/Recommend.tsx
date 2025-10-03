@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import Section from "./Section";
+import Section from "./ui/Section";
 import RecoCard from "./RecoCard";
 import { buldakdData } from "../../public/assets/fakeData/fakeData";
 

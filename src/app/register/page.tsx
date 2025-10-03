@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { RegisterRequest } from "@/types/FetchUserTypes";
+import { postRegister } from "@/components/fetch/fetchUsers";
+import useModal from "@/hooks/useModal";
+import { Dayjs } from "dayjs";
+
+import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
 import Blur from "@/components/ui/Blur";
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
-import { Dayjs } from "dayjs";
-import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
-import { postRegister } from "@/components/fetch/fetchUsers";
-import useModal from "../../../public/hooks/useModal";
-import Modal from "@/components/Modal";
+import Modal from "@/components/ui/Modal";
 
 export default function RegisterPage() {
   const { isModalOpen, openModal, closeModal } = useModal();

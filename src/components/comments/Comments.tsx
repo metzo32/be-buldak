@@ -5,8 +5,8 @@ import { ButtonPlain, ButtonStrong } from "../ui/Buttons";
 import StarRating from "../StarRating";
 import { fakeComment } from "../../../public/assets/fakeData/fakeComment";
 import StarIcon from "../icons.component/StarIcon";
-import useModal from "../../../public/hooks/useModal";
-import Modal from "../Modal";
+import useModal from "@/hooks/useModal";
+import Modal from "@/components/ui/Modal";
 
 export default function Comments() {
   const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =

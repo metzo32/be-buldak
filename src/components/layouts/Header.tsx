@@ -1,13 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import LoginButton from "./LoginButton";
-import HomeButton from "./HomeButton";
-import useModal from "../../public/hooks/useModal";
-import Modal from "./Modal";
-import { ButtonPlain } from "./ui/Buttons";
+import LoginButton from "../LoginButton";
+import HomeButton from "../HomeButton";
+import useModal from "@/hooks/useModal";
+import Modal from "@/components/ui/Modal"
+import { ButtonPlain } from "@/components/ui/Buttons";
 import { useEffect } from "react";
-import { getCurrentUser } from "./fetch/fetchUsers";
+import { getCurrentUser } from "@/components/fetch/fetchUsers";
 
 export default function Header() {
   const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import InfoButton from "@/components/InfoButton";
 import Blur from "@/components/ui/Blur";
-import Section from "@/components/Section";
+import Section from "@/components/ui/Section";
 import SavedCard from "@/components/SavedCard";
 import { buldakdData } from "../../../public/assets/fakeData/fakeData";
 

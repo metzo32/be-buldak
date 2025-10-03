@@ -5,6 +5,8 @@ import type { Ingredients } from "@/types/FetchIngredientsType";
 export async function getIngredients() {
   const data = await _get<Ingredients[]>("/api/ingredients");
 
+  console.log("재료 ", data)
+
   return data;
 }
 
