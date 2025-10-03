@@ -109,7 +109,11 @@ export default function DetailPage() {
           />
         </div>
       </span>
-      <Section title="만드는 법">
+      <Section
+        title="만드는 법"
+        hasSub
+        subText={`소요시간 약 ${recipeDetail.cooking_time}분`}
+      >
         <div className="flex flex-col gap-5 md:gap-10">
           {recipeDetail?.steps.map((item, index) => (
             <div key={index} className="flex gap-5 items-start">
@@ -125,7 +129,9 @@ export default function DetailPage() {
       <Section title="추천 조합">
         <div className="flex justify-around">
           {recipeDetail?.recommend_side_menus.map((menu) => (
-            <div key={menu} className="w-48 h-48 bg-strong">사이드 메뉴 id: {menu}</div>
+            <div key={menu} className="w-48 h-48 bg-strong">
+              사이드 메뉴 id: {menu}
+            </div>
           ))}
         </div>
       </Section>
