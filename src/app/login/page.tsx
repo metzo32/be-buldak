@@ -101,7 +101,7 @@ export default function LoginPage() {
   return (
     <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
       <h1 className="text-4xl relative z-1">로그인</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="user-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 relative z-1">
         <div className="flex flex-col gap-2">
           <input
             type="text"
@@ -113,7 +113,7 @@ export default function LoginPage() {
               required: "아이디를 입력해주세요",
             })}
             placeholder="아이디"
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
           />
           {errors.id?.message && <p className="error">{errors.id?.message}</p>}
         </div>
@@ -125,7 +125,7 @@ export default function LoginPage() {
               required: "비밀번호를 입력해주세요",
             })}
             placeholder="비밀번호"
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
           />
           {errors.password?.message && (
             <p className="error">{errors.password?.message}</p>

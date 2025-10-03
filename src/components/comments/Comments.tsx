@@ -63,7 +63,13 @@ export default function Comments() {
   }, [isConfirmed]);
 
   return (
-    <section className="comment-section">
+    <section className=" px-10 py-10 
+    mb-24
+    flex flex-col gap-15 
+    relative z-1
+    
+    md:px-24 md:py-12 
+    2xl:px-72 xl:py-24;">
       <div className="w-full border-3 border-primary rounded-2xl md:rounded-3xl ">
         <StarRating userRate={handleRatingChange} />
         <textarea

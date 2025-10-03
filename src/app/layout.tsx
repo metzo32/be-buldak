@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="kr" className={kingSejong.variable}>
-      <body className="font-king">
+      <body className="font-king bg-back">
         <ClientProviders>
           <Header />
           {children}

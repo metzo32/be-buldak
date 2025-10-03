@@ -77,9 +77,9 @@ export default function RegisterPage() {
 
       <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
         <h1 className="text-4xl relative z-1">회원가입</h1>
-        <form onSubmit={handleSubmit} className="user-form">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 relative z-1">
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="text"
             name="email"
             value={registerForm.email}
@@ -89,7 +89,7 @@ export default function RegisterPage() {
           />
 
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="text"
             name="name"
             value={registerForm.name}
@@ -99,7 +99,7 @@ export default function RegisterPage() {
           />
 
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="password"
             name="password"
             value={registerForm.password}
@@ -109,7 +109,7 @@ export default function RegisterPage() {
           />
 
           <input
-            className="outlined-input"
+            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
             type="password"
             name="password_confirmation"
             value={registerForm.password_confirmation}

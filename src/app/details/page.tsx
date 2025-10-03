@@ -72,7 +72,8 @@ export default function DetailPage() {
         <div className="flex flex-col gap-5 md:gap-10">
           {fakeRecipe.map((item, index) => (
             <div key={index} className="flex gap-5 items-start">
-              <span className="recipie-process">{index + 1}.</span>
+              <span className="text-primary text-xl
+    md:text-2xl">{index + 1}.</span>
               <p className="py-2">{item}</p>
             </div>
           ))}
