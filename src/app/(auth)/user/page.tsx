@@ -5,7 +5,6 @@ import InfoButton from "@/components/InfoButton";
 import Blur from "@/components/ui/Blur";
 import Section from "@/components/ui/Section";
 import SavedCard from "@/components/SavedCard";
-import { fakeData } from "../../../../public/assets/fakeData"
 
 import ViewAllButton from "@/components/ViewAllButton";
 import LogoutButton from "@/components/LogoutButton";
@@ -92,7 +91,7 @@ export default function UserPage() {
         optionElement={<ViewAllButton />}
       >
         <div className="flex gap-5 md:gap-10 overflow-x-scroll scroll-hide">
-          {fakeData.map((item) => (
+          {/* {fakeData.map((item) => (
             <SavedCard
               key={item.id}
               spiceRate={item.spiceRate}
@@ -102,13 +101,13 @@ export default function UserPage() {
               altMessage={item.title}
               description={item.description || ""}
             />
-          ))}
+          ))} */}
         </div>
       </Section>
 
       <Section title={"이미 먹어본 레시피"} isTrans subText="내 점수: 5">
         <div className="flex gap-5 md:gap-10 overflow-x-scroll">
-          {buldakdData.map((item) => (
+          {/* {buldakdData.map((item) => (
             <SavedCard
               key={item.id}
               spiceRate={item.spiceRate}
@@ -118,13 +117,13 @@ export default function UserPage() {
               altMessage={item.title}
               description={item.description || ""}
             />
-          ))}
+          ))} */}
         </div>
       </Section>
 
       <Section title={"내가 작성한 레시피"} isTrans>
         <div className="flex gap-5 md:gap-10 overflow-x-scroll">
-          {buldakdData.slice(3, 7).map((item) => (
+          {/* {buldakdData.slice(3, 7).map((item) => (
             <SavedCard
               key={item.id}
               spiceRate={item.spiceRate}
@@ -134,7 +133,7 @@ export default function UserPage() {
               altMessage={item.title}
               description={item.description || ""}
             />
-          ))}
+          ))} */}
         </div>
       </Section>
     </>

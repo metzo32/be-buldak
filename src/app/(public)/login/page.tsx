@@ -106,10 +106,10 @@ export default function LoginPage() {
           <input
             type="text"
             {...register("id", {
-              pattern: {
-                value: noKoreanRegex,
-                message: "한글은 입력할 수 없습니다",
-              },
+              // pattern: {
+              //   value: noKoreanRegex,
+              //   message: "한글은 입력할 수 없습니다", //TODO 한글 없는데 에러나요
+              // },
               required: "아이디를 입력해주세요",
             })}
             placeholder="아이디"
