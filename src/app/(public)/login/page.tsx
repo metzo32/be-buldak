@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useUserStore } from "@/stores/useUserStore";
 import { postLogin } from "@/components/fetch/fetchUsers";
 import Blur from "@/components/ui/Blur";
@@ -13,13 +13,14 @@ import type { LoginRequest } from "@/types/FetchUserTypes";
 import { emailRegex, passwordRegex } from "@/lib/regex";
 import { useQuery } from "@tanstack/react-query";
 import { _get } from "@/api/api";
-import TextField from "@mui/material/TextField";
+import Input from "@/components/ui/Input";
 
 export default function LoginPage() {
   const { setUserInfo } = useUserStore();
   const router = useRouter();
   const {
     register,
+    control,
     handleSubmit,
     setValue,
     formState: { isValid, errors },
@@ -33,15 +34,15 @@ export default function LoginPage() {
     return res.data?.data;
   };
 
-  const {
-    data: userData,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUser,
-    retry: false,
-  });
+  // const {
+  //   data: userData,
+  //   isLoading,
+  //   isError,
+  // } = useQuery({
+  //   queryKey: ["user"],
+  //   queryFn: getUser,
+  //   retry: false,
+  // });
 
   // if (isLoading) {
   //   return <p>로딩 중...</p>
@@ -98,102 +99,51 @@ export default function LoginPage() {
       >
         <div className="w-full flex flex-col gap-6 items-center">
           <div className="w-full flex flex-col gap-2">
-            <TextField
-              label="이메일"
-              variant="outlined"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "9999px",
-                  paddingLeft: "20px", 
-                  paddingRight: "20px",
-           
-                  "& fieldset": {
-                    borderWidth: "2px",
-                    borderColor: "var(--color-primaryHover)",
-                    paddingLeft: "20px",  
-                    paddingRight: "20px",
-            
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "var(--color-primary)",
-                    paddingLeft: "20px", 
-                    paddingRight: "20px",
-                  },
-                  
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--color-primary)",
-                    paddingLeft: "20px", 
-                    paddingRight: "20px",
-                  },
-
-                  "&.Mui-focused legend": {
-                    padding: "3px",
-                  },
-                },
-
-                "& .MuiOutlinedInput-input": {
-                  color: "var(--color-text)",
-                },
-
-                "& .MuiInputLabel-root": {
-                  color: "var(--color-disabled)", 
-                  paddingLeft: "20px",   
-                  paddingRight: "20px",
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: "var(--color-primary)", 
-                  paddingLeft: "20px", 
-                  paddingRight: "20px",
-                },
-                "& .MuiInputLabel-root.MuiInputLabel-shrink": {
-                  color: "var(--color-primary)",
-                },
-                "& legend": {
-                  padding: "0px",
-                },
-                "& .MuiInputLabel-shrink ~ .MuiOutlinedInput-root legend": {
-                  padding: "3px",
-                },
-              }}
-            />
-
-            {/* <input
-              type="text"
-              {...register("email", {
+            <Controller
+              name="email"
+              control={control}
+              rules={{
+                required: "이메일은 필수입니다.",
                 pattern: {
                   value: emailRegex,
-                  message: "이메일 형식이 올바르지 않습니다.",
+                  message: "이메일 형식을 확인해주세요.",
                 },
-                required: "이메일을 입력해주세요.",
-              })}
-              placeholder="이메일"
-              className="w-full px-4 py-3 border-3 border-primaryHover focus:border-primary rounded-full"
+              }}
+              render={({ field, fieldState }) => (
+                <Input
+                  label="이메일"
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
+              )}
             />
-            {errors.email?.message && (
-              <p className="error">{errors.email?.message}</p>
-            )} */}
           </div>
 
           <div className="w-full flex flex-col gap-2">
-            <input
-              type="password"
-              {...register("password", {
+            <Controller
+              name="password"
+              control={control}
+              rules={{
+                required: "비밀번호는 필수입니다.",
+                minLength: { value: 8, message: "8글자 이상 입력해주세요." },
                 pattern: {
                   value: passwordRegex,
                   message: "대소문자, 특수문자를 포함해주세요.",
                 },
-                minLength: {
-                  value: 8,
-                  message: "8글자 이상 입력해주세요.",
-                },
-                required: "비밀번호를 입력해주세요.",
-              })}
-              placeholder="비밀번호"
-              className="w-full px-4 py-3 border-3 border-primaryHover focus:border-primary rounded-full"
+              }}
+              render={({ field, fieldState }) => (
+                <Input
+                  type="password"
+                  label="비밀번호"
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
+              )}
             />
-            {errors.password?.message && (
-              <p className="error">{errors.password?.message}</p>
-            )}
           </div>
 
           <div className="w-full flex items-center justify-between">

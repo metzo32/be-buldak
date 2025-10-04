@@ -30,6 +30,7 @@ export function ButtonStrong({
       color="primary"
       sx={{
         width: full ? "100%" : "fit-content", 
+        padding: full? "8px" : null,
         borderRadius: "50px",
         border: "2px solid",
         "&.Mui-disabled": {
