@@ -23,37 +23,57 @@ export function ButtonStrong({
   return (
     <Button
       type={type}
+      variant="contained"
+      href={href}
+      onClick={onClick}
+      disabled={disabled}
+      color="primary"
+      sx={{
+        width: full ? "100%" : "fit-content",
+        padding: full ? "10px" : null,
+        borderRadius: "50px",
+        // border: "2px solid",
+        "&.Mui-disabled": {
+          backgroundColor: "#51494659",
+          color: "#514946",
+        },
+      }}
+    >
+      {text}
+    </Button>
+  );
+}
+
+export function ButtonOutlined({
+  text,
+  onClick,
+  type,
+  disabled,
+  full,
+  href,
+}: ButtonProps) {
+  return (
+    <Button
+      type={type}
       variant="outlined"
       href={href}
       onClick={onClick}
       disabled={disabled}
       color="primary"
       sx={{
-        width: full ? "100%" : "fit-content", 
-        padding: full? "8px" : null,
+        width: full ? "100%" : "fit-content",
+        padding: full ? "8px" : null,
         borderRadius: "50px",
         border: "2px solid",
         "&.Mui-disabled": {
-          backgroundColor: "#514946",
-          color: "#A1A1A1",
+          border: "2px solid #514946",
+          backgroundColor: "#51494633",
+          color: "#514946",
         },
       }}
     >
       {text}
     </Button>
-
-    // <button
-    //   type={type}
-    //   onClick={onClick}
-    //   disabled={disabled}
-    //   className={`${
-    //     disabled
-    //       ? "opacity-50 bg-disabled"
-    //       : "bg-primary  hover:bg-primaryHover"
-    //   } rounded-full py-0 px-3 lg:px-5 flex-none`}
-    // >
-    //   {text}
-    // </button>
   );
 }
 
@@ -62,17 +82,21 @@ export function ButtonPlain({
   onClick,
   type,
   fixedSize = false,
-  isSmall,
 }: ButtonProps) {
   return (
-    <button
+    <Button
       type={type}
+      variant="text"
       onClick={onClick}
-      className={`flex-none text-disabeldText hover:text-textHover text-[16px] lg:text-[16px] ${
-        fixedSize ? "w-[30px]" : "w-auto"
-      }`}
+      color="primary"
+      sx={{
+        width: fixedSize ? "30px" : "auto",
+        color: "#A1A1A1",
+        borderRadius: "50px",
+        padding: "1px 15px",
+      }}
     >
       {text}
-    </button>
+    </Button>
   );
 }

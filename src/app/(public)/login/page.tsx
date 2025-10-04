@@ -27,35 +27,10 @@ export default function LoginPage() {
   } = useForm<LoginRequest>({ mode: "onChange" });
   const [remember, setRemember] = useState<boolean>(false);
 
-  // 로그인 쿠키 있는 경우 로그인페이지 진입 불가
-  const getUser = async () => {
-    const res = await _get("/api/auth/user");
-
-    return res.data?.data;
-  };
-
-  // const {
-  //   data: userData,
-  //   isLoading,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ["user"],
-  //   queryFn: getUser,
-  //   retry: false,
-  // });
-
-  // if (isLoading) {
-  //   return <p>로딩 중...</p>
-  // }
-
-  // if (isError) {
-  //   return <p>에러가 발생했습니다.</p>
-  // }
 
   useEffect(() => {
     const savedId = localStorage.getItem("savedId");
     if (savedId) {
-      // setFormData((prev) => ({ ...prev, id: savedId }));
       setRemember(true);
     }
   }, []);
@@ -79,7 +54,7 @@ export default function LoginPage() {
       router.push("/user");
     } catch (err) {
       console.error("로그인 실패:", err);
-      alert("로그인 요청 중 오류가 발생했습니다.");
+      alert( err);
     }
   };
 
@@ -91,7 +66,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center gap-24 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm">
+    <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center gap-24 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm shadow-xl">
       <h1 className="text-4xl relative z-1">로그인</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}

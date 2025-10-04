@@ -43,7 +43,7 @@ export default function Header() {
           onClose={closeModal}
           onConfirm={confirmModal}
         />
-        <ButtonPlain text="둘러보기" onClick={() => router.push("/search")} />
+        <ButtonPlain text="둘러보기" onClick={() => router.push("/details")} />
         <ButtonPlain text="상세" onClick={() => router.push("/details")} />
         <ButtonPlain text="유저" onClick={() => router.push("/user")} />
         <LoginButton />

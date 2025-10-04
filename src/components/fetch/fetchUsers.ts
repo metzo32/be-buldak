@@ -6,6 +6,18 @@ import type {
   UserUpdateData,
 } from "@/types/FetchUserTypes";
 
+// 로그인
+export async function postLogin(userData: LoginRequest) {
+  try {
+    const data = await _post("/api/auth/login", userData);
+    return { user: data };
+  } catch (err) {
+    console.log("로그인 에러", err);
+    throw err;
+  }
+}
+
+// 로그아웃
 export async function postLogout() {
   try {
     await _post("/api/auth/logout", null);
@@ -20,15 +32,7 @@ export async function postLogout() {
   }
 }
 
-export async function postLogin(userData: LoginRequest) {
-  try {
-    const data = await _post("/api/auth/login", userData);
-    return { user: data };
-  } catch (err) {
-    console.log("로그인 에러", err);
-  }
-}
-
+// 회원가입
 export async function postRegister(userData: RegisterRequest): Promise<boolean> {
   try {
     const data = await _post("/api/users", userData);

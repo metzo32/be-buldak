@@ -104,6 +104,14 @@ export async function _post<T = any>(
     return null;
   }
 
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    const message =
+      errorData.message ||
+      `요청 실패 (${response.status} ${response.statusText})`;
+    throw new Error(message);
+  }
+
   return await response.json();
 }
 
