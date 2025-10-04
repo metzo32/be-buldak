@@ -7,7 +7,7 @@ import Section from "@/components/ui/Section";
 import SavedCard from "@/components/SavedCard";
 
 import ViewAllButton from "@/components/ViewAllButton";
-import LogoutButton from "@/components/LogoutButton";
+import LogoutButton from "@/components/layouts/HeaderClient";
 import { ButtonPlain } from "@/components/ui/Buttons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";

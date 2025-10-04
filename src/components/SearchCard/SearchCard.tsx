@@ -17,7 +17,7 @@ export default function SearchCard(props: Props) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/search/${props.id}`);
+    router.push(`/details/${props.id}`);
   };
 
   return (
