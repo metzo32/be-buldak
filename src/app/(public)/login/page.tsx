@@ -13,6 +13,7 @@ import type { LoginRequest } from "@/types/FetchUserTypes";
 import { emailRegex, passwordRegex } from "@/lib/regex";
 import { useQuery } from "@tanstack/react-query";
 import { _get } from "@/api/api";
+import TextField from "@mui/material/TextField";
 
 export default function LoginPage() {
   const { setUserInfo } = useUserStore();
@@ -29,14 +30,18 @@ export default function LoginPage() {
   const getUser = async () => {
     const res = await _get("/api/auth/user");
 
-    return res.data?.data
-  }
+    return res.data?.data;
+  };
 
-  const {data: userData, isLoading, isError} = useQuery({
+  const {
+    data: userData,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
     retry: false,
-  })
+  });
 
   // if (isLoading) {
   //   return <p>로딩 중...</p>
@@ -45,7 +50,6 @@ export default function LoginPage() {
   // if (isError) {
   //   return <p>에러가 발생했습니다.</p>
   // }
-
 
   useEffect(() => {
     const savedId = localStorage.getItem("savedId");
@@ -86,75 +90,136 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="py-24 flex flex-col items-center justify-center gap-24 relative">
+    <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center gap-24 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm">
       <h1 className="text-4xl relative z-1">로그인</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 relative z-1">
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
-            {...register("email", {
-              pattern: {
-                value: emailRegex,
-                message: "이메일 형식이 올바르지 않습니다.",
-              },
-              required: "이메일을 입력해주세요",
-            })}
-            placeholder="이메일"
-            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
-          />
-          {errors.email?.message && <p className="error">{errors.email?.message}</p>}
-        </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full flex flex-col gap-18 relative z-1"
+      >
+        <div className="w-full flex flex-col gap-6 items-center">
+          <div className="w-full flex flex-col gap-2">
+            <TextField
+              label="이메일"
+              variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "9999px",
+                  paddingLeft: "20px",   // ✅ padding-x 10px
+                  paddingRight: "20px",
+           
+                  "& fieldset": {
+                    borderWidth: "2px",
+                    borderColor: "var(--color-primaryHover)",
+                    paddingLeft: "20px",   // ✅ padding-x 10px
+                    paddingRight: "20px",
+            
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--color-primary)",
+                    paddingLeft: "20px",   // ✅ padding-x 10px
+                    paddingRight: "20px",
+                  },
+                  
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--color-primary)",
+                    paddingLeft: "20px",   // ✅ padding-x 10px
+                    paddingRight: "20px",
+                  },
 
-        <div className="flex flex-col gap-2">
-          <input
-            type="password"
-            {...register("password", {
-              pattern: {
-                value: passwordRegex,
-                message: "대소문자, 특수문자를 포함해주세요."
-              },
-              minLength: {
-                value: 8,
-                message: "8글자 이상 입력해주세요."
-              },
-              required: "비밀번호를 입력해주세요.",
-            })}
-            placeholder="비밀번호"
-            className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
-          />
-          {errors.password?.message && (
-            <p className="error">{errors.password?.message}</p>
-          )}
-        </div>
+                  "&.Mui-focused legend": {
+                    padding: "3px",
+                  },
+                },
+                "& .MuiInputLabel-root": {
+                  color: "var(--color-disabled)", // ✅ 기본 상태 라벨 색상
+                  paddingLeft: "20px",   // ✅ padding-x 10px
+                  paddingRight: "0px",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "var(--color-primary)",  // ✅ focus 시 라벨 색상
+                  paddingLeft: "20px",   // ✅ padding-x 10px
+                  paddingRight: "50px",
+                },
+                "& legend": {
+                  padding: "0px",
+                },
+              }}
+            />
 
-        <div className="flex gap-3 md:gap-5 items-center justify-center">
-          <input
-            type="checkbox"
-            id="rememberMe"
-            checked={remember}
-            onChange={() => setRemember(!remember)}
-            className="hidden"
-          />
-          <span className="text-2xl text-primary">
-            {remember ? <AiFillFire /> : <AiOutlineFire />}
-          </span>
-          <label htmlFor="rememberMe" className="cursor-pointer select-none">
-            내 정보 기억하기
-          </label>
-        </div>
-        <ButtonPlain type="button" text="비밀번호를 잊어버렸어요" isSmall />
-
-        <div className="flex flex-col gap-6 items-center">
-          <div className="w-[80px] flex flex-col items-stretch">
-            <ButtonStrong type="submit" text="로그인" disabled={!isValid} />
+            {/* <input
+              type="text"
+              {...register("email", {
+                pattern: {
+                  value: emailRegex,
+                  message: "이메일 형식이 올바르지 않습니다.",
+                },
+                required: "이메일을 입력해주세요.",
+              })}
+              placeholder="이메일"
+              className="w-full px-4 py-3 border-3 border-primaryHover focus:border-primary rounded-full"
+            />
+            {errors.email?.message && (
+              <p className="error">{errors.email?.message}</p>
+            )} */}
           </div>
 
-          <ButtonPlain
-            type="button"
-            onClick={handleRoute}
-            text="가입하기"
-            isSmall
-          />
+          <div className="w-full flex flex-col gap-2">
+            <input
+              type="password"
+              {...register("password", {
+                pattern: {
+                  value: passwordRegex,
+                  message: "대소문자, 특수문자를 포함해주세요.",
+                },
+                minLength: {
+                  value: 8,
+                  message: "8글자 이상 입력해주세요.",
+                },
+                required: "비밀번호를 입력해주세요.",
+              })}
+              placeholder="비밀번호"
+              className="w-full px-4 py-3 border-3 border-primaryHover focus:border-primary rounded-full"
+            />
+            {errors.password?.message && (
+              <p className="error">{errors.password?.message}</p>
+            )}
+          </div>
+
+          <div className="w-full flex items-center justify-between">
+            <div className="flex gap-3 md:gap-3 items-center justify-center">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                checked={remember}
+                onChange={() => setRemember(!remember)}
+                className="hidden"
+              />
+              <span className="text-2xl text-primary">
+                {remember ? <AiFillFire /> : <AiOutlineFire />}
+              </span>
+              <label
+                htmlFor="rememberMe"
+                className="text-[16px] cursor-pointer select-none text-disabeldText hover:text-textHover"
+              >
+                기억하기
+              </label>
+            </div>
+
+            <ButtonPlain type="button" text="비밀번호 찾기" isSmall />
+          </div>
+        </div>
+
+        <div className="w-full flex flex-col gap-6 items-center ">
+          <ButtonStrong type="submit" text="로그인" disabled={!isValid} full />
+
+          <div className="flex gap-12 items-center">
+            <ButtonPlain
+              type="button"
+              onClick={handleRoute}
+              text="가입하기"
+              isSmall
+            />
+          </div>
         </div>
       </form>
       <Blur />

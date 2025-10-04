@@ -17,12 +17,10 @@ export default function MUIThemeProvider({
       },
     },
     typography: {
-      fontFamily: "var(--font-sejong)",
       button: {
         fontFamily: "var(--font-sejong)",
-        textTransform: "none",
         fontSize: "16px",
-        [`@media (min-width:1200px)`]: { fontSize: "20px" },
+        [`@media (min-width:1200px)`]: { fontSize: "18px" },
       },
     },
   });

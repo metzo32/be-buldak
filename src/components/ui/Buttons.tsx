@@ -8,28 +8,35 @@ interface ButtonProps {
   fixedSize?: boolean;
   isSmall?: boolean;
   disabled?: boolean;
+  full?: boolean;
   href?: string;
 }
-
 
 export function ButtonStrong({
   text,
   onClick,
   type,
   disabled,
+  full,
   href,
 }: ButtonProps) {
-
-
   return (
     <Button
       type={type}
-      variant="contained"
+      variant="outlined"
       href={href}
       onClick={onClick}
       disabled={disabled}
       color="primary"
-      className="text-[16px] lg:text-[20px]"
+      sx={{
+        width: full ? "100%" : "fit-content", 
+        borderRadius: "50px",
+        border: "2px solid",
+        "&.Mui-disabled": {
+          backgroundColor: "#514946",
+          color: "#A1A1A1",
+        },
+      }}
     >
       {text}
     </Button>
@@ -60,13 +67,8 @@ export function ButtonPlain({
     <button
       type={type}
       onClick={onClick}
-      className={`flex-none hover:text-textHover text-[16px] lg:text-[20px] ${
+      className={`flex-none text-disabeldText hover:text-textHover text-[16px] lg:text-[16px] ${
         fixedSize ? "w-[30px]" : "w-auto"
-      }
-      ${
-        isSmall
-          ? "text-disabled px-0 py-1 lg:py-2"
-          : "px-2 py-1 lg:py-2 lg:px-5"
       }`}
     >
       {text}

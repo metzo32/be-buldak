@@ -4,6 +4,7 @@
   --color-back: #242120;
   --color-overlay: rgb(0 0 0 / 0.7);
   --color-primary: #fe633c;
+  --color-primaryTrans: #fe633c03;
   --color-primaryHover: #ce401d;
   --color-secondary: #36302d;
   --color-close: #514946;
@@ -12,6 +13,7 @@
   --color-textHover: #c1c1c1;
   --color-disabled: #808080;
   --color-disabledHover: #595959;
+  --color-disabeldText: #A1A1A1;
   --font-sejong: "KingSejongInstitute", sans-serif;
 }
 
@@ -119,6 +121,6 @@ img {
 
 @layer utilities {
   .error {
-    @apply text-sm text-primary;
+    @apply text-sm text-primaryHover ml-4;
   }
 }
