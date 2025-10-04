@@ -104,25 +104,25 @@ export default function LoginPage() {
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "9999px",
-                  paddingLeft: "20px",   // ✅ padding-x 10px
+                  paddingLeft: "20px", 
                   paddingRight: "20px",
            
                   "& fieldset": {
                     borderWidth: "2px",
                     borderColor: "var(--color-primaryHover)",
-                    paddingLeft: "20px",   // ✅ padding-x 10px
+                    paddingLeft: "20px",  
                     paddingRight: "20px",
             
                   },
                   "&:hover fieldset": {
                     borderColor: "var(--color-primary)",
-                    paddingLeft: "20px",   // ✅ padding-x 10px
+                    paddingLeft: "20px", 
                     paddingRight: "20px",
                   },
                   
                   "&.Mui-focused fieldset": {
                     borderColor: "var(--color-primary)",
-                    paddingLeft: "20px",   // ✅ padding-x 10px
+                    paddingLeft: "20px", 
                     paddingRight: "20px",
                   },
 
@@ -130,18 +130,29 @@ export default function LoginPage() {
                     padding: "3px",
                   },
                 },
+
+                "& .MuiOutlinedInput-input": {
+                  color: "var(--color-text)",
+                },
+
                 "& .MuiInputLabel-root": {
-                  color: "var(--color-disabled)", // ✅ 기본 상태 라벨 색상
-                  paddingLeft: "20px",   // ✅ padding-x 10px
-                  paddingRight: "0px",
+                  color: "var(--color-disabled)", 
+                  paddingLeft: "20px",   
+                  paddingRight: "20px",
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "var(--color-primary)",  // ✅ focus 시 라벨 색상
-                  paddingLeft: "20px",   // ✅ padding-x 10px
-                  paddingRight: "50px",
+                  color: "var(--color-primary)", 
+                  paddingLeft: "20px", 
+                  paddingRight: "20px",
+                },
+                "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+                  color: "var(--color-primary)",
                 },
                 "& legend": {
                   padding: "0px",
+                },
+                "& .MuiInputLabel-shrink ~ .MuiOutlinedInput-root legend": {
+                  padding: "3px",
                 },
               }}
             />
