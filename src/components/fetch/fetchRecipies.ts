@@ -19,7 +19,7 @@ export async function postRecipes({ recipe }: { recipe: Recipe }) {
 export async function getRecipeDetails(recipeId: number) {
   const data = await _get(`/api/recipes/${recipeId}`);
 
-  console.log("레시피 상세", data.data)
+  console.log("레시피 상세", data.data);
   return data.data;
 }
 
@@ -44,6 +44,7 @@ export async function deleteRecipe(recipeId: number) {
 // 조회수 +1
 export async function addViewCount(recipeId: number) {
   const res = await _patch(`/api/recipes/${recipeId}/view`);
+  console.log("뷰카운트", res);
 
   return res;
 }

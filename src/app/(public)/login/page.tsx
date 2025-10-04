@@ -10,7 +10,7 @@ import { AiOutlineFire } from "react-icons/ai"; //전
 import { AiFillFire } from "react-icons/ai"; //후
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
 import type { LoginRequest } from "@/types/FetchUserTypes";
-import { noKoreanRegex, passwordRegex } from "@/lib/regex";
+import { emailRegex, passwordRegex } from "@/lib/regex";
 import { useQuery } from "@tanstack/react-query";
 import { _get } from "@/api/api";
 
@@ -26,8 +26,7 @@ export default function LoginPage() {
   const [remember, setRemember] = useState<boolean>(false);
 
   // 로그인 쿠키 있는 경우 로그인페이지 진입 불가
-
-  const fetchUser = async () => {
+  const getUser = async () => {
     const res = await _get("/api/auth/user");
 
     return res.data?.data
@@ -35,24 +34,18 @@ export default function LoginPage() {
 
   const {data: userData, isLoading, isError} = useQuery({
     queryKey: ["user"],
-    queryFn: fetchUser,
+    queryFn: getUser,
     retry: false,
   })
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (userData) {
-        // 로그인 상태라면 → /user 로 이동
-        router.push("/user");
-      } else if (isError) {
-        // 401 같은 에러 → 로그인 안 된 상태, 현재 페이지에 머무름
-      }
-    }
+  // if (isLoading) {
+  //   return <p>로딩 중...</p>
+  // }
 
-    console.log("로그인 여부", !!userData)
-  }, [userData, isLoading, isError, router]);
-  
-  
+  // if (isError) {
+  //   return <p>에러가 발생했습니다.</p>
+  // }
+
 
   useEffect(() => {
     const savedId = localStorage.getItem("savedId");
@@ -64,7 +57,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginRequest) => {
     try {
-      const { id, password } = data;
+      const { email, password } = data;
 
       const res = await postLogin(data);
       const userData = res?.user;
@@ -72,7 +65,7 @@ export default function LoginPage() {
       setUserInfo(userData);
 
       if (remember) {
-        localStorage.setItem("savedUserId", id);
+        localStorage.setItem("savedUserId", email);
       } else {
         localStorage.removeItem("savedUserId");
       }
@@ -88,12 +81,6 @@ export default function LoginPage() {
   // 토큰이 expire date가 있으니, 토큰 기간이 만료된 뒤 유저가 api를 요청했을 때- CSRF토큰 갱신 요청 함수 추가하여
   // 기간이 만료됐는지 안됐는지 확인 후 해당 값을 header에 다시 넣어주는 페칭함수
 
-  const handleChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // e.target.value = e.target.value.replace(noKoreanRegex, "");
-    const cleaned = e.target.value.replace(noKoreanRegex, "");
-    setValue("id", cleaned, { shouldValidate: true });
-  };
-
   const handleRoute = () => {
     router.push("/register");
   };
@@ -105,24 +92,32 @@ export default function LoginPage() {
         <div className="flex flex-col gap-2">
           <input
             type="text"
-            {...register("id", {
-              // pattern: {
-              //   value: noKoreanRegex,
-              //   message: "한글은 입력할 수 없습니다", //TODO 한글 없는데 에러나요
-              // },
-              required: "아이디를 입력해주세요",
+            {...register("email", {
+              pattern: {
+                value: emailRegex,
+                message: "이메일 형식이 올바르지 않습니다.",
+              },
+              required: "이메일을 입력해주세요",
             })}
-            placeholder="아이디"
+            placeholder="이메일"
             className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
           />
-          {errors.id?.message && <p className="error">{errors.id?.message}</p>}
+          {errors.email?.message && <p className="error">{errors.email?.message}</p>}
         </div>
 
         <div className="flex flex-col gap-2">
           <input
             type="password"
             {...register("password", {
-              required: "비밀번호를 입력해주세요",
+              pattern: {
+                value: passwordRegex,
+                message: "대소문자, 특수문자를 포함해주세요."
+              },
+              minLength: {
+                value: 8,
+                message: "8글자 이상 입력해주세요."
+              },
+              required: "비밀번호를 입력해주세요.",
             })}
             placeholder="비밀번호"
             className="w-full px-4 py-2 border-3 border-primary rounded-2xl"
@@ -150,7 +145,7 @@ export default function LoginPage() {
         <ButtonPlain type="button" text="비밀번호를 잊어버렸어요" isSmall />
 
         <div className="flex flex-col gap-6 items-center">
-          <div className="w-[150px] flex flex-col items-stretch">
+          <div className="w-[80px] flex flex-col items-stretch">
             <ButtonStrong type="submit" text="로그인" disabled={!isValid} />
           </div>
 

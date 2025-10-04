@@ -29,28 +29,23 @@ export async function postLogin(userData: LoginRequest) {
   }
 }
 
-export async function postRegister(userData: RegisterRequest): Promise<void> {
+export async function postRegister(userData: RegisterRequest): Promise<boolean> {
   try {
-    const { status, ok } = await _post("/api/users", userData);
+    const data = await _post("/api/users", userData);
 
-    //TODO 에러메세지 백엔드에서 보내주고 있으니 생략
-    if (!ok) {
-      if (status === 409 || status === 422) {
-        console.error("중복된 이메일입니다.");
-      } else if (status === 400) {
-        console.error("잘못된 요청입니다.");
-      } else if (status === 500) {
-        console.error("서버 오류가 발생했습니다.");
-      }
-      return;
+    if (!data) {
+      console.error("회원가입 실패: 응답 없음");
+      return false;
     }
 
     console.log("회원가입 성공");
+    return true;
   } catch (error) {
     console.error("네트워크 오류:", error);
-    throw error;
+    return false; 
   }
 }
+
 
 export async function getCurrentUser() {
   try {

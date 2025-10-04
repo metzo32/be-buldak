@@ -113,13 +113,12 @@ img {
   button {
     @apply cursor-pointer
     whitespace-nowrap
-    text-sm
     lg:text-base;
   }
 }
 
 @layer utilities {
   .error {
-    @apply text-sm text-strong;
+    @apply text-sm text-primary;
   }
 }

@@ -12,18 +12,36 @@ export default function CustomizedDatePicker({
   selectedDate,
   onChange,
 }: CustomizedDatePickerProps) {
-  const today = dayjs(); // Dayjs 객체로 변경
+  const today = dayjs(new Date); 
   const hundredYearsAgo = dayjs().subtract(100, "year");
 
   return (
     <DateField
       label={label}
-      defaultValue={dayjs("2022-04-17")}
+      defaultValue={today}
       format="YYYY-MM-DD"
       value={selectedDate}
       minDate={hundredYearsAgo}
       maxDate={today}
       onChange={onChange}
+      // sx={{
+      //   border: "3px solid",
+      //   borderColor: "primary.main", 
+      //   borderRadius: "16px",
+      //   px: 2,
+      //   py: 1,
+      // }}
+      // slotProps={{
+      //   textField: {
+      //     className: "w-full rounded-2xl", // Tailwind로 구조 잡고
+      //     sx: {
+      //       border: "3px solid",
+      //       borderColor: "primary.main", // MUI 테마 컬러 사용
+      //       px: 2,
+      //       py: 1,
+      //     },
+      //   },
+      // }}
     />
   );
 }

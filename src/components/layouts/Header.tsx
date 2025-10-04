@@ -22,9 +22,9 @@ export default function Header() {
     console.log("확인버튼 클릭");
   }
 
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
+  // useEffect(() => {
+  //   getCurrentUser();
+  // }, []);
 
   return (
     <header>

@@ -1,3 +1,6 @@
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+
 interface ButtonProps {
   text: string;
   onClick?: () => void;
@@ -5,21 +8,44 @@ interface ButtonProps {
   fixedSize?: boolean;
   isSmall?: boolean;
   disabled?: boolean;
+  href?: string;
 }
-export function ButtonStrong({ text, onClick, type, disabled }: ButtonProps) {
+
+
+export function ButtonStrong({
+  text,
+  onClick,
+  type,
+  disabled,
+  href,
+}: ButtonProps) {
+
+
   return (
-    <button
+    <Button
       type={type}
+      variant="contained"
+      href={href}
       onClick={onClick}
       disabled={disabled}
-      className={`${
-        disabled
-          ? "opacity-50 bg-disabled"
-          : "bg-primary  hover:bg-primaryHover"
-      } rounded-full py-1 px-3 lg:px-5 flex-none`}
+      color="primary"
+      className="text-[16px] lg:text-[20px]"
     >
       {text}
-    </button>
+    </Button>
+
+    // <button
+    //   type={type}
+    //   onClick={onClick}
+    //   disabled={disabled}
+    //   className={`${
+    //     disabled
+    //       ? "opacity-50 bg-disabled"
+    //       : "bg-primary  hover:bg-primaryHover"
+    //   } rounded-full py-0 px-3 lg:px-5 flex-none`}
+    // >
+    //   {text}
+    // </button>
   );
 }
 
@@ -34,7 +60,7 @@ export function ButtonPlain({
     <button
       type={type}
       onClick={onClick}
-      className={`flex-none hover:text-textHover ${
+      className={`flex-none hover:text-textHover text-[16px] lg:text-[20px] ${
         fixedSize ? "w-[30px]" : "w-auto"
       }
       ${
