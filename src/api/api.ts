@@ -54,7 +54,6 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
 
   const headers: Record<string, string> = {
     ...(init?.headers as Record<string, string>),
-    //TODO 바보야.
     "Content-Type": "application/json",
     Accept: "application/json",
   };

@@ -5,24 +5,21 @@ import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { useUserStore } from "@/stores/useUserStore";
 import { postLogin } from "@/components/fetch/fetchUsers";
+import type { LoginRequest } from "@/types/FetchUserTypes";
+
+import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
+import Input from "@/components/ui/Input";
 import Blur from "@/components/ui/Blur";
 import { AiOutlineFire } from "react-icons/ai"; //전
 import { AiFillFire } from "react-icons/ai"; //후
-import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
-import type { LoginRequest } from "@/types/FetchUserTypes";
 import { emailRegex, passwordRegex } from "@/lib/regex";
-import { useQuery } from "@tanstack/react-query";
-import { _get } from "@/api/api";
-import Input from "@/components/ui/Input";
 
 export default function LoginPage() {
   const { setUserInfo } = useUserStore();
   const router = useRouter();
   const {
-    register,
     control,
     handleSubmit,
-    setValue,
     formState: { isValid, errors },
   } = useForm<LoginRequest>({ mode: "onChange" });
   const [remember, setRemember] = useState<boolean>(false);
@@ -66,14 +63,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center4 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm shadow-xl">
+    <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center gap-24 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm shadow-xl">
       <h1 className="text-4xl relative z-1">로그인</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-18 relative z-1"
       >
-        <div className="w-full flex flex-col gap-3 items-center">
-          <div className="w-full h-[405px] flex flex-col">
+        <div className="w-full flex flex-col gap-6 items-center">
+          <div className="w-full flex flex-col gap-2">
             <Controller
               name="email"
               control={control}
@@ -96,7 +93,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="w-full flex flex-col">
+          <div className="w-full flex flex-col gap-2">
             <Controller
               name="password"
               control={control}
