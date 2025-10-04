@@ -25,7 +25,15 @@ export default function Input({
       value={value}
       onChange={onChange}
       error={error}
-      helperText={helperText}
+      helperText={helperText || " "}
+      slotProps={{
+        formHelperText: {
+          sx: {
+            minHeight: "14px", 
+            marginTop: "8px", 
+          },
+        },
+      }}
       sx={{
         "& .MuiOutlinedInput-root": {
           borderRadius: "9999px",

@@ -66,14 +66,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center gap-24 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm shadow-xl">
+    <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center4 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm shadow-xl">
       <h1 className="text-4xl relative z-1">로그인</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-18 relative z-1"
       >
-        <div className="w-full flex flex-col gap-6 items-center">
-          <div className="w-full flex flex-col gap-2">
+        <div className="w-full flex flex-col gap-3 items-center">
+          <div className="w-full h-[405px] flex flex-col">
             <Controller
               name="email"
               control={control}
@@ -96,7 +96,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="w-full flex flex-col gap-2">
+          <div className="w-full flex flex-col">
             <Controller
               name="password"
               control={control}

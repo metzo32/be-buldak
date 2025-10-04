@@ -84,8 +84,8 @@ export default function RegisterPage() {
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-18 relative z-1"
         >
-          <div className="w-full flex flex-col gap-6 items-center">
-            <div className="w-full flex flex-col gap-2">
+          <div className="w-full flex flex-col gap-3 items-center">
+            <div className="w-full flex flex-col">
               <Controller
                 name="email"
                 control={control}
@@ -108,7 +108,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="w-full flex flex-col gap-2">
+            <div className="w-full flex flex-col">
               <Controller
                 name="password"
                 control={control}
@@ -133,7 +133,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="w-full flex flex-col gap-2">
+            <div className="w-full flex flex-col">
               <Controller
                 name="password_confirmation"
                 control={control}
@@ -161,7 +161,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="w-full flex flex-col gap-2">
+            <div className="w-full flex flex-col">
               <Controller
                 name="name"
                 control={control}
@@ -184,7 +184,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <Controller
                 name="birth"
                 control={control}
