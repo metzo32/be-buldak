@@ -60,7 +60,7 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
 
   if (csrfToken) {
     headers["X-XSRF-TOKEN"] = csrfToken;
-    console.log("🚀 요청 헤더에 포함된 CSRF:", headers["X-XSRF-TOKEN"]);
+    // console.log("요청 헤더에 포함된 CSRF:", headers["X-XSRF-TOKEN"]);
   }
 
   return {

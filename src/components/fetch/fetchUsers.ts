@@ -58,6 +58,7 @@ export async function getCurrentUser() {
     return res;
   } catch (err) {
     console.log("사용자 찾을 수 없음", err);
+    return null;
   }
 }
 
