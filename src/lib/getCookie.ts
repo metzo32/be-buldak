@@ -4,5 +4,6 @@ export async function isLoggedIn(): Promise<boolean> {
   const xsrf = cookieStore.get("XSRF-TOKEN");
   const session = cookieStore.get("laravel_session");
 
-  return !!(xsrf || session);
+  // return !!(xsrf || session);
+  return !!session
 }

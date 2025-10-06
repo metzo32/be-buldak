@@ -23,7 +23,7 @@ export async function postLogout() {
     await _post("/api/auth/logout", null);
 
     document.cookie = "XSRF-TOKEN=; Max-Age=0; path=/";
-    document.cookie = "laravel_session=; Max-Age=0; path=/";
+    // document.cookie = "laravel_session=; Max-Age=0; path=/";
 
     console.log("로그아웃 성공", "현재 쿠키:", document.cookie);
     return;
@@ -55,6 +55,11 @@ export async function getCurrentUser() {
   try {
     const res = await _get("/api/auth/user");
     console.log("유저", res)
+
+    if (res.message === "Unauthenticated.") {
+      return null;
+    }
+
     return res;
   } catch (err) {
     console.log("사용자 찾을 수 없음", err);
