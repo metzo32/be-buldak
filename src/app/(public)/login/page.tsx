@@ -15,22 +15,41 @@ import { AiFillFire } from "react-icons/ai"; //후
 import { emailRegex, passwordRegex } from "@/lib/regex";
 
 export default function LoginPage() {
-  const { setUserInfo } = useUserStore();
+  const { isLoading, user, setUserInfo } = useUserStore();
   const router = useRouter();
   const {
     control,
+    setValue,
     handleSubmit,
     formState: { isValid, errors },
   } = useForm<LoginRequest>({ mode: "onChange" });
+
   const [remember, setRemember] = useState<boolean>(false);
 
+  if (user) return null;
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   useEffect(() => {
-    const savedId = localStorage.getItem("savedId");
-    if (savedId) {
+    if (user) {
+      console.log(user);
+      router.push("/user");
+    }
+  }, [isLoading, user]);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("savedEmail");
+    if (savedEmail) {
+      setValue("email", savedEmail);
       setRemember(true);
     }
-  }, []);
+  }, [setValue]);
 
   const onSubmit = async (data: LoginRequest) => {
     try {
@@ -42,23 +61,23 @@ export default function LoginPage() {
       setUserInfo(userData);
 
       if (remember) {
-        localStorage.setItem("savedUserId", email);
+        localStorage.setItem("savedEmail", email);
       } else {
-        localStorage.removeItem("savedUserId");
+        localStorage.removeItem("savedEmail");
       }
 
       alert("로그인 성공");
       router.push("/user");
     } catch (err) {
       console.error("로그인 실패:", err);
-      alert( err);
+      alert(err);
     }
   };
 
   // 토큰이 expire date가 있으니, 토큰 기간이 만료된 뒤 유저가 api를 요청했을 때- CSRF토큰 갱신 요청 함수 추가하여
   // 기간이 만료됐는지 안됐는지 확인 후 해당 값을 header에 다시 넣어주는 페칭함수
 
-  const handleRoute = () => {
+  const handleGoToRegister = () => {
     router.push("/register");
   };
 
@@ -148,7 +167,7 @@ export default function LoginPage() {
           <div className="flex gap-12 items-center">
             <ButtonPlain
               type="button"
-              onClick={handleRoute}
+              onClick={handleGoToRegister}
               text="가입하기"
               isSmall
             />

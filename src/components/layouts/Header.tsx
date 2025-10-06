@@ -8,17 +8,19 @@ import HomeButton from "@/components/HomeButton";
 import { ButtonOutlined, ButtonPlain } from "@/components/ui/Buttons";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentUser } from "../fetch/fetchUsers";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function Header() {
   const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =
     useModal();
   const router = useRouter();
+  const { user } = useUserStore();
 
-  const {data: user, isError} = useQuery({
+  const { data: userData, isError } = useQuery({
     queryKey: ["currentUser"],
     queryFn: getCurrentUser,
     retry: false,
-  })
+  });
 
   if (isError) {
     console.log("로그인되지 않음");
@@ -53,7 +55,7 @@ export default function Header() {
         <ButtonPlain text="상세" onClick={() => router.push("/details")} />
         <ButtonPlain text="유저" onClick={() => router.push("/user")} />
         <ButtonOutlined
-          text={!isError && user ? "마이" : "로그인"}
+          text={user ? "마이" : "로그인"}
           onClick={() => router.push(user ? "/user" : "/login")}
         />
       </div>
