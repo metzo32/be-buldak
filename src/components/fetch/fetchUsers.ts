@@ -57,7 +57,7 @@ export async function getCurrentUser() {
     console.log("유저", res)
 
     if (res.message === "Unauthenticated.") {
-      return null;
+      throw new Error("Unauthenticated");
     }
 
     return res;

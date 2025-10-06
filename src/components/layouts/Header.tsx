@@ -9,6 +9,7 @@ import { ButtonOutlined, ButtonPlain } from "@/components/ui/Buttons";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentUser } from "../fetch/fetchUsers";
 import { useUserStore } from "@/stores/useUserStore";
+import { useEffect } from "react";
 
 export default function Header() {
   const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =
@@ -16,15 +17,19 @@ export default function Header() {
   const router = useRouter();
   const { user } = useUserStore();
 
-  const { data: userData, isError } = useQuery({
-    queryKey: ["currentUser"],
-    queryFn: getCurrentUser,
-    retry: false,
-  });
+  useEffect(() => {
+    console.log("헤더 유저", user) 
+  }, [user])
 
-  if (isError) {
-    console.log("로그인되지 않음");
-  }
+  // const { data: userData, isError } = useQuery({
+  //   queryKey: ["currentUser"],
+  //   queryFn: getCurrentUser,
+  //   retry: false,
+  // });
+
+  // if (isError) {
+  //   console.log("로그인되지 않음");
+  // }
 
   const handleModalOpen = () => {
     openModal();

@@ -13,6 +13,7 @@ import Blur from "@/components/ui/Blur";
 import { AiOutlineFire } from "react-icons/ai"; //전
 import { AiFillFire } from "react-icons/ai"; //후
 import { emailRegex, passwordRegex } from "@/lib/regex";
+import Loading from "@/components/ui/Loading/Loading";
 
 export default function LoginPage() {
   const { isLoading, user, setUserInfo } = useUserStore();
@@ -26,22 +27,18 @@ export default function LoginPage() {
 
   const [remember, setRemember] = useState<boolean>(false);
 
-  if (user) return null;
+  // if (user) return null;
 
-  if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  // if (isLoading) {
+  // return <Loading/>
+  // }
 
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-      router.push("/user");
-    }
-  }, [isLoading, user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log(user);
+  //     router.push("/user");
+  //   }
+  // }, [isLoading, user]);
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("savedEmail");

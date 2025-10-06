@@ -4,40 +4,33 @@ import Image from "next/image";
 import InfoButton from "@/components/InfoButton";
 import Blur from "@/components/ui/Blur";
 import Section from "@/components/ui/Section";
-import SavedCard from "@/components/SavedCard";
 
 import ViewAllButton from "@/components/ViewAllButton";
 import LogoutButton from "@/components/LogoutButton";
 import { ButtonPlain } from "@/components/ui/Buttons";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCookie } from "@/api/api";
+import { useQuery } from "@tanstack/react-query";
+import { getCurrentUser } from "@/components/fetch/fetchUsers";
+import Loading from "@/components/ui/Loading/Loading";
+import { useEffect } from "react";
 
 export default function UserPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [hasToken, setHasToken] = useState(false);
   
 
+const {data: userData, isLoading, isError} = useQuery({
+  queryKey: ["currentUser"],
+  queryFn: () => getCurrentUser(),
+})
 
-  useEffect(() => {
-    const csrfToken = getCookie("XSRF-TOKEN");
+if (isLoading) {
+  return <Loading/>
+}
 
-    if (!csrfToken) {
-      router.replace("/login");
-    } else {
-      setHasToken(true);
-    }
-    setLoading(false);
-  }, []);
+if (!userData?.id) {
+  router.push("/login")
+}
 
-  if (loading) {
-    return <p>로딩 중...</p>;
-  }
-
-  if (!hasToken) {
-    return null;
-  }
 
   const spiceSum = 3;
   let spiceLevString = "";
