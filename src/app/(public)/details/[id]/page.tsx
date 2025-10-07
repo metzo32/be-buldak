@@ -18,6 +18,7 @@ import {
 import {
   addViewCount,
   getRecipeDetails,
+  triedRecipe,
 } from "@/components/fetch/fetchRecipies";
 import { useSearchParams } from "next/navigation";
 import type { Recipe } from "@/types/FetchRecipeType";
@@ -47,6 +48,11 @@ export default function DetailPage({ params }: PageProps) {
     queryFn: () => addViewCount(recipeId),
   });
 
+  const { data: tried } = useQuery({
+    queryKey: ["tried", recipeId],
+    queryFn: () => triedRecipe(recipeId),
+  })
+
   const {
     data: recipeDetail,
     isLoading,
@@ -74,7 +80,7 @@ export default function DetailPage({ params }: PageProps) {
               <SpiceRate spicy={recipeDetail?.spicy} large />
             </div>
             <div className="flex gap-10 lg:gap-20 relative z-1">
-              <TriedButton />
+              <TriedButton recipeId={recipeId}/>
               <SaveButton />
             </div>
           </>
@@ -122,14 +128,14 @@ export default function DetailPage({ params }: PageProps) {
               <span className="text-primary text-xl md:text-2xl">
                 {index + 1}.
               </span>
-              <p className="py-2">{item}</p>
+              <p className="py-1">{item}</p>
             </div>
           ))}
         </div>
       </Section>
 
       <Section title="추천 조합">
-        <div className="flex justify-around">
+        <div className="grid grid-cols-2 lg:grid-cols-4 justify-items-center">
           {recipeDetail?.recommend_side_menus.map((menu) => (
             <div key={menu} className="w-48 h-48 bg-strong">
               사이드 메뉴 id: {menu}

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import InfoButton from "@/components/InfoButton";
@@ -13,24 +13,36 @@ import { useQuery } from "@tanstack/react-query";
 import { getCurrentUser } from "@/components/fetch/fetchUsers";
 import Loading from "@/components/ui/Loading/Loading";
 import { useEffect } from "react";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function UserPage() {
+  const { user } = useUserStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
+
+  if (!user) {
+    return null;
+  }
+
   // const router = useRouter();
-  
 
-// const {data: userData, isLoading, isError} = useQuery({
-//   queryKey: ["currentUser"],
-//   queryFn: () => getCurrentUser(),
-// })
+  // const {data: userData, isLoading, isError} = useQuery({
+  //   queryKey: ["currentUser"],
+  //   queryFn: () => getCurrentUser(),
+  // })
 
-// if (isLoading) {
-//   return <Loading/>
-// }
+  // if (isLoading) {
+  //   return <Loading/>
+  // }
 
-// if (!userData?.id) {
-//   router.push("/login")
-// }
-
+  // if (!userData?.id) {
+  //   router.push("/login")
+  // }
 
   const spiceSum = 3;
   let spiceLevString = "";

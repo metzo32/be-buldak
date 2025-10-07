@@ -27,18 +27,15 @@ export default function LoginPage() {
 
   const [remember, setRemember] = useState<boolean>(false);
 
-  // if (user) return null;
-
-  // if (isLoading) {
-  // return <Loading/>
-  // }
-
   // useEffect(() => {
   //   if (user) {
-  //     console.log(user);
   //     router.push("/user");
   //   }
-  // }, [isLoading, user]);
+  // }, [user, router]);
+
+  // if (user) {
+  //   return <Loading/>
+  // }
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("savedEmail");
@@ -51,34 +48,33 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginRequest) => {
     try {
       const { email } = data;
-  
+
       const res = await postLogin(data);
       const userData = res?.user;
-  
+
       if (!userData) {
         alert("로그인 실패: 사용자 정보가 없습니다.");
         return;
       }
-  
+
       setUserInfo(userData);
-  
+
       if (remember) {
         localStorage.setItem("savedEmail", email);
       } else {
         localStorage.removeItem("savedEmail");
       }
-  
+
       alert("로그인 성공");
-  
+
       await new Promise((resolve) => setTimeout(resolve, 150));
-  
+
       router.replace("/user");
     } catch (err) {
       console.error("로그인 실패:", err);
       alert("로그인 실패: 다시 시도해주세요.");
     }
   };
-  
 
   // 토큰이 expire date가 있으니, 토큰 기간이 만료된 뒤 유저가 api를 요청했을 때- CSRF토큰 갱신 요청 함수 추가하여
   // 기간이 만료됐는지 안됐는지 확인 후 해당 값을 header에 다시 넣어주는 페칭함수
