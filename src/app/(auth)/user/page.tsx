@@ -15,21 +15,21 @@ import Loading from "@/components/ui/Loading/Loading";
 import { useEffect } from "react";
 
 export default function UserPage() {
-  const router = useRouter();
+  // const router = useRouter();
   
 
-const {data: userData, isLoading, isError} = useQuery({
-  queryKey: ["currentUser"],
-  queryFn: () => getCurrentUser(),
-})
+// const {data: userData, isLoading, isError} = useQuery({
+//   queryKey: ["currentUser"],
+//   queryFn: () => getCurrentUser(),
+// })
 
-if (isLoading) {
-  return <Loading/>
-}
+// if (isLoading) {
+//   return <Loading/>
+// }
 
-if (!userData?.id) {
-  router.push("/login")
-}
+// if (!userData?.id) {
+//   router.push("/login")
+// }
 
 
   const spiceSum = 3;

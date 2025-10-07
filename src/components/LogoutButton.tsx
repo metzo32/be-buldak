@@ -12,7 +12,7 @@ export default function LogoutButton() {
     try {
       await postLogout();
       resetUser();
-      router.push("/login");
+      router.replace("/");
     } catch (err) {
       console.error("handleSignOut 에서 에러:", err);
     }
