@@ -14,7 +14,7 @@ export default function LogoutButton() {
       resetUser();
       router.replace("/");
     } catch (err) {
-      console.error("handleSignOut 에서 에러:", err);
+      console.log("로그아웃:", err);
     }
   };
 
