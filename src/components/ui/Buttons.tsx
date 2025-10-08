@@ -9,6 +9,7 @@ interface ButtonProps {
   isSmall?: boolean;
   disabled?: boolean;
   full?: boolean;
+  deactive?: boolean;
   href?: string;
 }
 
@@ -18,6 +19,7 @@ export function ButtonStrong({
   type,
   disabled,
   full,
+  deactive,
   href,
 }: ButtonProps) {
   return (
@@ -27,9 +29,10 @@ export function ButtonStrong({
       href={href}
       onClick={onClick}
       disabled={disabled}
-      color="primary"
       sx={{
         width: full ? "100%" : "fit-content",
+        backgroundColor: deactive? "#595959" : "#fe633c",
+        color:  deactive? "#A1A1A1" : "#DBDBDB",
         padding: full ? "10px" : null,
         borderRadius: "50px",
         // border: "2px solid",

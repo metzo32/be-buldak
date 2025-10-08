@@ -20,7 +20,8 @@ interface RegisterFormValues extends Omit<RegisterRequest, "birth"> {
 }
 
 export default function RegisterPage() {
-  const { isModalOpen, openModal, closeModal } = useModal();
+  // const { isModalOpen, openModal, closeModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const router = useRouter();
 
   const {
@@ -58,7 +59,22 @@ export default function RegisterPage() {
     const isSuccess = await postRegister(payload);
 
     if (isSuccess) {
-      openModal();
+      openModal({
+        modal: {
+          title01: "세션이 만료되었습니다",
+          title02: "다시 로그인해주세요",
+          content: <p>보안을 위해 자동 로그아웃 되었습니다.</p>,
+          onConfirm: () => {
+            console.log("확인 클릭됨");
+            router.push("/login"); // or 원하는 동작
+          },
+          onCancel: () => {
+            console.log("취소 클릭됨");
+          },
+          confirmButton: "로그인하기",
+          cancelButton: "닫기",
+        },
+      });
     } else {
       alert("회원가입에 실패했습니다. 다시 시도해주세요.");
     }
@@ -68,14 +84,14 @@ export default function RegisterPage() {
 
   return (
     <>
-      <Modal
+      {/* <Modal
         isModalOpen={isModalOpen}
         title01="회원가입 성공!"
         title02="초기 화면으로 이동합니다."
         btnStrongText="확인"
         onClose={closeModal}
         onConfirm={handleConfirm}
-      />
+      /> */}
 
       <div className="py-24 mx-auto w-[600px] px-24 flex flex-col items-center justify-center gap-16 border-2 border-primaryHover rounded-4xl bg-primaryTrans relative backdrop-blur-sm shadow-xl">
         <h1 className="text-4xl relative z-1">가입하기</h1>

@@ -1,30 +1,10 @@
-"use client";
-
-import { useCallback, useState } from "react";
+import { ModalContext } from "@/context/ModalContext";
+import { useContext } from "react";
 
 export default function useModal() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
-
-  const openModal = useCallback(() => {
-    setIsModalOpen(true);
-    setIsConfirmed(false);
-  }, []);
-
-  const closeModal = useCallback(() => {
-    setIsModalOpen(false);
-  }, []);
-
-  const confirmModal = useCallback(() => {
-    setIsConfirmed(true);
-    setIsModalOpen(false);
-  }, []);
-
-  return {
-    isModalOpen,
-    isConfirmed,
-    openModal,
-    closeModal,
-    confirmModal,
-  };
+  const context = useContext(ModalContext);
+  if (!context) {
+    throw new Error("useModal must be used within ModalProvider");
+  }
+  return context;
 }

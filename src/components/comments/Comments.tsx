@@ -8,8 +8,9 @@ import StarIcon from "../icons.component/StarIcon";
 import useModal from "@/hooks/useModal";
 
 export default function Comments() {
-  const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =
-    useModal();
+  const { openModal } = useModal();
+  // const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =
+  //   useModal();
   const [comment, setComment] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
@@ -39,16 +40,21 @@ export default function Comments() {
   };
 
   const handleReset = () => {
-    if (!comment) {
-      return;
-    } else {
-      openModal();
-      if (isConfirmed) {
-        setComment("");
-      } else {
-        return;
-      }
-    }
+    openModal({
+      modal: {
+        title01: "세션이 만료되었습니다",
+        title02: "다시 로그인해주세요",
+        content: <p>보안을 위해 자동 로그아웃 되었습니다.</p>,
+        onConfirm: () => {
+          console.log("확인 클릭됨");
+        },
+        onCancel: () => {
+          console.log("취소 클릭됨");
+        },
+        confirmButton: "로그인하기",
+        cancelButton: "닫기",
+      },
+    });
   };
 
   const handleRatingChange = (value: number) => {
@@ -56,13 +62,15 @@ export default function Comments() {
   };
 
   return (
-    <section className=" px-10 py-10 
+    <section
+      className=" px-10 py-10 
     mb-24
     flex flex-col gap-15 
     relative z-1
     
     md:px-24 md:py-12 
-    2xl:px-72 xl:py-24;">
+    2xl:px-72 xl:py-24;"
+    >
       <div className="w-full border-3 border-primary rounded-2xl md:rounded-3xl ">
         <StarRating userRate={handleRatingChange} />
         <textarea

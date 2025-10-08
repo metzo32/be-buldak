@@ -22,17 +22,22 @@ import {
 } from "@/components/fetch/fetchRecipies";
 import { useSearchParams } from "next/navigation";
 import type { Recipe } from "@/types/FetchRecipeType";
+import { useUserStore } from "@/stores/useUserStore";
+import { getCurrentUser } from "@/components/fetch/fetchUsers";
+import useModal from "@/hooks/useModal";
 
 interface PageProps {
   params: {
-    id: string; 
+    id: string;
   };
 }
 export default function DetailPage({ params }: PageProps) {
+  const { user } = useUserStore();
+
   console.log("params.id", params.id);
-  const {id} = params;
-  const recipeId = Number(id)
-  
+  const { id } = params;
+  const recipeId = Number(id);
+
   // const { data: ingredients } = useQuery({
   //   queryKey: ["getData"],
   //   queryFn: getIngredients,
@@ -43,6 +48,8 @@ export default function DetailPage({ params }: PageProps) {
   //   queryFn: () => getIngredientsDetails(1),
   // });
 
+
+
   const { data: viewCount } = useQuery({
     queryKey: ["views", recipeId],
     queryFn: () => addViewCount(recipeId),
@@ -51,7 +58,7 @@ export default function DetailPage({ params }: PageProps) {
   const { data: tried } = useQuery({
     queryKey: ["tried", recipeId],
     queryFn: () => triedRecipe(recipeId),
-  })
+  });
 
   const {
     data: recipeDetail,
@@ -79,10 +86,12 @@ export default function DetailPage({ params }: PageProps) {
               <StarIcon rate={recipeDetail?.rate} large />
               <SpiceRate spicy={recipeDetail?.spicy} large />
             </div>
-            <div className="flex gap-10 lg:gap-20 relative z-1">
-              <TriedButton recipeId={recipeId}/>
-              <SaveButton />
-            </div>
+            {user && (
+              <div className="flex gap-10 lg:gap-20 relative z-1">
+                <TriedButton recipeId={recipeId} />
+                <SaveButton />
+              </div>
+            )}
           </>
         }
       />

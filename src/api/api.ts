@@ -69,6 +69,25 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
     credentials: "include",
   };
 }
+
+async function _handleResponse<T>(response: Response): Promise<T> {
+  const data = await response.json().catch(() => ({}));
+
+  if (data?.message === "Unauthenticated.") {
+    window.dispatchEvent(new CustomEvent("session-expired"));
+    throw { status: 401, message: "Unauthenticated" };
+  }
+
+  if (!response.ok) {
+    throw {
+      status: response.status,
+      message: data?.message || `요청 실패 (${response.status})`,
+    };
+  }
+
+  return data as T;
+}
+
 export async function _get<T = any>(
   url: string,
   init?: RequestInit
@@ -78,7 +97,7 @@ export async function _get<T = any>(
     await _getHeader({ ...init, method: "GET" })
   );
 
-  return await response.json();
+  return await _handleResponse(response);
 }
 
 export async function _post<T = any>(
@@ -111,7 +130,7 @@ export async function _post<T = any>(
     throw new Error(message);
   }
 
-  return await response.json();
+  return await _handleResponse(response)
 }
 
 export async function _put<T = any>(
@@ -130,7 +149,7 @@ export async function _put<T = any>(
     })
   );
 
-  return await response.json();
+  return await _handleResponse(response)
 }
 
 export async function _patch<T = any>(
@@ -149,7 +168,7 @@ export async function _patch<T = any>(
     })
   );
 
-  return await response.json();
+  return await _handleResponse(response)
 }
 
 export async function _deleteCall<T = any>(
@@ -168,5 +187,5 @@ export async function _deleteCall<T = any>(
     })
   );
 
-  return await response.json();
+  return await _handleResponse(response)
 }
