@@ -10,7 +10,6 @@ import { Dayjs } from "dayjs";
 import CustomizedDatePicker from "@/components/ui/CustomizedDatePicker";
 import Blur from "@/components/ui/Blur";
 import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
-import Modal from "@/components/ui/Modal";
 import { useForm, Controller } from "react-hook-form";
 import { emailRegex, passwordRegex } from "@/lib/regex";
 import Input from "@/components/ui/Input";

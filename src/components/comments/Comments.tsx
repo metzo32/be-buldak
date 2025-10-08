@@ -6,7 +6,6 @@ import StarRating from "../StarRating";
 import { fakeComment } from "../../../public/assets/fakeData/fakeComment";
 import StarIcon from "../icons.component/StarIcon";
 import useModal from "@/hooks/useModal";
-import Modal from "@/components/ui/Modal";
 
 export default function Comments() {
   const { isModalOpen, isConfirmed, openModal, closeModal, confirmModal } =
@@ -56,12 +55,6 @@ export default function Comments() {
     console.log("별점:", value);
   };
 
-  useEffect(() => {
-    if (isConfirmed) {
-      setComment("");
-    }
-  }, [isConfirmed]);
-
   return (
     <section className=" px-10 py-10 
     mb-24
@@ -86,15 +79,7 @@ export default function Comments() {
         </p>
         <div className="p-5 md:p-10 flex justify-end gap-3 md:gap-10">
           <ButtonPlain text="취소" onClick={handleReset} />
-          <Modal
-            isModalOpen={isModalOpen}
-            title01="잠깐!"
-            title02="모두 지울까요?"
-            btnPlainText="아니요"
-            btnStrongText="지울래요"
-            onClose={closeModal}
-            onConfirm={confirmModal}
-          />
+
           <ButtonStrong type="submit" text="등록하기" />
         </div>
       </div>
