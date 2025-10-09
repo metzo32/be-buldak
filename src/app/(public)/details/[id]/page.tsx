@@ -48,16 +48,9 @@ export default function DetailPage({ params }: PageProps) {
   //   queryFn: () => getIngredientsDetails(1),
   // });
 
-
-
   const { data: viewCount } = useQuery({
     queryKey: ["views", recipeId],
     queryFn: () => addViewCount(recipeId),
-  });
-
-  const { data: tried } = useQuery({
-    queryKey: ["tried", recipeId],
-    queryFn: () => triedRecipe(recipeId),
   });
 
   const {
@@ -89,18 +82,18 @@ export default function DetailPage({ params }: PageProps) {
             {user && (
               <div className="flex gap-10 lg:gap-20 relative z-1">
                 <TriedButton recipeId={recipeId} />
-                <SaveButton />
+                <SaveButton recipeId={recipeId} />
               </div>
             )}
           </>
         }
       />
       <Section title="재료" subText={`${recipeDetail.servings}인분 기준`}>
-        <div className="w-full flex flex-col md:grid md:grid-cols-4 gap-3 md:gap-10">
-          {recipeDetail.ingredients.length === 0 ? (
-            <p>재료 정보가 없습니다.</p>
-          ) : (
-            recipeDetail.ingredients?.map((item, index) => (
+        {recipeDetail.ingredients.length === 0 ? (
+          <p>재료 정보가 없습니다.</p>
+        ) : (
+          <div className="w-full flex flex-col md:grid md:grid-cols-4 gap-3 md:gap-10">
+            {recipeDetail.ingredients?.map((item, index) => (
               <p
                 key={index}
                 className={
@@ -113,9 +106,9 @@ export default function DetailPage({ params }: PageProps) {
               >
                 {item}
               </p>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </Section>
       <span className="pb-24 flex items-center justify-center">
         <div className="relative w-[50px] h-[50px] lg:w-[100px] lg:h-[100px]">

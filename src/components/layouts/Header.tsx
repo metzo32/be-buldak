@@ -15,19 +15,21 @@ export default function Header() {
   const router = useRouter();
   const { user } = useUserStore();
 
+  
+
   useEffect(() => {
     console.log("헤더 유저", user);
   }, [user]);
 
-  // const { data: userData, isError } = useQuery({
-  //   queryKey: ["currentUser"],
-  //   queryFn: getCurrentUser,₩₩
-  //   retry: false,
-  // });
+  const { data: userData, isError } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: getCurrentUser,
+    retry: false,
+  });
 
-  // if (isError) {
-  //   console.log("로그인되지 않음");
-  // }
+  if (isError) {
+    console.log("로그인되지 않음");
+  }
 
   const handleModalOpen = () => {
     openModal({
