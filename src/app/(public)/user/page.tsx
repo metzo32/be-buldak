@@ -14,35 +14,35 @@ import { getCurrentUser } from "@/components/fetch/fetchUsers";
 import Loading from "@/components/ui/Loading/Loading";
 import { useEffect } from "react";
 import { useUserStore } from "@/stores/useUserStore";
+import { getRecipesSavedByUser, getRecipesTriedByUser } from "@/components/fetch/fetchRecipies";
 
 export default function UserPage() {
   const { user } = useUserStore();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user, router]);
+  const {data: userSaveData} = useQuery({
+    queryKey: ["userSave"],
+    queryFn: () => getRecipesSavedByUser(user!.id),
+    enabled: !!user?.id,
+  })
 
-  if (!user) {
-    return null;
-  }
+  const {data: userEatData} = useQuery({
+    queryKey: ["userEat"],
+    queryFn: () => getRecipesTriedByUser(user!.id),
+    enabled: !!user?.id,
+  })
 
-  // const router = useRouter();
 
-  // const {data: userData, isLoading, isError} = useQuery({
-  //   queryKey: ["currentUser"],
-  //   queryFn: () => getCurrentUser(),
-  // })
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.push("/login");
+  //   }
+  // }, [user, router]);
 
-  // if (isLoading) {
-  //   return <Loading/>
+  // if (!user) {
+  //   return null;
   // }
 
-  // if (!userData?.id) {
-  //   router.push("/login")
-  // }
 
   const spiceSum = 3;
   let spiceLevString = "";
@@ -82,7 +82,7 @@ export default function UserPage() {
         <Blur />
       </section>
       <Section title="내 정보" isTrans>
-        <div>
+        <div className="grid grid-cols-4 justify-items-start">
           <ButtonPlain text="내 정보 바꾸기" />
           <ButtonPlain text="비밀번호 바꾸기" />
           <ButtonPlain text="탈퇴하기" />

@@ -18,13 +18,14 @@ import {
 import {
   addViewCount,
   getRecipeDetails,
+  getRecipesSavedByUser,
+  getRecipesTriedByUser,
   triedRecipe,
 } from "@/components/fetch/fetchRecipies";
-import { useSearchParams } from "next/navigation";
 import type { Recipe } from "@/types/FetchRecipeType";
 import { useUserStore } from "@/stores/useUserStore";
-import { getCurrentUser } from "@/components/fetch/fetchUsers";
-import useModal from "@/hooks/useModal";
+import Loading from "@/components/ui/Loading/Loading";
+import { useEffect } from "react";
 
 interface PageProps {
   params: {
@@ -32,11 +33,14 @@ interface PageProps {
   };
 }
 export default function DetailPage({ params }: PageProps) {
-  const { user } = useUserStore();
-
-  console.log("params.id", params.id);
+  const { user, isUserLoading, fetchUserInfo } = useUserStore();
   const { id } = params;
   const recipeId = Number(id);
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, [fetchUserInfo]);
+
 
   // const { data: ingredients } = useQuery({
   //   queryKey: ["getData"],
@@ -53,6 +57,29 @@ export default function DetailPage({ params }: PageProps) {
     queryFn: () => addViewCount(recipeId),
   });
 
+
+  const { data: userSaveData, refetch: refetchSaveData } = useQuery({
+    queryKey: ["userSave", user?.id],
+    queryFn: () => getRecipesSavedByUser(user!.id),
+    enabled: false,
+  });
+  
+  const { data: userEatData, refetch: refetchEatData } = useQuery({
+    queryKey: ["userEat", user?.id],
+    queryFn: () => getRecipesTriedByUser(user!.id),
+    enabled: false,
+  });
+  
+  useEffect(() => {
+    console.log("user.id 감지됨:", user?.id);
+    if (user?.id) {
+      console.log("refetch 호출 시작");
+      refetchSaveData();
+      refetchEatData();
+    }
+  }, [user?.id, refetchSaveData, refetchEatData]);
+  
+  
   const {
     data: recipeDetail,
     isLoading,
@@ -62,9 +89,13 @@ export default function DetailPage({ params }: PageProps) {
     queryFn: () => getRecipeDetails(recipeId),
   });
 
-  if (isLoading) return <p>로딩중...</p>;
+  if (isLoading) return <Loading />;
   if (isError) return <p>에러 발생</p>;
   if (!recipeDetail) return <p>데이터 없음</p>;
+
+  // useEffect(() => {
+  //   if (user?.id) refetchSave();
+  // }, [user?.id, refetchSave]);
 
   return (
     <>
@@ -151,3 +182,7 @@ export default function DetailPage({ params }: PageProps) {
     </>
   );
 }
+function fetchUserInfo() {
+  throw new Error("Function not implemented.");
+}
+

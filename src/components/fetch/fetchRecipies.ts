@@ -66,6 +66,7 @@ export async function triedRecipe(recipeId: number) {
 // 특정 유저가 작성한 레시피 목록
 export async function getRecipesPostesByUser(userId: number) {
   const data = await _get<Recipe[]>(`/api/users/${userId}/recipes`);
+  console.log("유저가 작성한 목록", data);
 
   return data;
 }
@@ -74,12 +75,15 @@ export async function getRecipesPostesByUser(userId: number) {
 export async function getRecipesSavedByUser(userId: number) {
   const data = await _get<Recipe[]>(`/api/users/${userId}/saved-recipes`);
 
+  console.log("유저의 저장 목록", data);
+
   return data;
 }
 
 // 특정 유저가 먹은 레시피 목록
 export async function getRecipesTriedByUser(userId: number) {
   const data = await _get<Recipe[]>(`/api/users/${userId}/eaten-recipes`);
+  console.log("유저의 먹음 목록", data);
 
   return data;
 }

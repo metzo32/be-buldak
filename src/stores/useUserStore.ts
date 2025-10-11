@@ -10,7 +10,7 @@ type User = {
 
 type UserStore = {
   user: User | null;
-  isLoading: boolean;
+  isUserLoading: boolean;
   setUserInfo: (user: User) => void;
   fetchUserInfo: () => Promise<void>;
   resetUser: () => void;
@@ -20,22 +20,22 @@ export const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
       user: null,
-      isLoading: true,
+      isUserLoading: true,
 
       setUserInfo: (user) => set({ user }),
 
       fetchUserInfo: async () => {
         try {
           const res = await _get("/user/me");
-          set({ user: res.data, isLoading: false });
+          set({ user: res.data, isUserLoading: false });
         } catch (err) {
-          console.error("유저 정보 요청 실패:", err);
-          set({ user: null, isLoading: false });
+          console.log("유저 정보 요청 실패:", err);
+          set({ user: null, isUserLoading: false });
         }
       },
 
       resetUser: () => {
-        set({ user: null, isLoading: true });
+        set({ user: null, isUserLoading: true });
       },
     }),
     {
