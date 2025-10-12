@@ -1,7 +1,7 @@
 "use client";
 
 import { useUserStore } from "@/stores/useUserStore";
-import { postLogout } from "./fetch/fetchUsers";
+import { postLogout } from "@/components/fetch/fetchUsers";
 import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {

@@ -4,7 +4,7 @@ import { useContext } from "react";
 export default function useModal() {
   const context = useContext(ModalContext);
   if (!context) {
-    throw new Error("useModal must be used within ModalProvider");
+    throw new Error("모달 컨텍스트가 없습니다.");
   }
   return context;
 }

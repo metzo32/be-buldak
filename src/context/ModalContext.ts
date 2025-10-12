@@ -2,12 +2,12 @@
 import { createContext, useContext } from "react";
 
 interface ModalContextProps {
-    openModal: ({ modal }: { modal: any }) => void;
+  openModal: ({ modal }: { modal: any }) => void;
   closeModal: () => void;
 }
 
 export const ModalContext = createContext<ModalContextProps>({
-    openModal: () => {},
+  openModal: () => {},
   closeModal: () => {},
 });
 

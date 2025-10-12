@@ -3,8 +3,8 @@ import { TextField } from "@mui/material";
 interface InputProps {
   type?: "text" | "email" | "password";
   label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
   helperText?: string;
 }

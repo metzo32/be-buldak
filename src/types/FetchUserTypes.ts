@@ -54,3 +54,10 @@ export interface UserUpdateData {
   name: string;
   birth: string;
 }
+
+export interface PwChangePayload {
+  email: string;
+  token: string;
+  password: string;
+  password_confirmation: string;
+}

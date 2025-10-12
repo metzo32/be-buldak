@@ -6,7 +6,7 @@ import Blur from "@/components/ui/Blur";
 import Section from "@/components/ui/Section";
 
 import ViewAllButton from "@/components/ViewAllButton";
-import LogoutButton from "@/components/LogoutButton";
+import LogoutButton from "@/components/UserPage/LogoutButton";
 import { ButtonPlain } from "@/components/ui/Buttons";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -14,35 +14,29 @@ import { getCurrentUser } from "@/components/fetch/fetchUsers";
 import Loading from "@/components/ui/Loading/Loading";
 import { useEffect } from "react";
 import { useUserStore } from "@/stores/useUserStore";
-import { getRecipesSavedByUser, getRecipesTriedByUser } from "@/components/fetch/fetchRecipies";
+import {
+  getRecipesSavedByUser,
+  getRecipesTriedByUser,
+} from "@/components/fetch/fetchRecipies";
+import ChangePwButton from "@/components/UserPage/ChangePwButton";
+import ChangePwForm from "@/components/UserPage/ChangePwForm";
+import ConfirmEmailForm from "@/components/UserPage/ConfirmEmailForm";
 
 export default function UserPage() {
   const { user } = useUserStore();
   const router = useRouter();
 
-  const {data: userSaveData} = useQuery({
+  const { data: userSaveData } = useQuery({
     queryKey: ["userSave"],
     queryFn: () => getRecipesSavedByUser(user!.id),
     enabled: !!user?.id,
-  })
+  });
 
-  const {data: userEatData} = useQuery({
+  const { data: userEatData } = useQuery({
     queryKey: ["userEat"],
     queryFn: () => getRecipesTriedByUser(user!.id),
     enabled: !!user?.id,
-  })
-
-
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.push("/login");
-  //   }
-  // }, [user, router]);
-
-  // if (!user) {
-  //   return null;
-  // }
-
+  });
 
   const spiceSum = 3;
   let spiceLevString = "";
@@ -81,10 +75,16 @@ export default function UserPage() {
         </div>
         <Blur />
       </section>
+
+      <Section title="테스트">
+        <ConfirmEmailForm/>
+        <ChangePwForm/>
+      </Section>
+
       <Section title="내 정보" isTrans>
         <div className="grid grid-cols-4 justify-items-start">
           <ButtonPlain text="내 정보 바꾸기" />
-          <ButtonPlain text="비밀번호 바꾸기" />
+          <ChangePwButton userData={user}/>
           <ButtonPlain text="탈퇴하기" />
           <LogoutButton />
         </div>

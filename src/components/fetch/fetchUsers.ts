@@ -4,6 +4,7 @@ import type {
   RegisterRequest,
   UserProfileResponse,
   UserUpdateData,
+  PwChangePayload,
 } from "@/types/FetchUserTypes";
 
 // 로그인
@@ -33,7 +34,9 @@ export async function postLogout() {
 }
 
 // 회원가입
-export async function postRegister(userData: RegisterRequest): Promise<boolean> {
+export async function postRegister(
+  userData: RegisterRequest
+): Promise<boolean> {
   try {
     const data = await _post("/api/users", userData);
 
@@ -46,15 +49,15 @@ export async function postRegister(userData: RegisterRequest): Promise<boolean> 
     return true;
   } catch (error) {
     console.error("네트워크 오류:", error);
-    return false; 
+    return false;
   }
 }
 
-
+// 현재 로그인 사용자 정보
 export async function getCurrentUser() {
   try {
     const res = await _get("/api/auth/user");
-    console.log("유저", res)
+    console.log("유저", res);
 
     if (res.message === "Unauthenticated.") {
       throw new Error("Unauthenticated");
@@ -67,15 +70,43 @@ export async function getCurrentUser() {
   }
 }
 
+// 비밀번호 재설정 링크 요청
+export async function pwResetRequest(email: string) {
+  try {
+    const res = await _post("/api/auth/password-reset/request", email);
+    console.log("링크 요청 성공");
+
+    return res;
+  } catch (err) {
+    console.log("링크 요청 실패", err);
+    return null;
+  }
+}
+
+export async function pwReset(payload: PwChangePayload) {
+  try {
+    const res = await _post("/api/auth/password-reset", payload);
+    console.log("비밀번호 변경 성공");
+
+    return res;
+  } catch (err) {
+    console.log("비밀번호 변경 실패", err);
+    return null;
+  }
+}
+
+// 사용자 상세
 export async function getUserDetail(userId: number) {
   const data = await _get<UserProfileResponse>(`/api/users/${userId}`);
   return data;
 }
 
-export async function deleteUser(userId: number) {
-  return _deleteCall(`/api/users/${userId}`);
-}
-
+// 사용자 수정
 export async function updateUser(userId: number, userData: UserUpdateData) {
   return _put(`/api/users/${userId}`, userData);
+}
+
+// 사용자 삭제
+export async function deleteUser(userId: number) {
+  return _deleteCall(`/api/users/${userId}`);
 }

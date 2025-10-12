@@ -10,7 +10,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const router = useRouter();
   const { data: userData, isLoading } = useQuery({
     queryKey: ["currentUser"],
-    queryFn: getCurrentUser,
+    queryFn: () => getCurrentUser(),
     retry: false,
   });
 

@@ -3,8 +3,8 @@ import { ButtonPlain, ButtonStrong } from "@/components/ui/Buttons";
 import { ModalContext } from "@/context/ModalContext";
 
 interface ModalProps {
-  title01: string;
-  title02: string;
+  title01?: string;
+  title02?: string;
   content: ReactNode | null;
   onConfirm: () => void;
   onCancel: () => void;
@@ -44,6 +44,7 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
       {open && (
+        // 모달 디자인
         <div className="bg-overlay fixed top-0 left-0 min-w-[325px] w-screen h-screen z-30 flex justify-center items-center">
           <div className="w-[300px] h-[200px] md:w-[450px] md:h-[300px] p-5 bg-secondary flex flex-col items-center gap-5 justify-between py-10 shadow-xl rounded-xl">
             <div className="flex flex-col items-center">
