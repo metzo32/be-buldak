@@ -3,11 +3,16 @@ import Input from "@/components/ui/Input";
 import { useUserStore } from "@/stores/useUserStore";
 import { ButtonOutlined } from "../ui/Buttons";
 import { emailRegex } from "@/lib/regex";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentUser, pwResetRequest } from "../fetch/fetchUsers";
+import { useRouter } from "next/navigation";
 
 export default function ConfirmEmailForm() {
+  const router = useRouter();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -25,15 +30,42 @@ export default function ConfirmEmailForm() {
     queryFn: () => getCurrentUser(),
   });
 
+
   const currUserEmail = currUser?.email;
 
-  const onSubmit = (data: { email: string }) => {
-    const res = pwResetRequest(data.email)
-    console.log("폼 제출 성공:", data);
+  const onSubmit = async (data: { email: string }) => {
+    try {
+      setIsLoading(true);
+      const res = await pwResetRequest({ email: data.email });
+
+      if (res) {
+        console.log("폼 제출 성공:", data);
+        setIsSuccess(true);
+      } else {
+        console.log("요청 실패 또는 null 반환");
+      }
+    } catch (err) {
+      console.log("에러 발생:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEmailChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    onChange: (...event: any[]) => void
+  ) => {
+    onChange(e);
+    if (errors.email) clearErrors("email");
+    setIsSuccess(false);
+    setIsLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-3 items-center"
+    >
       <Controller
         name="email"
         control={control}
@@ -52,18 +84,23 @@ export default function ConfirmEmailForm() {
             type="text"
             label="이메일"
             value={field.value}
-            onChange={(e) => {
-              field.onChange(e);
-              if (errors.email) {
-                clearErrors("email");
-              }
-            }}
+            onChange={(e) => handleEmailChange(e, field.onChange)}
             error={!!fieldState.error}
             helperText={fieldState.error?.message}
           />
         )}
       />
-      <ButtonOutlined text="인증 코드 받기" type="submit" />
+      <ButtonOutlined
+        text={
+          isSuccess
+            ? "코드 전송 완료!"
+            : isLoading
+            ? "전송 중..."
+            : "인증 코드 보내기"
+        }
+        type="submit"
+        disabled={isSuccess || isLoading}
+      />
     </form>
   );
 }

@@ -6,23 +6,7 @@ export default function ChangePwForm() {
   const { control, handleSubmit } = useForm();
 
   return (
-    <form className="flex flex-col gap-5">
-      <Controller
-        name="token"
-        control={control}
-        defaultValue=""
-        render={({ field, fieldState }) => (
-          <Input
-            type="text"
-            label="인증 코드"
-            value={field.value}
-            onChange={field.onChange}
-            error={!!fieldState.error}
-            helperText={fieldState.error?.message}
-          />
-        )}
-      />
-
+    <form className="flex flex-col gap-3 items-center">
       <Controller
         name="password"
         control={control}

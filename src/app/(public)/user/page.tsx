@@ -18,24 +18,35 @@ import {
   getRecipesSavedByUser,
   getRecipesTriedByUser,
 } from "@/components/fetch/fetchRecipies";
-import ChangePwButton from "@/components/UserPage/ChangePwButton";
-import ChangePwForm from "@/components/UserPage/ChangePwForm";
 import ConfirmEmailForm from "@/components/UserPage/ConfirmEmailForm";
+import { formatDateToString } from "@/modules/formatDate";
 
 export default function UserPage() {
-  const { user } = useUserStore();
   const router = useRouter();
+
+  const { data: currUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => getCurrentUser(),
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!currUser) {
+        router.push("/login");
+      }
+    }, 500);
+  }, []);
 
   const { data: userSaveData } = useQuery({
     queryKey: ["userSave"],
-    queryFn: () => getRecipesSavedByUser(user!.id),
-    enabled: !!user?.id,
+    queryFn: () => getRecipesSavedByUser(currUser!.id),
+    enabled: !!currUser?.id,
   });
 
   const { data: userEatData } = useQuery({
     queryKey: ["userEat"],
-    queryFn: () => getRecipesTriedByUser(user!.id),
-    enabled: !!user?.id,
+    queryFn: () => getRecipesTriedByUser(currUser!.id),
+    enabled: !!currUser?.id,
   });
 
   const spiceSum = 3;
@@ -58,7 +69,12 @@ export default function UserPage() {
       spiceLevString = "05";
   }
 
+  const moveToChangePw = () => {
+    router.push("/password-reset");
+  };
+
   return (
+    currUser ? 
     <>
       <section className="py-48 flex flex-col items-center gap-12">
         <div className="flex gap-5 items-center relative z-2">
@@ -76,15 +92,12 @@ export default function UserPage() {
         <Blur />
       </section>
 
-      <Section title="테스트">
-        <ConfirmEmailForm/>
-        <ChangePwForm/>
-      </Section>
-
       <Section title="내 정보" isTrans>
+        <h2>{currUser?.name}님</h2>
+        <p>가입일: {formatDateToString(currUser?.created_at)}</p>
         <div className="grid grid-cols-4 justify-items-start">
           <ButtonPlain text="내 정보 바꾸기" />
-          <ChangePwButton userData={user}/>
+          <ButtonPlain text="비밀번호 바꾸기" onClick={moveToChangePw} />
           <ButtonPlain text="탈퇴하기" />
           <LogoutButton />
         </div>
@@ -142,5 +155,6 @@ export default function UserPage() {
         </div>
       </Section>
     </>
+    : <Loading/>
   );
 }

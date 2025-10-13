@@ -57,7 +57,7 @@ export async function postRegister(
 export async function getCurrentUser() {
   try {
     const res = await _get("/api/auth/user");
-    console.log("유저", res);
+    console.log("현재 유저 정보", res);
 
     if (res.message === "Unauthenticated.") {
       throw new Error("Unauthenticated");
@@ -71,9 +71,9 @@ export async function getCurrentUser() {
 }
 
 // 비밀번호 재설정 링크 요청
-export async function pwResetRequest(email: string) {
+export async function pwResetRequest(data: { email: string }) {
   try {
-    const res = await _post("/api/auth/password-reset/request", email);
+    const res = await _post("/api/auth/password-reset/request", data);
     console.log("링크 요청 성공");
 
     return res;

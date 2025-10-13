@@ -110,12 +110,10 @@ export default function DetailPage({ params }: PageProps) {
               <StarIcon rate={recipeDetail?.rate} large />
               <SpiceRate spicy={recipeDetail?.spicy} large />
             </div>
-            {user && (
               <div className="flex gap-10 lg:gap-20 relative z-1">
                 <TriedButton recipeId={recipeId} />
                 <SaveButton recipeId={recipeId} />
               </div>
-            )}
           </>
         }
       />

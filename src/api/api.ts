@@ -97,6 +97,7 @@ export async function _get<T = any>(
     await _getHeader({ ...init, method: "GET" })
   );
 
+
   return await _handleResponse(response);
 }
 
