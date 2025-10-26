@@ -14,24 +14,26 @@ import { getCurrentUser } from "@/components/fetch/fetchUsers";
 import Loading from "@/components/ui/Loading/Loading";
 import { useEffect } from "react";
 import { useUserStore } from "@/stores/useUserStore";
-import { getRecipesSavedByUser, getRecipesTriedByUser } from "@/components/fetch/fetchRecipies";
+import {
+  getRecipesSavedByUser,
+  getRecipesTriedByUser,
+} from "@/components/fetch/fetchRecipies";
 
 export default function UserPage() {
   const { user } = useUserStore();
   const router = useRouter();
 
-  const {data: userSaveData} = useQuery({
+  const { data: userSaveData } = useQuery({
     queryKey: ["userSave"],
     queryFn: () => getRecipesSavedByUser(user!.id),
     enabled: !!user?.id,
-  })
+  });
 
-  const {data: userEatData} = useQuery({
+  const { data: userEatData } = useQuery({
     queryKey: ["userEat"],
     queryFn: () => getRecipesTriedByUser(user!.id),
     enabled: !!user?.id,
-  })
-
+  });
 
   // useEffect(() => {
   //   if (!user) {
@@ -42,7 +44,6 @@ export default function UserPage() {
   // if (!user) {
   //   return null;
   // }
-
 
   const spiceSum = 3;
   let spiceLevString = "";
@@ -64,7 +65,7 @@ export default function UserPage() {
       spiceLevString = "05";
   }
 
-  return (
+  return user ? (
     <>
       <section className="py-48 flex flex-col items-center gap-12">
         <div className="flex gap-5 items-center relative z-2">
@@ -97,50 +98,50 @@ export default function UserPage() {
       >
         <div className="flex gap-5 md:gap-10 overflow-x-scroll scroll-hide">
           {/* {fakeData.map((item) => (
-            <SavedCard
-              key={item.id}
-              spiceRate={item.spiceRate}
-              title={item.title}
-              starRate={item.starRate}
-              image={item.image}
-              altMessage={item.title}
-              description={item.description || ""}
-            />
-          ))} */}
+          <SavedCard
+            key={item.id}
+            spiceRate={item.spiceRate}
+            title={item.title}
+            starRate={item.starRate}
+            image={item.image}
+            altMessage={item.title}
+            description={item.description || ""}
+          />
+        ))} */}
         </div>
       </Section>
 
       <Section title={"이미 먹어본 레시피"} isTrans subText="내 점수: 5">
         <div className="flex gap-5 md:gap-10 overflow-x-scroll">
           {/* {buldakdData.map((item) => (
-            <SavedCard
-              key={item.id}
-              spiceRate={item.spiceRate}
-              title={item.title}
-              starRate={item.starRate}
-              image={item.image}
-              altMessage={item.title}
-              description={item.description || ""}
-            />
-          ))} */}
+          <SavedCard
+            key={item.id}
+            spiceRate={item.spiceRate}
+            title={item.title}
+            starRate={item.starRate}
+            image={item.image}
+            altMessage={item.title}
+            description={item.description || ""}
+          />
+        ))} */}
         </div>
       </Section>
 
       <Section title={"내가 작성한 레시피"} isTrans>
         <div className="flex gap-5 md:gap-10 overflow-x-scroll">
           {/* {buldakdData.slice(3, 7).map((item) => (
-            <SavedCard
-              key={item.id}
-              spiceRate={item.spiceRate}
-              title={item.title}
-              starRate={item.starRate}
-              image={item.image}
-              altMessage={item.title}
-              description={item.description || ""}
-            />
-          ))} */}
+          <SavedCard
+            key={item.id}
+            spiceRate={item.spiceRate}
+            title={item.title}
+            starRate={item.starRate}
+            image={item.image}
+            altMessage={item.title}
+            description={item.description || ""}
+          />
+        ))} */}
         </div>
       </Section>
     </>
-  );
+  ) : null;
 }
