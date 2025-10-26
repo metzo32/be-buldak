@@ -28,9 +28,12 @@ export const useUserStore = create<UserStore>()(
         try {
           const res = await _get("/user/me");
           set({ user: res.data, isUserLoading: false });
-        } catch (err) {
+        } catch (err: any) {
           console.log("유저 정보 요청 실패:", err);
-          set({ user: null, isUserLoading: false });
+          if (err?.response?.status === 401 || err?.response?.status === 419) {
+            set({ user: null });
+          }
+          set({ isUserLoading: false });
         }
       },
 

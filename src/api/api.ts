@@ -9,10 +9,14 @@ export function getCookie(key: string): string | null {
   return value ? decodeURIComponent(value) : null;
 }
 
-// let csrfFetched = false;
+let csrfFetched = false;
 
 // CSRF 토큰 가져오기
 export async function _getToken(): Promise<string | null> {
+  if (csrfFetched && getCookie("XSRF-TOKEN")) {
+    return getCookie("XSRF-TOKEN");
+  }
+
   try {
     console.log("🔄 CSRF 토큰 요청 시작...");
 
@@ -31,14 +35,16 @@ export async function _getToken(): Promise<string | null> {
     await new Promise((res) => setTimeout(res, 500));
 
     // Laravel Sanctum: XSRF-TOKEN 쿠키 확인
-    const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
-    const csrfToken = match ? decodeURIComponent(match[1]) : null;
+    // const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+    // const csrfToken = match ? decodeURIComponent(match[1]) : null;
 
-    console.log("🔑 최종 CSRF 토큰:", csrfToken);
+    const token = getCookie("XSRF-TOKEN");
+    console.log("🔑 최종 CSRF 토큰:", token);
 
-    return csrfToken;
+    return token;
   } catch (err) {
     console.error("❌ CSRF 토큰 요청 중 에러", err);
+    csrfFetched = false;
     return null;
   }
 }
@@ -66,14 +72,16 @@ const _getHeader = async (init?: RequestInit): Promise<RequestInit> => {
   return {
     ...init,
     headers,
-    credentials: "include",
+    credentials: "include", // 세션쿠키에 항상 포함
   };
-}
+};
 
+// 응답 핸들러
 async function _handleResponse<T>(response: Response): Promise<T> {
   const data = await response.json().catch(() => ({}));
 
-  if (data?.message === "Unauthenticated.") {
+  if (data?.message === "Unauthenticated." || response.status === 401) {
+    console.warn("🚨 세션 만료: Unauthenticated");
     window.dispatchEvent(new CustomEvent("session-expired"));
     throw { status: 401, message: "Unauthenticated" };
   }
@@ -130,7 +138,7 @@ export async function _post<T = any>(
     throw new Error(message);
   }
 
-  return await _handleResponse(response)
+  return await _handleResponse(response);
 }
 
 export async function _put<T = any>(
@@ -149,7 +157,7 @@ export async function _put<T = any>(
     })
   );
 
-  return await _handleResponse(response)
+  return await _handleResponse(response);
 }
 
 export async function _patch<T = any>(
@@ -168,7 +176,7 @@ export async function _patch<T = any>(
     })
   );
 
-  return await _handleResponse(response)
+  return await _handleResponse(response);
 }
 
 export async function _deleteCall<T = any>(
@@ -187,5 +195,5 @@ export async function _deleteCall<T = any>(
     })
   );
 
-  return await _handleResponse(response)
+  return await _handleResponse(response);
 }

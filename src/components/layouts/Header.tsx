@@ -15,8 +15,6 @@ export default function Header() {
   const router = useRouter();
   const { user } = useUserStore();
 
-  
-
   useEffect(() => {
     console.log("헤더 유저", user);
   }, [user]);
